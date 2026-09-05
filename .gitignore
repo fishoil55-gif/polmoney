@@ -1,0 +1,32 @@
+
+# ===== Claude Code 자동 추가 =====
+# 의존성 (npm install 로 다시 받으면 됨)
+node_modules/
+.pnpm-store/
+
+# 빌드 결과물 (다시 빌드하면 생김)
+.next/
+out/
+dist/
+build/
+.output/
+.vercel/
+.netlify/
+.turbo/
+
+# 환경변수 / 비밀키 - 절대 커밋 금지
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# 로그 / 캐시
+*.log
+npm-debug.log*
+.cache/
+
+# OS 부스러기 파일
+Thumbs.db
+desktop.ini
+.DS_Store
