@@ -1,0 +1,3872 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="폴머니">
+<meta name="format-detection" content="telephone=no">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<title>폴머니 POLMONEY — 경찰 월급 계산기</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<style>
+  :root{
+    /* 은행앱 계열 라이트 테마 — 흰 바탕 + 신뢰형 파랑 (변수 이름은 유지) */
+    --navy-950:#f7f7f7;   /* 페이지 배경 */
+    --navy-900:#ffffff;   /* 패널 배경 */
+    --navy-800:#ffffff;   /* 입력칸·카드 배경 */
+    --navy-700:#eef0f3;   /* 살짝 눌린 면 */
+    --gold:#0052ff;       /* 주 강조색 (버튼·강조 숫자) */
+    --gold-dim:#0052ff;   /* 포커스 테두리 */
+    --cream:#0a0b0d;      /* 기본 글자색 */
+    --slate:#5b616e;      /* 보조 글자색 */
+    --slate-dim:#7c828a;  /* 흐린 글자색 */
+    --green:#05b169;      /* 실수령액 등 강조 */
+    --line:#dee1e6;       /* 경계선 */
+    --line-soft:#eef0f3;  /* 더 옅은 경계선 */
+    --red:#cf202f;        /* 휴일·공제 강조 */
+    --blue:#0052ff;       /* 토요일 */
+    --primary-active:#003ecc;
+    --tint-primary:rgba(0,82,255,0.07);
+    --tint-primary-line:rgba(0,82,255,0.30);
+    --tint-red:rgba(207,32,47,0.08);
+    --tint-red-line:rgba(207,32,47,0.30);
+    --tint-green:rgba(5,177,105,0.09);
+    --tint-green-line:rgba(5,177,105,0.32);
+    --radius-card:16px;
+    --radius-input:12px;
+    --radius-pill:100px;
+    /* z-index 스케일 — 임의값 금지, 이 세 단계만 쓴다 */
+    --z-cell-mark:2;    /* 캘린더 칸 안의 배지 */
+    --z-net-bar:40;     /* 하단 결과 요약 바 */
+    --z-sheet:50;       /* 날짜 입력 시트 (가장 위) */
+    --sans: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+            'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --mono: var(--sans);   /* 글자체는 하나로 통일 — 숫자 정렬은 tabular-nums로 처리 */
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;color-scheme:light;}
+  body{
+    background:var(--navy-950);
+    color:var(--cream);
+    font-family:var(--sans);
+    font-variant-numeric:tabular-nums;   /* 숫자 폭을 맞춰 금액이 세로로 정렬되게 */
+    font-feature-settings:'tnum' 1;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    line-height:1.55;
+    font-size:16px;
+    -webkit-text-size-adjust:100%;
+    -webkit-tap-highlight-color:transparent;
+  }
+  button, select, input, label{touch-action:manipulation;}
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:32px 20px calc(112px + env(safe-area-inset-bottom));   /* 하단 결과 요약 바 자리 */
+  }
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:28px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand .logo{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    flex:none;
+    display:block;
+  }
+  .brand-text{
+    display:flex;
+    flex-direction:column;
+    gap:1px;
+  }
+  .brand .mark{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.6px;
+    color:var(--slate-dim);
+  }
+  h1{
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-0.03em;
+    line-height:1.1;
+    margin:0;
+  }
+  @media (max-width:560px){
+    .brand .logo{width:40px;height:40px;border-radius:10px;}
+    h1{font-size:22px;}
+  }
+  .head-copy{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:3px;
+    text-align:right;
+  }
+  .tagline{
+    margin:0;
+    font-size:14px;
+    font-weight:600;
+    color:var(--slate);
+    letter-spacing:-0.01em;
+  }
+  header .sub{
+    font-size:13px;
+    color:var(--slate-dim);
+    font-weight:500;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:390px 1fr;
+    gap:24px;
+  }
+  @media (max-width:820px){
+    .grid{grid-template-columns:1fr;}
+  }
+  .panel{
+    background:var(--navy-900);
+    border:1px solid var(--line-soft);
+    border-radius:var(--radius-card);
+    padding:22px;
+    box-shadow:0 1px 2px rgba(10,11,13,0.04);
+  }
+  .panel h2{
+    font-size:16px;
+    letter-spacing:-0.01em;
+    color:var(--cream);
+    margin:0 0 16px;
+    font-weight:700;
+  }
+  label{
+    display:block;
+    font-size:13.5px;
+    color:var(--slate);
+    margin-bottom:6px;
+    margin-top:16px;
+  }
+  label:first-of-type{margin-top:0;}
+  .label-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:16px;
+    margin-bottom:6px;
+  }
+  .label-row label{margin:0;}
+  .label-row .mini-check{color:var(--slate);}
+  .shift-settings{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    margin-top:6px;
+  }
+  .shift-row{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:3px;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:5px;
+  }
+  .shift-name{
+    font-size:11.5px;
+    font-weight:700;
+    padding:3px 4px;
+    border-radius:4px;
+    flex:none;
+    width:34px;
+    text-align:center;
+  }
+  .shift-row .time-row{flex:none; gap:3px;}
+  .shift-row .time-row input[type=time]{
+    padding:4px 2px;
+    font-size:13px;
+    border-radius:4px;
+    width:92px;
+    min-width:0;
+    text-align:center;
+  }
+  /* 시계 아이콘을 숨겨 한 줄에 들어가게 */
+  .shift-row input[type=time]::-webkit-calendar-picker-indicator{display:none;}
+  .shift-row .tilde{font-size:12px;}
+  .shift-row .mini-check{
+    flex:none;
+    font-size:12px;
+    gap:4px;
+    color:var(--slate);
+  }
+  .shift-row .row-break{display:none;}
+  .shift-row input[type=checkbox]{width:17px;height:17px;}
+  .shift-sum{
+    flex:1 1 64px;
+    text-align:right;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:clip;
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--slate-dim);
+    white-space:nowrap;
+  }
+
+  /* 패턴 설정 — 시작일·기간을 한 줄로 압축 */
+  .pattern-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:8px;
+    width:100%;
+  }
+  .pattern-top label{margin:0 0 4px;font-size:11.5px;}
+  .pattern-top input{width:100%;padding:7px 8px;font-size:14px;}
+  .time-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .time-row input[type=time]{
+    flex:1;
+    min-width:0;
+    font-family:var(--mono);
+    text-align:center;
+  }
+  .time-row .tilde{
+    color:var(--slate-dim);
+    font-size:13px;
+  }
+  .shift-info{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--slate);
+    margin-top:6px;
+    line-height:1.6;
+  }
+  .shift-info b{color:var(--cream);font-weight:700;}
+  .shift-info .off{color:var(--slate-dim);}
+  select, input[type=number], input[type=time], input[type=month], input[type=date]{
+    width:100%;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    color:var(--cream);
+    padding:11px 12px;
+    border-radius:var(--radius-input);
+    font-size:16px;
+    font-weight:500;
+    font-family:var(--sans);
+    appearance:none;
+    transition:border-color .12s ease, box-shadow .12s ease;
+  }
+  select:focus, input:focus{
+    outline:none;
+    border-color:var(--gold-dim);
+    box-shadow:0 0 0 3px var(--tint-primary);
+  }
+  /* 꼭 확인해야 하는 입력칸 — 검은 굵은 테두리 (기본 입력 규칙보다 뒤에 두어 우선 적용) */
+  input.key-input, select.key-input{
+    border:2px solid var(--cream) !important;
+    font-weight:700;
+  }
+  input.key-input:focus, select.key-input:focus{
+    border-color:var(--gold) !important;
+    box-shadow:0 0 0 3px var(--tint-primary);
+  }
+  .field-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  /* 라벨 길이가 달라 두 줄로 접혀도 입력칸 높이는 맞춰지도록 */
+  .field-row > div{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+  }
+  .field-row.three{
+    grid-template-columns:repeat(3,1fr);
+  }
+  @media (max-width:420px){
+    .field-row.three{grid-template-columns:1fr 1fr;}
+  }
+  .hint{
+    font-size:12.5px;
+    color:var(--slate-dim);
+    margin-top:6px;
+    line-height:1.5;
+  }
+
+
+  .checks{
+    margin-top:18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .check-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:15px;
+    color:var(--cream);
+  }
+  .check-row input{width:auto;}
+
+  /* 결과 영역 - 급여명세서 스타일 */
+  .payslip-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:18px;
+  }
+  .payslip-head .rank-name{
+    font-size:13px;
+    color:var(--slate);
+    font-family:var(--mono);
+  }
+  .perf-banner{
+    font-size:13px;
+    color:var(--cream);
+    background:var(--tint-primary);
+    border:1px solid var(--tint-primary-line);
+    border-radius:10px;
+    padding:9px 12px;
+    margin:14px 0 4px;
+    line-height:1.6;
+  }
+  .perf-banner b{color:var(--cream);font-weight:700;}
+  .perf-actions{margin:8px 0 4px;}
+  .perf-actions .btn-mini{width:100%;}
+
+  /* 연가저축 · 초과저축 잔여 */
+  .bank-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+    margin-top:8px;
+  }
+  @media (max-width:560px){ .bank-grid{grid-template-columns:1fr;} }
+  .bank-card{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:7px 10px;
+    min-height:36px;
+  }
+  .bank-card .bank-name{
+    flex:none;
+    font-size:12px;
+    color:var(--cream);
+    font-weight:700;
+  }
+  .bank-card .bank-left{
+    flex:none;
+    font-size:16px;
+    font-weight:700;
+    color:var(--green);
+    font-family:var(--mono);
+    line-height:1.2;
+  }
+  .bank-card .bank-left.minus{color:var(--red);}
+  .bank-card .bank-left span{font-size:11px; font-weight:400; color:var(--slate); margin-left:2px;}
+  .bank-card .bank-flow{
+    flex:1 1 0;
+    min-width:0;
+    text-align:right;
+    font-size:10.5px;
+    color:var(--slate-dim);
+    font-family:var(--mono);
+    line-height:1.35;
+  }
+  .bank-card .bank-flow b{color:var(--cream);font-weight:700;}
+
+  /* 좁은 세로 공간에 여러 입력칸을 넣는 공통 그리드 */
+  .tight-grid{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0,1fr));
+    gap:6px;
+  }
+  .tight-grid.three{grid-template-columns:repeat(3, minmax(0,1fr));}
+  @media (max-width:560px){
+    .tight-grid{grid-template-columns:repeat(2, minmax(0,1fr));}
+  }
+  .tight-grid > div{display:flex; flex-direction:column; justify-content:flex-end; min-width:0;}
+  .tight-grid label{
+    margin:0 0 3px;
+    font-size:11px;
+    color:var(--slate);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .tight-grid input, .tight-grid select{
+    padding:6px 8px;
+    font-size:14px;
+    border-radius:5px;
+    text-align:right;
+  }
+  .tight-grid input[type=month]{text-align:left; font-size:13px;}
+  /* 연가저축·초과저축 패널은 최대한 얇게 */
+  .bank-panel{padding:11px 11px 8px;}
+  .bank-panel h2{margin:0 0 7px; letter-spacing:1.5px;}
+  .bank-panel .hint{margin-top:2px;}
+  .bank-panel details.more.mini{margin-top:0;}
+  .bank-panel details.more.mini > summary{font-size:11.5px; padding:1px 0;}
+  .bank-panel .bank-card{min-height:32px; padding:5px 9px;}
+  .bank-panel .tight-grid{gap:5px;}
+  @media (max-width:560px){
+    .bank-panel .bank-grid{grid-template-columns:1fr 1fr;}
+    .bank-panel .bank-card{flex-wrap:wrap; gap:2px 6px;}
+    .bank-panel .bank-flow{flex:1 0 100%; text-align:left;}
+  }
+
+  details.more.mini{margin-top:8px;}
+  details.more.mini > summary{font-size:12px; font-weight:600; padding:2px 0;}
+  details.more.mini .note-body{margin-top:5px; line-height:1.5;}
+
+  /* 실적 캘린더에서 자동으로 채워지는 영역 */
+  .auto-box{
+    position:relative;
+    border:1.5px solid var(--gold-dim);
+    border-radius:8px;
+    background:var(--tint-primary);
+    padding:16px 10px 10px;
+    margin:16px 0 4px;
+  }
+  .auto-box .auto-tag{
+    position:absolute;
+    top:-11px;
+    left:12px;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    background:var(--gold);
+    color:#ffffff;
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:700;
+    line-height:1;
+    padding:5px 9px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .auto-box .auto-tag b{font-weight:700;}
+  .auto-box > .shift-info{margin-top:7px; font-size:11.5px; line-height:1.45;}
+  #curMonthEcho{
+    border-top:1px dashed var(--line);
+    margin-top:10px;
+    padding-top:8px;
+  }
+  .rate-notice{
+    font-size:13px;
+    color:var(--red);
+    background:var(--tint-red);
+    border:1px solid var(--tint-red-line);
+    border-radius:4px;
+    padding:8px 10px;
+    margin-bottom:16px;
+    line-height:1.5;
+  }
+  .hero{
+    background:#0a0b0d;
+    border:none;
+    border-radius:var(--radius-card);
+    padding:26px 26px 28px;
+    margin-bottom:20px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero .label{
+    font-size:13px;
+    font-weight:500;
+    color:#a8acb3;
+    letter-spacing:0;
+  }
+  .hero .amount{
+    font-size:44px;
+    font-weight:700;
+    color:#ffffff;
+    margin-top:4px;
+    letter-spacing:-0.03em;
+    line-height:1.05;
+  }
+  .hero .amount span{
+    color:#a8acb3;
+    font-size:17px;
+    color:var(--slate);
+    font-weight:400;
+    margin-left:6px;
+  }
+
+  /* 결과 요약 바 — 계산 결과가 화면 밖일 때 하단에 실수령액을 붙잡아 둔다 */
+  .net-bar{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    z-index:var(--z-net-bar);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    width:100%;
+    /* 넓은 화면에서는 본문(최대 1040px)과 좌우를 맞춘다 */
+    padding-block:11px calc(11px + env(safe-area-inset-bottom));
+    padding-inline:max(16px, calc((100% - 1040px) / 2));
+    background:rgba(255,255,255,0.92);
+    -webkit-backdrop-filter:saturate(180%) blur(12px);
+    backdrop-filter:saturate(180%) blur(12px);
+    border:none;
+    border-top:1px solid var(--line);
+    box-shadow:0 -2px 14px rgba(10,11,13,0.07);
+    font-family:inherit;
+    text-align:left;
+    cursor:pointer;
+  }
+  .net-bar[hidden]{display:none;}
+  .net-bar .nb-text{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    min-width:0;
+  }
+  .net-bar .nb-label{
+    font-size:11.5px;
+    line-height:1;
+    color:var(--slate);
+  }
+  .net-bar .nb-amount{
+    font-size:21px;
+    font-weight:800;
+    line-height:1.1;
+    letter-spacing:-0.03em;
+    color:var(--cream);
+  }
+  .net-bar .nb-go{
+    flex:none;
+    font-size:13px;
+    font-weight:700;
+    color:#ffffff;
+    background:var(--gold);
+    padding:9px 14px;
+    border-radius:var(--radius-pill);
+  }
+  .net-bar:active .nb-go{background:var(--primary-active);}
+
+  .cols{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  @media (max-width:600px){
+    .cols{grid-template-columns:1fr;}
+  }
+  .ledger h3{
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0;
+    color:var(--slate);
+    margin:0 0 10px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .ledger.deduction h3{color:var(--red);}
+  /* 명세서 값을 넣지 않아 추정으로 계산된 항목 표시 */
+  .est{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10px;
+    font-weight:700;
+    color:var(--red);
+    background:var(--tint-red);
+    border:1px solid var(--tint-red-line);
+    border-radius:3px;
+    padding:1px 4px;
+    margin-left:5px;
+    vertical-align:1px;
+  }
+  .row{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 0;
+    font-size:15px;
+    gap:10px;
+    border-bottom:1px dashed var(--line);
+  }
+  .row .name{color:var(--cream);}
+  .row .val{
+    font-family:var(--mono);
+    color:var(--cream);
+  }
+  .ledger.deduction .val{color:var(--red);}
+  .row.total{
+    border-bottom:none;
+    padding-top:12px;
+    font-weight:700;
+  }
+  .row.total .name, .row.total .val{color:var(--cream);}
+  .ledger.deduction .row.total .val{color:var(--red);}
+
+  .note{
+    margin-top:22px;
+    font-size:12.5px;
+    color:var(--slate-dim);
+    line-height:1.6;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+
+  /* 근무 캘린더 */
+  .cal-panel{
+    margin-bottom:24px;
+  }
+  .cal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .cal-nav{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .cal-nav button{
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    color:var(--cream);
+    width:38px;height:38px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:18px;
+    line-height:1;
+  }
+  .cal-nav button:hover{border-color:var(--gold-dim);}
+  .cal-month{
+    font-family:var(--mono);
+    font-size:16px;
+    letter-spacing:1px;
+    min-width:110px;
+    text-align:center;
+  }
+  .cal-summary{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 16px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--slate);
+  }
+  .cal-summary b{color:var(--cream);font-weight:700;}
+
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:14px;
+  }
+  .legend .chip{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    color:var(--slate);
+  }
+  .legend .swatch{
+    width:10px;height:10px;
+    border-radius:2px;
+    display:inline-block;
+  }
+
+  .cal-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
+  }
+  .cal-dow{
+    text-align:center;
+    font-size:13px;
+    color:var(--slate-dim);
+    padding-bottom:6px;
+    font-family:var(--mono);
+  }
+  .cal-dow.sun{color:var(--red);}
+  .cal-dow.sat{color:var(--blue);}
+  .cal-cell{
+    min-height:76px;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:5px 6px;
+    cursor:pointer;
+    position:relative;
+    transition:border-color .15s ease;
+  }
+  .cal-cell:hover{border-color:var(--gold-dim);}
+  /* 휴일근무수당 지급 대상일(휴일 + 9~18시 근무) 표시 */
+  /* 공휴일 셀은 배경으로 한눈에 구분 */
+  .cal-cell.holiday{
+    background:var(--tint-red);
+    border-color:var(--tint-red-line);
+  }
+  .cal-cell.holiday-pay{
+    box-shadow:inset 3px 0 0 var(--gold);
+    border-color:var(--gold-dim);
+  }
+  .cal-cell .pay-mark{
+    position:absolute;
+    bottom:4px; left:6px;
+    font-family:var(--mono);
+    font-size:10px;
+    font-weight:700;
+    color:var(--gold);
+    letter-spacing:.5px;
+  }
+  .cal-opt{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    color:var(--slate);
+    white-space:nowrap;
+  }
+  .cal-opt input{width:auto;}
+  .cal-cell.empty{
+    background:transparent;
+    border:none;
+    cursor:default;
+  }
+  .cal-cell .date-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--slate);
+  }
+  .cal-cell.sun .date-num, .cal-cell.holiday .date-num{color:var(--red);}
+  .cal-cell.sat .date-num{color:var(--blue);}
+  .cal-cell .duty-badge{
+    margin-top:5px;
+    font-size:11.5px;
+    font-weight:700;
+    padding:2px 5px;
+    border-radius:3px;
+    display:inline-block;
+  }
+  .cal-cell .holiday-tag{
+    position:absolute;
+    top:5px; right:5px;
+    left:24px;
+    font-size:9.5px;
+    color:var(--red);
+    text-align:right;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .cal-cell .ot-chip{
+    position:absolute;
+    bottom:4px; right:4px;
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:700;
+    padding:2px 6px;
+    border-radius:3px;
+    background:transparent;
+    color:var(--slate-dim);
+    border:1px solid var(--line);
+    pointer-events:none;
+    z-index:var(--z-cell-mark);
+  }
+  .cal-cell .ot-chip.on{
+    background:var(--gold-dim);
+    color:#ffffff;
+    border-color:var(--gold-dim);
+  }
+  .cal-cell:active{background:var(--navy-700);}
+
+  /* 근무유형별 색상 */
+  .duty-주간{background:#d6e4ff;color:#0a3ba8;}
+  .duty-야간{background:#0a1f52;color:#ffffff;border-color:#0a1f52;}
+  .duty-심야{background:#0a0b0d;color:#c8cdd4;border-color:#0a0b0d;}
+  .duty-오후{background:#e3e8ef;color:#2b3949;}
+  .duty-당직{background:#ffdcdf;color:#8c1420;}
+  .duty-비번{background:transparent;color:#a8acb3;border:1px dashed var(--line);}
+  .duty-휴무{background:#e6e8eb;color:#5b616e;}
+  .duty-일근{background:#d9f2e5;color:#04613a;}
+  .duty-연가{background:#05b169;color:#ffffff;}
+  .duty-저축연가{background:#0a6b74;color:#ffffff;}
+  .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
+  .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
+
+  /* 근무 패턴 생성기 */
+  .pattern-bar{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    gap:16px;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:14px 16px;
+    margin-bottom:16px;
+  }
+  .pattern-field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .pattern-field label{
+    margin:0;
+    font-size:12.5px;
+  }
+  .pattern-field input{
+    background:var(--navy-900);
+    width:auto;
+    padding:7px 10px;
+    font-size:13px;
+  }
+  #patternMonths{width:70px;}
+  .pattern-order{flex:1;min-width:220px;}
+  .pattern-chip-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .pattern-chip-row .chip{
+    font-size:12.5px;
+    font-weight:700;
+    padding:4px 8px;
+    border-radius:3px;
+  }
+  .pattern-chip-row .pat-chip{
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:5px 0;
+    font-size:13px;
+    font-weight:700;
+    font-family:var(--sans);
+    cursor:pointer;
+    width:30px;
+    line-height:1.2;
+  }
+  .pattern-chip-row{gap:3px;}
+  .pattern-chip-row .pat-slot{gap:2px;}
+  .pattern-chip-row .arrow{font-size:10px;}
+
+  /* 자주 쓰는 패턴 — 초성 문자열 대신 근무유형 색을 그대로 쓴 미리보기 */
+  .preset-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:10px;
+  }
+  .preset-row button{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:5px;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    color:var(--cream);
+    padding:7px 9px 8px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .preset-row button:hover{border-color:var(--gold-dim);}
+  .preset-row .pp-cycle{
+    font-size:11px;
+    font-weight:600;
+    line-height:1;
+    color:var(--slate-dim);
+  }
+  .preset-row .pp-seq{
+    display:flex;
+    gap:2px;
+  }
+  .preset-row .pp-d{
+    font-style:normal;
+    width:17px;
+    line-height:17px;
+    text-align:center;
+    font-size:11px;
+    font-weight:700;
+    border-radius:4px;
+    border:1px solid transparent;
+  }
+  .preset-row button.sel{
+    background:var(--tint-primary);
+    border-color:var(--gold);
+    box-shadow:inset 0 0 0 1px var(--gold);
+  }
+  .preset-row button.sel .pp-cycle{color:var(--gold);}
+  /* .preset-row button이 display:flex라 [hidden]만으로는 안 숨는다 */
+  .preset-row button[hidden]{display:none;}
+  .preset-toggle{
+    align-self:flex-start;
+    background:none;
+    border:none;
+    padding:2px 2px 10px;
+    margin-top:-4px;
+    font-family:inherit;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--gold);
+    cursor:pointer;
+  }
+  .preset-toggle[hidden]{display:none;}
+  .pattern-chip-row .pat-slot{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .pattern-chip-row .arrow{
+    color:var(--slate-dim);
+    font-size:13px;
+  }
+  .pattern-actions{
+    display:flex;
+    gap:8px;
+    margin-left:auto;
+  }
+  /* 적용 결과 — 동작이 일어난 자리 바로 옆에서 알려준다 */
+  .pattern-result{
+    flex-basis:100%;
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:var(--radius-input);
+    font-size:13px;
+    line-height:1.5;
+    background:var(--tint-green);
+    border:1px solid var(--tint-green-line);
+    color:var(--cream);
+  }
+  .pattern-result.warn{
+    background:var(--tint-red);
+    border-color:var(--tint-red-line);
+  }
+  .pattern-result[hidden]{display:none;}
+  .btn-primary, .btn-ghost{
+    border-radius:var(--radius-pill);
+    padding:11px 20px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:background .12s ease, border-color .12s ease;
+  }
+  .btn-primary{
+    background:var(--gold);
+    color:#ffffff;
+  }
+  .btn-primary:hover{background:var(--primary-active);}
+  .btn-ghost{
+    background:transparent;
+    border-color:var(--line);
+    color:var(--slate);
+  }
+  .btn-ghost:hover{border-color:var(--red); color:var(--red);}
+
+  .slot-count{
+    color:var(--slate);
+    font-weight:500;
+  }
+  .pattern-chip-row select{
+    width:auto;
+    padding:7px 10px;
+    font-size:13px;
+    font-weight:700;
+    border-radius:3px;
+    border:1px solid var(--line);
+  }
+  .pattern-chip-row .duty-주간{background:#d6e4ff;color:#0a3ba8;}
+  .pattern-chip-row .duty-야간{background:#0a1f52;color:#ffffff;border-color:#0a1f52;}
+  .pattern-chip-row .duty-심야{background:#0a0b0d;color:#c8cdd4;border-color:#0a0b0d;}
+  .pattern-chip-row .duty-오후{background:#e3e8ef;color:#2b3949;}
+  .pattern-chip-row .duty-당직{background:#ffdcdf;color:#8c1420;}
+  .pattern-chip-row .duty-비번{background:transparent;color:#a8acb3;border:1px dashed var(--line);}
+  .pattern-chip-row .duty-휴무{background:#e6e8eb;color:#5b616e;}
+  .pattern-chip-row .duty-일근{background:#d9f2e5;color:#04613a;}
+  .pattern-chip-row .duty-연가{background:#05b169;color:#ffffff;}
+  .pattern-chip-row .duty-저축연가{background:#0a6b74;color:#ffffff;}
+  .pattern-chip-row .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
+  .pattern-chip-row .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
+  .pattern-slot-actions{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+  }
+  .btn-mini{
+    background:var(--navy-700);
+    border:1px solid transparent;
+    color:var(--cream);
+    font-size:13px;
+    font-weight:600;
+    padding:8px 16px;
+    border-radius:var(--radius-pill);
+    cursor:pointer;
+    transition:background .12s ease, color .12s ease;
+  }
+  .btn-mini:hover{background:#e2e5ea; color:var(--gold);}
+  .btn-mini:disabled{opacity:.4; cursor:not-allowed;}
+
+  /* 법정수당 · 실비변상 */
+  .allowance-panel{
+    margin-top:24px;
+  }
+  .allowance-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(200px,1fr));
+    grid-auto-rows:1fr;      /* 모든 카드 높이를 같게 */
+    gap:10px;
+    margin-top:14px;
+  }
+  .allowance-card{
+    min-width:0;
+    overflow-wrap:anywhere;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:12px 14px;
+    display:flex;
+    flex-direction:column;
+  }
+  .allowance-card .title{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--cream);
+    margin-bottom:4px;
+    min-height:38px;         /* 제목 2줄 기준으로 맞춤 */
+    word-break:keep-all;
+  }
+  .allowance-card .unit{color:var(--slate);font-size:12px;}
+  .allowance-card .desc{
+    font-size:12px;
+    color:var(--slate-dim);
+    line-height:1.5;
+    margin-bottom:10px;
+    min-height:36px;
+  }
+  .allowance-card .row2{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:auto;         /* 입력칸은 카드 아래쪽에 정렬 */
+  }
+  .allowance-card .row2 + .field-row{margin-top:8px;}
+  .allowance-card .field-row{gap:8px;}
+  .allowance-card .field-row label{font-size:11.5px;}
+  .allowance-card > .shift-info{margin-top:6px;}
+  .allowance-card .field-row input[type=number]{width:100%; min-width:0;}
+  .allowance-card input[type=number]{
+    width:110px;
+    padding:9px 10px;
+    font-size:15px;
+  }
+
+  /* 실제 명세서에 자주 나오는 항목 — 테두리를 검은색 굵게 */
+  .allowance-card.key{
+    border:2px solid var(--cream);
+  }
+
+  /* ===== 얇은 가로줄 배치 (법정수당 목록) ===== */
+  .allowance-grid.compact{
+    grid-template-columns:repeat(auto-fill, minmax(330px,1fr));
+    grid-auto-rows:auto;
+    align-items:start;
+    gap:5px;
+  }
+  .allowance-grid.compact .allowance-card{
+    flex-direction:row;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:6px 8px;
+    padding:6px 10px;
+    border-radius:5px;
+    min-height:38px;
+  }
+  .allowance-grid.compact .title{
+    flex:none;
+    font-size:12.5px;
+    line-height:1.3;
+    margin:0;
+    min-height:0;
+    white-space:nowrap;
+  }
+  .allowance-grid.compact .desc{
+    flex:1 1 0;
+    font-size:10.5px;
+    line-height:1.3;
+    margin:0;
+    min-height:0;
+    min-width:0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .allowance-grid.compact .row2{
+    flex:none;
+    flex-wrap:nowrap;
+    gap:6px;
+    margin:0;
+  }
+  .allowance-grid.compact .row2 .mini-check{flex:none;}
+  .allowance-grid.compact .mini-check{font-size:11.5px; gap:5px; white-space:nowrap;}
+  .allowance-grid.compact input[type=checkbox]{width:16px; height:16px;}
+  .allowance-grid.compact input[type=number]{
+    flex:none;
+    width:84px;
+    padding:4px 7px;
+    font-size:13px;
+    border-radius:5px;
+    text-align:right;
+  }
+  .allowance-grid.compact select{
+    width:auto;
+    padding:4px 6px;
+    font-size:12px;
+    border-radius:5px;
+  }
+  .allowance-grid.compact .unit{font-size:10.5px; flex:none; margin-left:-3px;}
+  /* 위험근무수당처럼 세로 배치 인라인 스타일이 걸린 줄도 가로로 편다 */
+  .allowance-grid.compact .row2[style]{flex-direction:row !important; align-items:center !important; gap:6px !important;}
+  /* 자녀 수·지급일수처럼 입력이 2개인 줄: 라벨을 옆에 붙여 한 줄로 */
+  .allowance-grid.compact .field-row{
+    display:flex;
+    flex:none;
+    align-items:center;
+    gap:8px;
+    margin:0 !important;
+  }
+  .allowance-grid.compact .field-row > div{flex-direction:row; align-items:center; gap:4px;}
+  .allowance-grid.compact .field-row label{margin:0; font-size:10.5px; white-space:nowrap;}
+  .allowance-grid.compact .field-row input[type=number]{width:56px;}
+  /* 안내 문구는 줄 끝에 붙이고, 자리가 없으면 아랫줄로 */
+  .allowance-grid.compact > .allowance-card > .shift-info{
+    flex:1 1 100%;
+    margin:0;
+    font-size:10px;
+    line-height:1.3;
+    text-align:right;
+  }
+  .allowance-grid.compact > .allowance-card > .shift-info:empty{display:none;}
+  /* 입력이 여러 개인 줄은 설명을 감춰 한 줄에 들어가게 (제목 옆 툴팁으로 확인) */
+  .allowance-grid.compact .allowance-card.multi .desc{display:none;}
+  .allowance-grid.compact .allowance-card.multi .row2{margin-left:auto;}
+  .mini-check{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    color:var(--cream);
+    white-space:nowrap;
+  }
+  .mini-check input[type=checkbox]{width:auto;}
+  input[type=checkbox]{
+    width:19px; height:19px;
+    accent-color:var(--gold);
+    flex:none;
+  }
+
+  details.more{margin-top:8px;}
+  details.more > summary{
+    cursor:pointer;
+    color:var(--gold);
+    font-weight:600;
+    list-style:none;
+    display:inline-block;
+    padding:4px 0;
+  }
+  details.more > summary::-webkit-details-marker{display:none;}
+  details.more > summary::before{content:"＋ ";}
+  details.more[open] > summary::before{content:"− ";}
+  details.more .note-body{
+    margin-top:6px;
+    padding-left:2px;
+    line-height:1.7;
+  }
+
+  /* 캘린더 셀 축약 라벨 (좁은 화면에서 전체 명칭 대신 표시) */
+  .badge-abbr{display:none;}
+
+  .save-status{
+    font-family:var(--mono);
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--green);
+    background:var(--tint-green);
+    border:1px solid var(--tint-green-line);
+    border-radius:999px;
+    padding:3px 9px;
+    white-space:nowrap;
+  }
+  .save-status b{font-weight:700;}
+  .save-status.warn{
+    color:var(--red);
+    background:var(--tint-red);
+    border-color:var(--tint-red-line);
+  }
+  .cal-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .cal-title .btn-mini{padding:5px 10px; font-size:12px;}
+
+  /* ===== 날짜 입력 시트 (셀을 누르면 뜨는 큰 선택 화면) ===== */
+  .sheet-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(10,11,13,0.45);
+    z-index:var(--z-sheet);
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding:0;
+    -webkit-backdrop-filter:blur(2px);
+    backdrop-filter:blur(2px);
+  }
+  .sheet-backdrop[hidden]{display:none;}
+  .sheet{
+    width:100%;
+    max-width:520px;
+    background:var(--navy-900);
+    border:1px solid var(--line);
+    border-bottom:none;
+    border-radius:16px 16px 0 0;
+    padding:18px 16px calc(20px + env(safe-area-inset-bottom));
+    max-height:88vh;
+    overflow-y:auto;
+    animation:sheetUp .18s ease-out;
+  }
+  @keyframes sheetUp{from{transform:translateY(18px);opacity:.4;}to{transform:none;opacity:1;}}
+  .sheet-grip{
+    width:40px;height:4px;
+    background:var(--navy-700);
+    border-radius:2px;
+    margin:-6px auto 14px;
+  }
+  .sheet-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .sheet-date{font-size:19px;font-weight:700;letter-spacing:-0.01em;}
+  .sheet-sub{font-size:12.5px;color:var(--slate);margin-top:3px;font-family:var(--mono);}
+  .sheet-sub .hol{color:var(--red);}
+  .sheet-sub .pay{color:var(--gold);}
+  .sheet-close{
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    color:var(--slate);
+    width:38px;height:38px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    flex:none;
+  }
+  .sheet-label{
+    font-size:12px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--slate);
+    margin:0 0 9px;
+    font-weight:600;
+  }
+  .duty-picker{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .duty-picker button{
+    min-height:54px;
+    border-radius:var(--radius-input);
+    border:1px solid var(--line);
+    background:var(--navy-800);
+    color:var(--slate);
+    font-size:14.5px;
+    font-weight:700;
+    font-family:var(--sans);
+    cursor:pointer;
+    padding:6px 4px;
+  }
+  /* 캘린더 배지와 같은 색으로 (클래스 2개라 위 기본 규칙보다 우선) */
+  .duty-picker .duty-주간{background:#d6e4ff;color:#0a3ba8;}
+  .duty-picker .duty-야간{background:#0a1f52;color:#ffffff;border-color:#0a1f52;}
+  .duty-picker .duty-심야{background:#0a0b0d;color:#c8cdd4;border-color:#0a0b0d;}
+  .duty-picker .duty-오후{background:#e3e8ef;color:#2b3949;}
+  .duty-picker .duty-당직{background:#ffdcdf;color:#8c1420;}
+  .duty-picker .duty-비번{background:transparent;color:#a8acb3;border:1px dashed var(--line);}
+  .duty-picker .duty-휴무{background:#e6e8eb;color:#5b616e;}
+  .duty-picker .duty-일근{background:#d9f2e5;color:#04613a;}
+  .duty-picker .duty-연가{background:#05b169;color:#ffffff;}
+  .duty-picker .duty-저축연가{background:#0a6b74;color:#ffffff;}
+  .duty-picker .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
+  .duty-picker .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
+  .duty-picker button.sel{
+    outline:2px solid var(--gold);
+    outline-offset:2px;
+  }
+  .ot-stepper{
+    display:flex;
+    align-items:stretch;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .ot-stepper button{
+    width:60px;
+    border-radius:var(--radius-input);
+    border:1px solid var(--line);
+    background:var(--navy-800);
+    color:var(--cream);
+    font-size:24px;
+    line-height:1;
+    cursor:pointer;
+    flex:none;
+  }
+  .ot-stepper button:active{background:var(--navy-700);}
+  .ot-val{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    border-radius:var(--radius-input);
+    padding:12px 0;
+    font-size:24px;
+    font-weight:700;
+    color:var(--cream);
+  }
+  .ot-val .unit{font-size:13px;color:var(--slate);font-weight:400;}
+  .ot-presets-inner{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    margin-bottom:20px;
+  }
+  .ot-presets-inner button{
+    min-width:0;
+    padding:0 2px;
+    min-height:42px;
+    border-radius:var(--radius-pill);
+    border:1px solid transparent;
+    background:var(--navy-700);
+    color:var(--cream);
+    font-size:13.5px;
+    font-weight:500;
+    cursor:pointer;
+  }
+  .ot-presets-inner button.sel{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:#ffffff;
+    font-weight:700;
+  }
+  .sheet-actions{
+    display:flex;
+    gap:8px;
+  }
+  .sheet-actions button{
+    flex:1;
+    min-height:48px;
+    font-size:14.5px;
+  }
+  @media (min-width:761px){
+    .sheet-backdrop{align-items:center; padding:20px;}
+    .sheet{border-radius:14px; border-bottom:1px solid var(--line); animation:none;}
+    .sheet-grip{display:none;}
+  }
+
+  /* ===== 스마트폰 레이아웃 ===== */
+  @media (max-width:760px){
+    .wrap{padding:14px 10px calc(104px + env(safe-area-inset-bottom));}
+    header{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:2px;
+      padding-bottom:14px;
+      margin-bottom:18px;
+    }
+    .head-copy{align-items:flex-start; text-align:left; gap:2px; margin-top:6px;}
+    .tagline{font-size:13.5px;}
+    .panel{padding:15px 12px; border-radius:10px;}
+    .grid, .cols{grid-template-columns:1fr;}
+
+    /* 수당·공제 카드를 가로 3개 정사각형으로 */
+    .allowance-grid{
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:6px;
+    }
+    /* 좁은 화면: 얇은 가로줄 한 칸씩 */
+    .allowance-grid.compact{
+      grid-template-columns:1fr;
+      gap:4px;
+    }
+    .allowance-grid.compact .allowance-card{gap:4px 6px; padding:6px 8px; min-height:36px;}
+    .allowance-grid.compact .row2{flex-direction:row; align-items:center; gap:6px;}
+    .allowance-grid.compact .title{font-size:12px;}
+    .allowance-grid.compact .desc{font-size:10px; margin:0; flex:1 1 0;}
+    .allowance-grid.compact .mini-check{font-size:11.5px; gap:4px; white-space:nowrap;}
+    .allowance-grid.compact .unit{display:inline;}
+    .allowance-grid.compact input[type=number]{width:74px; padding:4px 6px; font-size:12.5px;}
+    .allowance-grid.compact select{font-size:11.5px; padding:4px 4px;}
+    .allowance-grid.compact .field-row{gap:6px;}
+    .allowance-grid.compact .field-row input[type=number]{width:46px;}
+    .allowance-grid.compact .field-row label{font-size:10px;}
+    .allowance-card{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      padding:8px 6px;
+      border-radius:8px;
+    }
+    .allowance-card .title{
+      font-size:11.5px;
+      line-height:1.25;
+      margin:0;
+      min-height:29px;
+      word-break:keep-all;
+    }
+    .allowance-card .desc{
+      font-size:9.5px;
+      line-height:1.25;
+      margin:0;
+      min-height:24px;
+      color:var(--slate-dim);
+    }
+    .allowance-card .field-row{gap:4px;}
+    .allowance-card .field-row label{font-size:9.5px; line-height:1.2;}
+    .allowance-card .row2 + .field-row{margin-top:5px;}
+    .allowance-card .row2{
+      margin-top:auto;
+      flex-direction:column;
+      align-items:stretch;
+      gap:5px;
+    }
+    .allowance-card .unit{display:none;}
+    .allowance-card input[type=number]{
+      width:100%;
+      min-width:0;
+      padding:7px 5px;
+      font-size:13.5px;
+      text-align:right;
+    }
+    .allowance-card select{padding:8px 6px; font-size:13px;}
+    .allowance-card .mini-check{
+      font-size:11px;
+      gap:4px;
+      white-space:normal;
+      line-height:1.2;
+    }
+    .allowance-card input[type=checkbox]{width:17px;height:17px;}
+    .allowance-card .shift-info{font-size:10px;}
+
+    .cal-head{flex-direction:column; align-items:flex-start; gap:8px;}
+    .cal-nav{width:100%; flex-wrap:wrap; gap:10px;}
+    .cal-nav button{width:44px; height:44px; flex:none;}
+    .cal-month{flex:1; min-width:0; white-space:nowrap; font-size:17px;}
+    .cal-opt{
+      order:3;
+      width:100%;
+      margin-left:0 !important;
+      font-size:12.5px;
+      white-space:normal;
+      line-height:1.4;
+      padding-top:2px;
+    }
+
+    /* 좁은 화면에서도 프리셋이 화면 밖으로 나가지 않게 모두 줄바꿈으로 담고,
+       대신 카드를 촘촘하게 만들어 차지하는 줄 수를 줄인다. */
+    .preset-row{gap:5px;}
+    .preset-row button{padding:6px 7px 7px; gap:4px; border-radius:9px; max-width:100%;}
+    .preset-row .pp-cycle{font-size:10.5px;}
+    .preset-row .pp-seq{gap:1px; flex-wrap:wrap;}
+    .preset-row .pp-d{width:14px; line-height:14px; font-size:10px; border-radius:3px;}
+
+    .pattern-bar{flex-direction:column; align-items:stretch; gap:12px; padding:12px;}
+    .pattern-field{width:100%;}
+    .pattern-field input, #patternMonths{width:100%;}
+    .pattern-order{min-width:0;}
+    .pattern-actions{margin-left:0; width:100%;}
+    .pattern-actions .btn-primary, .pattern-actions .btn-ghost{flex:1; padding:13px 10px;}
+    .pattern-slot-actions .btn-mini{flex:1;}
+
+    .legend{gap:6px 10px;}
+    .legend .chip{font-size:11.5px;}
+
+    .cal-grid{gap:3px;}
+    .cal-cell{min-height:84px; padding:4px 3px; border-radius:6px;}
+    .cal-cell .date-num{font-size:12px;}
+    .cal-cell .duty-badge{
+      font-size:11px;
+      padding:2px 4px;
+      margin-top:4px;
+      display:block;
+      text-align:center;
+    }
+    .cal-cell .holiday-tag{
+      position:static;
+      left:auto; right:auto; top:auto;
+      margin-top:1px;
+      font-size:9.5px;
+      font-weight:700;
+      text-align:left;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .cal-cell .ot-chip{
+      bottom:3px; right:3px;
+      font-size:11px;
+      padding:2px 5px;
+      min-width:22px;
+      text-align:center;
+    }
+    .cal-cell .pay-mark{bottom:5px; left:4px; font-size:10px;}
+    .badge-full{display:none;}
+    .badge-abbr{display:inline;}
+
+    .hero{padding:20px 16px;}
+    .hero .amount{font-size:32px;}
+    .row{font-size:14.5px;}
+
+    .field-row{grid-template-columns:1fr 1fr; gap:8px;}
+    .field-row.three{grid-template-columns:1fr 1fr 1fr; gap:6px;}
+    .field-row.three select, .field-row.three input{padding:10px 6px; font-size:15px;}
+    .field-row.three label{font-size:12px;}
+    .label-row{flex-wrap:wrap; gap:6px;}
+  }
+
+  /* 좁은 화면에서는 '휴게시간'과 요약을 둘째 줄로 내려 라벨이 잘리지 않게 한다 */
+  @media (max-width:460px){
+    .shift-row{gap:4px 6px; padding:6px 7px;}
+    .shift-row .row-break{display:block; flex:1 0 100%; height:0;}
+    .shift-row .time-row{flex:1 1 auto;}
+    .shift-row .time-row input[type=time]{width:auto; flex:1 1 0; min-width:0;}
+    .shift-row .mini-check{font-size:12.5px; color:var(--cream);}
+    .shift-row .shift-sum{flex:1 1 auto;}
+  }
+  @media (max-width:380px){
+    .allowance-grid{gap:5px;}
+    .allowance-card{padding:7px 5px;}
+    .allowance-card .title{font-size:11px;}
+    .allowance-card .desc{font-size:9px;}
+    .cal-cell{min-height:78px;}
+    .cal-cell .duty-badge{font-size:10px; padding:1px 2px;}
+    .cal-cell .holiday-tag{font-size:9px;}
+    .hero .amount{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img class="logo" src="data:image/png;base64,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" alt="폴머니 로고" width="48" height="48" decoding="async">
+      <div class="brand-text">
+        <h1>폴머니</h1>
+        <span class="mark">POLMONEY</span>
+      </div>
+    </div>
+    <div class="head-copy">
+      <p class="tagline">복잡한 경찰 급여, 직접 계산해보면 답이 보입니다.</p>
+      <div class="sub">경찰 월급 계산기 · v3.0 (2026-08-30)</div>
+    </div>
+  </header>
+
+  <div class="panel cal-panel">
+    <div class="cal-head">
+      <div class="cal-title">
+        <h2 style="margin:0;">근무 캘린더</h2>
+        <span class="save-status" id="saveStatus">✓ 자동 저장 켜짐</span>
+        <button type="button" class="btn-mini" id="resetBtn">초기화</button>
+      </div>
+      <div class="cal-summary">
+        <span>근무 <b id="sumWork">0</b>일</span>
+        <span>초과 <b id="sumOt">0</b>h</span>
+        <span>휴일수당 <b id="sumHolidayWork">0</b>일</span>
+        <span>연가 <b id="sumLeave">0</b>일</span>
+      </div>
+    </div>
+    <div class="cal-nav" style="margin-bottom:14px;">
+      <button id="prevMonth" aria-label="이전 달">‹</button>
+      <span class="cal-month" id="calMonthLabel"></span>
+      <button id="nextMonth" aria-label="다음 달">›</button>
+      <label class="cal-opt" style="margin-left:auto;">
+        <input type="checkbox" id="autoHolidayWork">
+        미표시 휴일을 <b style="color:var(--cream);font-weight:600;">주간근무</b>로 처리
+      </label>
+    </div>
+    <div class="perf-banner" id="calMonthNote"></div>
+
+    <div class="pattern-bar">
+      <div class="pattern-top">
+        <div>
+          <label for="patternStart">시작일</label>
+          <input type="date" id="patternStart" class="key-input">
+        </div>
+        <div>
+          <label for="patternMonths">기간(개월)</label>
+          <input type="number" id="patternMonths" class="key-input" value="3" min="1" max="12">
+        </div>
+      </div>
+      <div class="pattern-field pattern-order">
+        <label>근무 패턴을 선택 하거나 없으면 눌러서 만드세요 <span class="slot-count" id="slotCount">(4/11단계)</span></label>
+        <div class="preset-row" id="presetRow"></div>
+        <button type="button" class="preset-toggle" id="presetToggle" aria-expanded="false" hidden></button>
+        <div class="pattern-chip-row" id="patternEditor"></div>
+        <div class="pattern-slot-actions">
+          <button id="addSlot" class="btn-mini">+ 단계 추가</button>
+          <button id="removeSlot" class="btn-mini">− 단계 삭제</button>
+        </div>
+      </div>
+      <div class="pattern-actions">
+        <button id="applyPattern" class="btn-primary">패턴 적용</button>
+        <button id="clearPattern" class="btn-ghost">전체 지우기</button>
+      </div>
+      <div class="pattern-result" id="patternResult" role="status" aria-live="polite" hidden></div>
+    </div>
+    <div class="cal-grid" id="calDow"></div>
+    <div class="cal-grid" id="calGrid" style="margin-top:4px;"></div>
+    <div class="note">
+      날짜를 누르면 근무유형과 연장시간을 고를 수 있습니다.<br>
+      <b>휴일근무수당</b>은 휴일(토·일·공휴일)에 <b>9~18시 근무한 날</b>만 1일분 지급 — 캘린더에 <b>휴일수당</b>으로 표시됩니다.
+      <details class="more"><summary>자세한 규칙</summary><div class="note-body">
+        · 대상 판정은 아래 <b>교대 시각</b> 기준입니다. 야간·심야처럼 9~18시를 포함하지 않거나 자정을 넘기는 교대는 제외됩니다.<br>
+        · <b>오후 근무</b>는 9~18시와 일부 겹치더라도 휴일근무수당을 지급하지 않습니다.<br>
+        · 연가는 급여 공제가 없고, 비번·휴무는 근무가 아니므로 제외됩니다.<br>
+        · <b>설날·추석</b>은 음력이라 <span id="lunarYearRange">일부 연도</span>만 연휴·대체공휴일까지 자동 표시됩니다. 그 밖의 해는 날짜를 눌러 <b>'이 날을 공휴일로'</b>를 켜주세요.
+      </div></details>
+    </div>
+  </div>
+
+  <div class="panel">
+      <h2>급여 입력</h2>
+
+      <div class="field-row three">
+        <div>
+          <label for="rank" style="margin-top:0;">계급</label>
+          <select id="rank"></select>
+        </div>
+        <div>
+          <label for="step" style="margin-top:0;">호봉</label>
+          <select id="step"></select>
+        </div>
+        <div>
+          <label for="years" style="margin-top:0;">근무연수</label>
+          <input type="number" id="years" value="0" min="0" max="45" step="1">
+        </div>
+      </div>
+      <div class="shift-info" id="yearsInfo"></div>
+
+      <label>교대 근무시간</label>
+      <div class="shift-settings" id="shiftSettings"></div>
+
+      <div class="hint">부서 실제 시각을 넣으세요. 종료가 시작보다 이르면 <b>익일</b>입니다. 휴게 1시간은 기본으로 빠집니다.
+      각 줄 오른쪽 요약 = <b>근무시간 · 야간수당 시간 · 휴일수당 대상(○/✕)</b>.</div>
+
+      <div class="perf-actions">
+        <button type="button" id="goPerfMonth" class="btn-mini">◂ 실적 월 캘린더로 이동</button>
+      </div>
+      <div class="rate-notice" id="perfEmpty" style="display:none;"></div>
+      <div class="auto-box">
+        <span class="auto-tag" title="아래 시간은 실적 캘린더의 근무 기록에서 자동으로 계산됩니다. 필요하면 칸을 눌러 직접 고칠 수 있어요.">⟳ 자동 생성 · <b id="autoTagMonth">실적</b></span>
+        <div class="tight-grid">
+          <div><label for="ot" id="lblOt" title="시간외근무수당 대상 초과근무 시간">시간외 (h)</label>
+            <input type="number" id="ot" value="0" min="0"></div>
+          <div><label for="night" id="lblNight" title="야간수당 시간 (22~06시)">야간 (h)</label>
+            <input type="number" id="night" value="0" min="0" step="0.1"></div>
+          <div><label for="workTotal" id="lblWork" title="근무 총시간 (기록용)">총근무 (h)</label>
+            <input type="number" id="workTotal" value="0" min="0" step="0.1"></div>
+          <div><label for="otSave" id="lblOtSave" title="초과저축 적립 시간 (수당 대신 연가로 적립)">저축적립 (h)</label>
+            <input type="number" id="otSave" value="0" min="0" step="0.5"></div>
+        </div>
+        <div class="shift-info" id="otBreakdown"></div>
+        <details class="more mini"><summary>계산 기준값</summary><div class="note-body">
+          <div class="tight-grid three">
+            <div><label for="legalHours" title="법정 기준시간(월)">법정 기준(h)</label>
+              <input type="number" id="legalHours" value="176" min="0" step="1"></div>
+            <div><label for="otCap" title="월 상한시간 (0=없음)">월 상한(h)</label>
+              <input type="number" id="otCap" value="57" min="0" step="1"></div>
+            <div><label for="otAdjust" title="봉급기준액에 곱하는 감액조정률. 순경·경장 60%, 경사 이상 55%">감액조정률(%)</label>
+              <input type="number" id="otAdjust" value="55" min="1" max="100" step="1"></div>
+          </div>
+          <div class="shift-info" id="rateInfo"></div>
+          <div class="shift-info" id="curMonthEcho"></div>
+        </div></details>
+      </div>
+      <div class="hint">
+        <details class="more"><summary>자세히 보기</summary><div class="note-body">
+          그 달 <b>실근무시간 − 법정 176시간</b>이 초과근무입니다. 연가는 1일 8시간 근무로 봅니다.
+          상한에 <b>0</b>을 넣으면 상한 없이 계산하고, 위 칸에서 직접 고칠 수도 있습니다.<br><br>
+          <b>근무 총시간은 기록용</b>입니다. 수당에 반영되는 건 초과근무 시간과 야간수당 시간.<br><br>
+          <b>시간외</b> 176시간 초과분 · <b>야간</b> 22~06시 겹침 시간 · <b>휴일</b> 휴일 9~18시 근무일 1일 단위<br>
+          세 수당 모두 실제 호봉이 아닌 <b>기준호봉(10호봉)</b> 봉급액 × <b>감액조정률</b>로 계산합니다.
+        </div></details>
+      </div>
+    </div>
+
+  <div class="panel bank-panel">
+    <h2>연가저축 · 초과저축</h2>
+    <div class="tight-grid three">
+      <div><label for="bankBase" title="이 시점의 보유량을 기준으로 이월 계산합니다">기준 시점</label>
+        <input type="month" id="bankBase"></div>
+      <div><label for="bankLeaveDays" title="기준 시점에 보유하던 연가저축 일수">연가저축 (일)</label>
+        <input type="number" id="bankLeaveDays" value="0" min="0" step="0.5"></div>
+      <div><label for="bankOtHours" title="기준 시점에 보유하던 초과저축 시간">초과저축 (h)</label>
+        <input type="number" id="bankOtHours" value="0" min="0" step="0.5"></div>
+    </div>
+    <div class="bank-grid" id="bankSummary"></div>
+    <div class="hint">
+      <details class="more mini"><summary>쓰는 법</summary><div class="note-body">
+        · <b>쓸 때</b> — 캘린더에서 날짜를 눌러 근무유형 <b>저축연가</b>를 고르거나, <b>초과저축 사용</b> 시간을 넣으세요.<br>
+        · 저축분을 쓴 날은 <b>근무한 것으로 인정</b>합니다 (저축연가 1일 = 8시간).<br>
+        · <b>모을 때</b> — 위 <b>저축적립</b> 칸에 시간을 넣으면 그만큼 시간외근무수당에서 빠지고 잔여에 쌓입니다.<br>
+        · 저축 한도·이월 기한은 기관 지침이 달라 검사하지 않습니다. 보유량은 직접 확인해 넣으세요.
+      </div></details>
+    </div>
+  </div>
+
+  <div class="panel allowance-panel">
+    <h2>법정수당 · 실비변상 (선택)</h2>
+    <div class="allowance-grid compact">
+      <div class="allowance-card key multi">
+        <div class="title" title="배우자 4만 · 자녀 첫째 5만/둘째 8만/셋째 이상 12만 · 기타 부양가족 1명당 2만원(배우자 포함 4명까지)">가족수당</div>
+        <div class="desc" title="배우자 4만 · 자녀 첫째 5만/둘째 8만/셋째 이상 12만 · 기타 부양가족 1명당 2만원(배우자 포함 4명까지)">배우자·자녀·부양가족</div>
+        <div class="row2" style="margin-bottom:8px;">
+          <label class="mini-check"><input type="checkbox" id="spouse"> 배우자</label>
+        </div>
+        <div class="field-row">
+          <div>
+            <label for="children" style="margin-top:0;">자녀</label>
+            <input type="number" id="children" value="0" min="0">
+          </div>
+          <div>
+            <label for="otherDeps" style="margin-top:0;">기타</label>
+            <input type="number" id="otherDeps" value="0" min="0">
+          </div>
+        </div>
+        <div class="shift-info" id="familyInfo"></div>
+      </div>
+      <div class="allowance-card key">
+        <div class="title">위험근무수당</div>
+        <div class="desc" title="갑종 6만 · 을종 5만 · 병종 4만원">갑 6만 · 을 5만 · 병 4만</div>
+        <div class="row2" style="flex-direction:column; align-items:stretch; gap:8px;">
+          <select id="dangerGrade">
+            <option value="0">미대상</option>
+            <option value="60000" selected>갑종 (6만원)</option>
+            <option value="50000">을종 (5만원)</option>
+            <option value="40000">병종 (4만원)</option>
+          </select>
+          <label class="mini-check"><input type="checkbox" id="dangerBonus"> 가산금 (갑종 월 2만원)</label>
+        </div>
+      </div>
+      <div class="allowance-card key">
+        <div class="title">정근수당가산금</div>
+        <div class="desc" title="월 3~13만원. 근무연수에서 자동 계산되며 직접 고칠 수도 있습니다">월 3~13만 · 자동</div>
+        <div class="row2">
+          <input type="number" id="jgBonus" value="0" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card key">
+        <div class="title">정액급식비</div>
+        <div class="desc" title="월 16만원 (명세서 확인)">월 16만</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="mealAllow" checked> 지급 대상</label>
+          <input type="number" id="mealAmt" value="160000" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card key">
+        <div class="title">직급보조비</div>
+        <div class="desc" title="순경·경장·경사 175,000원. 경위 이상은 계급별로 달라 직접 입력">순경~경사 17.5만</div>
+        <div class="row2">
+          <input type="number" id="gradeAllow" value="175000" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card key">
+        <div class="title">출동업무수당</div>
+        <div class="desc" title="지구대·순찰대 등 출동 부서, 직접 입력">부서별 직접 입력</div>
+        <div class="row2">
+          <input type="number" id="dispatchAllow" value="0" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">소급분</div>
+        <div class="desc" title="가족수당 소급·보수 인상 소급 등 명세서의 '소급' 항목 합계. 일할계산 대상이 아닙니다">명세서 소급 항목 합계</div>
+        <div class="row2">
+          <input type="number" id="retroPay" value="0" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">경찰특수업무수당</div>
+        <div class="desc" title="계급별 예시 금액으로 계산합니다">계급별 예시</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="special"> 대상자</label>
+        </div>
+      </div>
+      <div class="allowance-card multi">
+        <div class="title" title="중도 임용·복직·휴직 등으로 한 달을 다 근무하지 않은 달. 정액 항목만 지급일수 비례로 줄어듭니다">일할계산</div>
+        <div class="desc" title="중도 임용·복직·휴직 등으로 한 달을 다 근무하지 않은 달. 정액 항목만 지급일수 비례로 줄어듭니다">한 달 미만 근무 시 감액</div>
+        <div class="row2" style="margin-bottom:8px;">
+          <label class="mini-check"><input type="checkbox" id="prorate"> 사용</label>
+        </div>
+        <div class="field-row">
+          <div>
+            <label for="paidDays" style="margin-top:0;">지급일</label>
+            <input type="number" id="paidDays" value="0" min="0" max="31" step="1">
+          </div>
+          <div>
+            <label style="margin-top:0;">/ 총일수</label>
+            <input type="number" id="monthDays" value="0" readonly>
+          </div>
+        </div>
+        <div class="shift-info" id="prorateInfo"></div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">정근수당</div>
+        <div class="desc" title="월봉급액의 10~50%, 연 2회(1·7월). 지급률은 근무연수에서 자동 입력">봉급 10~50% · 1·7월</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="jgAllow"> 이번 달 지급월</label>
+          <input type="number" id="jgRate" value="0" min="0" max="50" step="1"><span class="unit">%</span>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">대우공무원수당</div>
+        <div class="desc" title="월봉급액의 4.1%">봉급 4.1%</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="daewoo"> 대상자</label>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">특수지근무수당</div>
+        <div class="desc" title="도서·벽지 등 월 3~6만원">월 3~6만</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="remoteAllow"> 대상자</label>
+          <input type="number" id="remoteAmt" value="0" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">업무대행수당</div>
+        <div class="desc" title="육아휴직자 등 업무대행, 월 20만원">월 20만</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="proxyAllow"> 대상자</label>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">관리업무수당</div>
+        <div class="desc" title="4급 이상 공무원, 월봉급액의 9%">봉급 9%</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="mgmtAllow"> 대상자</label>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">명절휴가비</div>
+        <div class="desc" title="월봉급액의 60%, 설날·추석 지급">봉급 60% · 명절</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="holidayBonus"> 이번 달 지급월</label>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">육아휴직급여</div>
+        <div class="desc" title="1~3개월 250만 · 4~6개월 200만 · 7개월~ 160만원. 체크하면 기본급이 빠집니다">250/200/160만</div>
+        <div class="row2">
+          <label class="mini-check"><input type="checkbox" id="parentalLeave"> 육아휴직 중</label>
+          <input type="number" id="parentalMonth" value="1" min="1" step="1" title="육아휴직 몇 개월째인지 (1~3개월 250만 · 4~6개월 200만 · 7개월~ 160만)"><span class="unit">개월째</span>
+          <input type="number" id="parentalDays" value="0" min="0" max="31" step="1" title="그 달에 육아휴직으로 쉰 일수. 0을 넣으면 한 달 전체 휴직으로 봅니다"><span class="unit">일</span>
+        </div>
+      </div>
+    
+    </div>
+    <div class="note">
+      정근수당·정근수당가산금 지급률은 근속연수에 따라 다르니 소속 기관에서 확인해 입력하세요.<br>
+      성과상여금·연가보상비는 개인 편차가 커서 넣지 않았습니다. 명세서의 <b>소급</b> 항목은 <b>소급분</b> 칸에 합계를 넣으세요.<br>
+      <b>육아휴직 중</b>을 체크하면 기본급과 봉급 연동 수당(정근수당·대우공무원수당·관리업무수당·명절휴가비)이 자동으로 빠집니다.
+    </div>
+  </div>
+
+  <div class="panel allowance-panel">
+    <h2>공제 (선택)</h2>
+    <div class="allowance-grid compact">
+      <div class="allowance-card">
+        <div class="title" title="일반기여금 = 기준소득월액 × 9%. 명세서 산출식의 값을 그대로 넣으세요">기준소득월액</div>
+        <div class="desc" title="일반기여금 = 기준소득월액 × 9%. 명세서 산출식의 값을 입력 (0이면 추정치)">× 9% = 기여금</div>
+        <div class="row2">
+          <input type="number" id="baseIncome" value="0" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card multi">
+        <div class="title" title="건강보험료 = 보수월액 × 3.595%, 장기요양 = 건강보험료 × 13.14%">보수월액</div>
+        <div class="desc" title="건강보험료 = 보수월액 × 3.595%, 장기요양 = 건강보험료 × 13.14% (0이면 추정치). 유예에 체크하면 둘 다 0원">× 3.595% = 건보</div>
+        <div class="row2">
+          <input type="number" id="payBase" value="0" min="0" step="1000"><span class="unit">원</span>
+          <label class="mini-check" title="육아휴직 등으로 건강보험료가 유예된 달이면 체크하세요. 체크하면 건강보험료·장기요양보험료가 0원이 됩니다"><input type="checkbox" id="healthWaive"> 건강보험료 유예 (0원)</label>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title" title="명세서의 소득세를 그대로 넣으세요. 0이면 간이세액표로 추정합니다">소득세</div>
+        <div class="desc" title="명세서 금액을 넣으면 그대로 사용 (0이면 추정치). 지방소득세는 자동 10%">명세서 금액 (0=추정)</div>
+        <div class="row2">
+          <input type="number" id="incomeTaxManual" value="0" min="0" step="10"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">경찰공제회비</div>
+        <div class="desc" title="경찰공제회 등 개인 납입액">개인 납입액</div>
+        <div class="row2">
+          <input type="number" id="policeMutualAid" value="0" min="0" step="1000"><span class="unit">원</span>
+        </div>
+      </div>
+      <div class="allowance-card">
+        <div class="title">기타공제</div>
+        <div class="desc" title="지정기부금·우수리공제 등 소액 항목 합산">소액 항목 합산</div>
+        <div class="row2">
+          <input type="number" id="otherDeduct" value="0" min="0" step="100"><span class="unit">원</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      경찰은 <b>공무원연금(일반기여금)</b> 대상이며 국민연금·고용보험은 적용되지 않습니다.
+      위 세 칸을 비워두면 계산 결과에 <b><span class="est">추정</span></b> 표시가 붙습니다 — 명세서 값을 넣으면 사라지고 실제와 똑같아집니다.
+      <details class="more"><summary>왜 '추정'인가요?</summary><div class="note-body">
+        지급 항목은 봉급표와 규정으로 <b>계산이 되지만</b>, 공제 세 가지는 <b>이 앱이 알 수 없는 개인 정보</b>가 있어야 정확히 나옵니다.<br><br>
+
+        <b>① 일반기여금 — 기준소득월액을 모릅니다</b><br>
+        기여금 = <b>기준소득월액 × 9%</b>인데, 기준소득월액은 <b>작년 한 해 과세소득 총액을 12로 나눈 값</b>입니다.
+        성과상여금·정근수당·명절휴가비·초과근무수당까지 전부 들어간 작년 실적이라, 이번 달 급여만 보고는 알 수 없습니다.
+        비워두면 <b>한 달 전액 기준 과세급여 × 1.2</b>로 추정합니다(연간으로 얹히는 몫을 감안한 배수).
+        실제 명세서와 대조했을 때 오차 1~2% 수준이지만, 성과등급·초과근무가 많았던 해라면 더 벌어집니다.<br>
+        → 명세서 <b>일반기여금 산출식</b>에 `기준소득월액: 4,167,106 * 9%`처럼 적힌 숫자를 그대로 넣으면 <b>정확히 일치</b>합니다.<br><br>
+
+        <b>② 소득세 — 부양가족·공제 상황을 모릅니다</b><br>
+        원천징수 소득세는 국세청 <b>근로소득 간이세액표</b>로 정해집니다. 이 표는 그 달 과세급여와 <b>공제대상 가족 수</b>로 금액을 찾는 방식인데,
+        같은 급여라도 부양가족 구성·자녀 나이·본인 선택(80/100/120%)에 따라 달라집니다.
+        비워두면 간이세액표의 산출 절차(근로소득공제 → 인적공제 → 특별소득공제 → 기본세율 → 근로소득세액공제)를 그대로 밟아 추정하되,
+        실제 표는 급여를 구간으로 나눠 중간값을 쓰기 때문에 <b>20% 안팎의 오차</b>가 남습니다.<br>
+        → 명세서 <b>소득세</b> 금액을 넣으면 정확해지고, <b>지방소득세</b>도 그 10%로 자동으로 맞습니다.<br><br>
+
+        <b>③ 건강보험료 — 보수월액을 모릅니다</b><br>
+        건강보험료 = <b>보수월액 × 3.595%</b>, 장기요양 = 건강보험료 × 13.14%입니다.
+        보수월액도 기준소득월액처럼 전년도 보수 기준이라 이번 달 급여로는 알 수 없어, 비워두면 이번 달 과세급여로 대신 계산합니다.<br>
+        → 명세서의 보수월액을 넣으면 정확해집니다. 육아휴직 등으로 <b>유예된 달</b>은 <b>건강보험료 유예</b>에 체크하면 0원이 됩니다.<br><br>
+
+        <b>참고</b> · 경찰공제회비·지정기부금·우수리공제 같은 <b>기타공제</b>는 사람마다 달라 추정 자체를 하지 않습니다.
+        명세서를 보고 <b>경찰공제회비</b>·<b>기타공제</b> 칸에 직접 넣으세요.
+      </div></details>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="payslip-head">
+      <h2 style="margin:0;">계산 결과</h2>
+      <span class="rank-name" id="rankLabel">순경 1호봉</span>
+    </div>
+    <div class="rate-notice" id="rateNotice" style="display:none;"></div>
+
+    <div class="hero">
+      <div class="label">예상 실수령액 (월)</div>
+      <div class="amount" id="netPay">0<span>원</span></div>
+    </div>
+
+    <div class="cols">
+      <div class="ledger">
+        <h3>지급 항목</h3>
+        <div id="payRows"></div>
+        <div class="row total"><span class="name">총지급액</span><span class="val" id="totalPay">0</span></div>
+      </div>
+      <div class="ledger deduction">
+        <h3>공제 항목</h3>
+        <div id="deductRows"></div>
+        <div class="row total"><span class="name">총공제액</span><span class="val" id="totalDeduct">0</span></div>
+      </div>
+    </div>
+
+    <div class="note">
+      초과·야간·휴일근무수당은 <b>전월 근무 실적으로 다음 달에 지급</b>됩니다 (1월 급여 = 1월 기본급 + 12월 근무 수당). 그래서 <b>전월 캘린더도 채워져 있어야</b> 합니다.
+      <details class="more"><summary>계산 기준 자세히</summary><div class="note-body">
+        · 기본급: 2026년 경찰공무원 봉급표[별표 10]. 치안총감은 표에 값이 없어 제외.<br>
+        · 초과 ×감액조정률÷209×1.5 / 야간 ×감액조정률÷209×0.5 / 휴일 ×감액조정률÷26×1.5 (기준호봉 10호봉)<br>
+        · <b>감액조정률</b>은 7급 상당 이상 55%, 8~9급 상당(순경·경장)은 2026년부터 60%입니다. 급여 입력에서 직접 고칠 수 있습니다.<br>
+        · 가족수당: 배우자 4만 + 자녀 5·8·12만 + 기타 2만(배우자 포함 4명 한도)<br>
+        · 일반기여금 = 기준소득월액×9% · 건강보험 = 보수월액×3.595% · 장기요양 = 건강보험×13.14%<br>
+        · 기준소득월액을 비워두면 <b>한 달 전액 기준 과세급여 × 1.2</b>로 추정합니다(성과상여금·정근수당·명절휴가비가 연간으로 얹히는 몫).<br>
+        · 소득세를 비워두면 근로소득 간이세액표 절차(근로소득공제 → 인적공제 → 특별소득공제 등 → 기본세율 → 근로소득세액공제)로 추정합니다.<br>
+        · 비과세: 정액급식비 월 20만원까지, 육아휴직급여 전액. 소득세 계산에서 빠집니다.<br>
+        · 추정으로 계산된 공제 항목에는 목록에 <b>추정</b> 표시가 붙습니다.<br>
+        · 각 항목은 실제 명세서처럼 10원 미만을 버립니다.<br>
+        · 위험근무수당·경찰특수업무수당은 예시 금액이며, 일부 고호봉은 표에 있는 가장 가까운 하위 호봉으로 대체합니다.<br>
+        · <b>초과저축 적립</b> 시간은 수당 대신 연가로 받는 것이므로 시간외근무수당 지급 시간에서 빼고, <b>저축연가·초과저축 사용분</b>은 근무한 것으로 인정합니다.
+      </div></details>
+    </div>
+  </div>
+
+</div>
+
+<!-- 결과 요약 바 — 계산 결과 카드가 보이지 않는 동안에만 뜬다 -->
+<button type="button" class="net-bar" id="netBar" hidden>
+  <span class="nb-text">
+    <span class="nb-label">예상 실수령액 (월)</span>
+    <span class="nb-amount" id="netBarAmount">0원</span>
+  </span>
+  <span class="nb-go">내역 보기 ›</span>
+</button>
+
+<!-- 날짜 입력 시트 -->
+<div class="sheet-backdrop" id="daySheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="sheet-grip"></div>
+    <div class="sheet-head">
+      <div>
+        <div class="sheet-date" id="sheetDate"></div>
+        <div class="sheet-sub" id="sheetSub"></div>
+      </div>
+      <button type="button" class="sheet-close" id="sheetClose" aria-label="닫기">✕</button>
+    </div>
+
+    <label class="check-row" id="sheetHolidayRow" style="margin-bottom:14px;">
+      <input type="checkbox" id="sheetHoliday"> 이 날을 <b>공휴일</b>로 (설날·추석 등)
+    </label>
+
+    <div class="sheet-label">근무유형</div>
+    <div class="duty-picker" id="dutyPicker"></div>
+
+    <div class="sheet-label" id="sheetOtLabel">교대 외 추가 근무</div>
+    <div class="ot-stepper" id="sheetOtStepper">
+      <button type="button" id="otMinus" aria-label="0.5시간 줄이기">−</button>
+      <div class="ot-val"><span id="otVal">0</span><span class="unit">시간</span></div>
+      <button type="button" id="otPlus" aria-label="0.5시간 늘리기">+</button>
+    </div>
+    <div class="ot-presets" id="sheetOtPresets"><div class="ot-presets-inner" id="otPresets"></div></div>
+
+    <div class="sheet-label" id="sheetBankLabel">초과저축 사용</div>
+    <div class="ot-stepper" id="sheetBankStepper">
+      <button type="button" id="bankMinus" aria-label="0.5시간 줄이기">−</button>
+      <div class="ot-val"><span id="bankVal">0</span><span class="unit">시간</span></div>
+      <button type="button" id="bankPlus" aria-label="0.5시간 늘리기">+</button>
+    </div>
+    <div class="ot-presets" id="sheetBankPresets"><div class="ot-presets-inner" id="bankPresets"></div></div>
+
+    <div class="sheet-actions">
+      <button type="button" class="btn-ghost" id="sheetClear">이 날짜 비우기</button>
+      <button type="button" class="btn-primary" id="sheetDone">완료</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- 경찰공무원 봉급표 [별표 10] 반영 (기본급). 위험근무·특수업무수당은 여전히 예시 데이터 ----
+// 표 열 순서(원문): 치안정감, 치안감, 경무관, 총경, 경정, 경감, 경위, 경사, 경장, 순경
+const SALARY_COLS = ['치안정감','치안감','경무관','총경','경정','경감','경위','경사','경장','순경'];
+const SALARY_TABLE_BY_STEP = [
+  [4905100,4563500,4167700,3619000,3126100,2698600,2507700,2472100,2215300,2133000],
+  [5068300,4719000,4307600,3751300,3243100,2814700,2567700,2493100,2245500,2155600],
+  [5235600,4876600,4451700,3885800,3364700,2933000,2640000,2539000,2290400,2187500],
+  [5406700,5035600,4596800,4023500,3491000,3054900,2758200,2610800,2350700,2229200],
+  [5582000,5197000,4744300,4163000,3620600,3178700,2879500,2710600,2427500,2281100],
+  [5759400,5358400,4893200,4304000,3752700,3305500,3001800,2826000,2522200,2343900],
+  [5939400,5522100,5044000,4446100,3887000,3435100,3125400,2942100,2628900,2418400],
+  [6120900,5685500,5195000,4588900,4022900,3565700,3249000,3059100,2731700,2505600],
+  [6305100,5850100,5347400,4732300,4159300,3697600,3373300,3170300,2829500,2595100],
+  [6490300,6014400,5499600,4875500,4296500,3820800,3490700,3276600,2922200,2680900],
+  [6675000,6179600,5652200,5019900,4425000,3937600,3600800,3376800,3012000,2762900],
+  [6866100,6350500,5810200,5155900,4548700,4051200,3709400,3475200,3099500,2844100],
+  [7058200,6522400,5957200,5282900,4666100,4158400,3812400,3568600,3183800,2922200],
+  [7250800,6678100,6093600,5401600,4775600,4261000,3909100,3657900,3264300,2998100],
+  [7419100,6821500,6219400,5513300,4879100,4357000,4002700,3743200,3341600,3070500],
+  [7568600,6952900,6336500,5618700,4976500,4449500,4090100,3823900,3416300,3140600],
+  [7701100,7073900,6445400,5716500,5068100,4535400,4173700,3901400,3486000,3209100],
+  [7819100,7184600,6546700,5807900,5154500,4618100,4252700,3975500,3553600,3273000],
+  [7924800,7286800,6640300,5893300,5236000,4695400,4327900,4045300,3618500,3335700],
+  [8019600,7380000,6728100,5973100,5312400,4768800,4399300,4111700,3680400,3395400],
+  [8106800,7465300,6809300,6047600,5384200,4837900,4467200,4175200,3739400,3451600],
+  [8184600,7543500,6884500,6117500,5451700,4904700,4531200,4235000,3796100,3506000],
+  [8250400,7615000,6953800,6183200,5515300,4965900,4592000,4293000,3850000,3557600],
+  [null,7673600,7018800,6245100,5574900,5025200,4650300,4347900,3902200,3607200],
+  [null,7729500,7071800,6301600,5631200,5081100,4705700,4399900,3951600,3654200],
+  [null,null,7122700,6349600,5684200,5134000,4756500,4449900,3999600,3697100],
+  [null,null,7169800,6393700,5728100,5183300,4800000,4492000,4039500,3733900],
+  [null,null,null,6436100,5770400,5225600,4841900,4531300,4078000,3769300],
+  [null,null,null,null,5809200,5264800,4881500,4569300,4114300,3803400],
+  [null,null,null,null,5846900,5303200,4918600,4605800,4149600,3836800],
+  [null,null,null,null,null,5338600,4954300,4639900,4183800,3869200],
+  [null,null,null,null,null,5372500,null,null,null,null],
+];
+const SALARY_TABLE = {};
+SALARY_COLS.forEach((name,ci)=>{
+  SALARY_TABLE[name] = SALARY_TABLE_BY_STEP.map(row=>row[ci]);
+});
+
+// 위험근무수당·특수업무수당은 봉급표에 없는 별도 수당으로, 여전히 예시 금액입니다.
+const RANK_ORDER = ['순경','경장','경사','경위','경감','경정','총경','경무관','치안감','치안정감'];
+const ALLOWANCE_BY_RANK = [
+  [60000,70000], [65000,75000], [70000,80000], [80000,90000], [90000,100000],
+  [100000,110000], [110000,120000], [120000,130000], [130000,140000], [140000,150000],
+];
+const RANKS = RANK_ORDER.map((name,i)=>({
+  id:i, name,
+  dangerAllow: ALLOWANCE_BY_RANK[i][0],
+  specialAllow: ALLOWANCE_BY_RANK[i][1],
+}));
+const MAX_STEP = 32;
+// ---- 정근수당·가산금 (「공무원수당 등에 관한 규정」별표 2) ----
+// 근무연수에 따라 정근수당 지급률(%)과 정근수당 가산금(월)이 정해진다.
+function getYears(){
+  const el = document.getElementById('years');
+  const v = el ? Math.max(0, Math.floor(+el.value || 0)) : 0;
+  return v;
+}
+function jgBonusFor(y){
+  if(y >= 25) return 130000;   // 100,000 + 추가 30,000
+  if(y >= 20) return 110000;   // 100,000 + 추가 10,000
+  if(y >= 15) return 80000;
+  if(y >= 10) return 60000;
+  if(y >= 7)  return 50000;
+  if(y >= 5)  return 40000;
+  return 30000;
+}
+function jgRateFor(y){
+  if(y < 1)  return 0;         // 1년 미만은 지급 대상 아님
+  if(y >= 10) return 50;
+  if(y >= 9)  return 45;
+  if(y >= 8)  return 40;
+  if(y >= 7)  return 35;
+  if(y >= 6)  return 30;
+  if(y >= 5)  return 25;
+  if(y >= 2)  return 20;
+  return 10;
+}
+// 근무연수를 바꾸면 정근수당 지급률·가산금을 다시 채운다 (이후 직접 수정 가능)
+function applyYears(write = true){
+  const y = getYears();
+  const bonus = jgBonusFor(y);
+  const rate = jgRateFor(y);
+  if(write){
+    const bEl = document.getElementById('jgBonus');
+    const rEl = document.getElementById('jgRate');
+    if(bEl) bEl.value = bonus;
+    if(rEl) rEl.value = rate;
+  }
+  const info = document.getElementById('yearsInfo');
+  if(info){
+    info.innerHTML = `근무 <b>${y}년</b> → 정근수당가산금 <b>${won(bonus)}원</b> · 정근수당 <b>${rate}%</b>`
+      + (rate === 0 ? ' <span class="off">(1년 미만 미지급)</span>' : '');
+  }
+}
+
+// ---- 가족수당 (「공무원수당 등에 관한 규정」제10조) ----
+// 배우자 4만원 / 자녀 첫째 5만원·둘째 8만원·셋째 이상 1명당 12만원 / 그 밖의 부양가족 1명당 2만원
+// 부양가족 수는 배우자를 포함해 4명 이내(자녀는 인원 제한에서 제외)
+const FAMILY_SPOUSE = 40000;
+const FAMILY_CHILD_1 = 50000;
+const FAMILY_CHILD_2 = 80000;
+const FAMILY_CHILD_3PLUS = 120000;
+const FAMILY_OTHER = 20000;
+const FAMILY_DEP_CAP = 4;
+
+// ---- 실제 급여명세서(2026년 경장)로 확인한 금액·요율 ----
+const DANGER_BONUS = 20000;      // 위험근무수당 가산금(갑종) 월 2만원
+// ---- 비과세 항목 (소득세 계산에서 제외) ----
+// 정액급식비는 월 20만원까지 비과세, 육아휴직급여는 전액 비과세
+const TAX_FREE_CAP = { '정액급식비': 200000, '육아휴직급여': Infinity };
+function taxFreeOf(name, value){
+  const cap = TAX_FREE_CAP[name];
+  return (cap === undefined) ? 0 : Math.min(value, cap);
+}
+
+// ---- 근로소득 간이세액표 근사 ----
+// 국세청 간이세액표의 산출 절차를 그대로 따라 계산한다. 실제 표는 급여구간 중간값을
+// 쓰고 반올림 규칙이 있어 ±20% 안팎의 오차가 남는다 → 화면에 '추정'으로 표시한다.
+function estimateIncomeTax(monthlyTaxable, familyCount, childCount){
+  if(!(monthlyTaxable > 0)) return 0;
+  const annual = monthlyTaxable * 12;
+  // ① 근로소득공제 (소득세법 제47조, 한도 2,000만원)
+  let ded;
+  if(annual <= 5000000)        ded = annual * 0.7;
+  else if(annual <= 15000000)  ded = 3500000 + (annual - 5000000) * 0.4;
+  else if(annual <= 45000000)  ded = 7500000 + (annual - 15000000) * 0.15;
+  else if(annual <= 100000000) ded = 12000000 + (annual - 45000000) * 0.05;
+  else                         ded = 14750000 + (annual - 100000000) * 0.02;
+  ded = Math.min(ded, 20000000);
+  const earned = annual - ded;
+  // ② 인적공제 — 간이세액표는 '공제대상가족 수 + 20세 이하 자녀 수'로 자녀분을 반영한다
+  const personal = 1500000 * (Math.max(1, familyCount) + Math.max(0, childCount));
+  // ③ 특별소득공제 등 (간이세액표 산식)
+  let special;
+  if(annual <= 30000000)       special = 3100000 + annual * 0.04;
+  else if(annual <= 45000000)  special = 3100000 + annual * 0.04 - (annual - 30000000) * 0.05;
+  else if(annual <= 70000000)  special = 3100000 + annual * 0.015;
+  else                         special = 3100000 + annual * 0.005;
+  const taxBase = Math.max(0, earned - personal - Math.max(0, special));
+  // ④ 기본세율 (누진공제)
+  const BRACKETS = [
+    [14000000, 0.06, 0], [50000000, 0.15, 1260000], [88000000, 0.24, 5760000],
+    [150000000, 0.35, 15440000], [300000000, 0.38, 19940000], [500000000, 0.40, 25940000],
+    [1000000000, 0.42, 35940000], [Infinity, 0.45, 65940000],
+  ];
+  let gross = 0;
+  for(const [lim, r2, sub] of BRACKETS){ if(taxBase <= lim){ gross = taxBase * r2 - sub; break; } }
+  gross = Math.max(0, gross);
+  // ⑤ 근로소득세액공제 (총급여 구간별 한도)
+  let credit = (gross <= 1300000) ? gross * 0.55 : 715000 + (gross - 1300000) * 0.30;
+  let cap;
+  if(annual <= 33000000)       cap = 740000;
+  else if(annual <= 70000000)  cap = Math.max(660000, 740000 - (annual - 33000000) * 0.008);
+  else if(annual <= 120000000) cap = Math.max(500000, 660000 - (annual - 70000000) * 0.5);
+  else                         cap = Math.max(200000, 500000 - (annual - 120000000) * 0.5);
+  credit = Math.min(credit, cap);
+  return Math.max(0, gross - credit) / 12;
+}
+
+// 기준소득월액 추정 배수 — 성과상여금·정근수당·명절휴가비가 연간으로 얹히는 몫
+const BASE_INCOME_FACTOR = 1.2;
+const PENSION_RATE = 0.09;       // 일반기여금 = 기준소득월액 × 9%
+const HEALTH_RATE  = 0.03595;    // 건강보험료 = 보수월액 × 7.19% ÷ 2 (2026년)
+const CARE_RATE    = 0.1314;     // 장기요양보험료 = 건강보험료 × 13.14% (2026년)
+
+// 일할계산: 지급일수 ÷ 그 달 일수 (정액 항목에만 적용)
+function getProrate(){
+  const on = document.getElementById('prorate').checked;
+  const total = new Date(calYear, calMonth+1, 0).getDate();
+  let days = Math.floor(+document.getElementById('paidDays').value || 0);
+  if(days <= 0 || days > total) days = total;
+  return { on, days, total, ratio: total > 0 ? days/total : 1 };
+}
+
+function renderProrateInfo(){
+  const el = document.getElementById('prorateInfo');
+  if(!el) return;
+  const pr = getProrate();
+  const md = document.getElementById('monthDays');
+  if(md) md.value = pr.total;
+  if(!pr.on){
+    el.innerHTML = `<span class="off">사용 안 함 (한 달 전액)</span>`;
+    return;
+  }
+  const pct = Math.round(pr.ratio * 1000) / 10;
+  el.innerHTML = `정액 항목에 <b>${pr.days}/${pr.total}</b> (${pct}%) 적용`;
+}
+
+function familyAllowance(){
+  const spouse = document.getElementById('spouse').checked;
+  const children = Math.max(0, Math.floor(+document.getElementById('children').value || 0));
+  const otherRaw = Math.max(0, Math.floor(+document.getElementById('otherDeps').value || 0));
+  const otherCap = Math.max(0, FAMILY_DEP_CAP - (spouse ? 1 : 0));
+  const other = Math.min(otherRaw, otherCap);
+
+  const spousePay = spouse ? FAMILY_SPOUSE : 0;
+  let childPay = 0;
+  for(let i = 1; i <= children; i++){
+    childPay += (i === 1) ? FAMILY_CHILD_1 : (i === 2) ? FAMILY_CHILD_2 : FAMILY_CHILD_3PLUS;
+  }
+  const otherPay = other * FAMILY_OTHER;
+  return {
+    spouse, children, other, otherRaw, capped: otherRaw > other,
+    spousePay, childPay, otherPay,
+    total: spousePay + childPay + otherPay,
+  };
+}
+
+function renderFamilyInfo(f){
+  const el = document.getElementById('familyInfo');
+  if(!el) return;
+  if(f.total === 0){
+    el.innerHTML = `<span class="off">해당 없음</span>`;
+    return;
+  }
+  const parts = [];
+  if(f.spousePay) parts.push(`배우자 ${won(f.spousePay)}`);
+  if(f.childPay)  parts.push(`자녀 ${f.children}명 ${won(f.childPay)}`);
+  if(f.otherPay)  parts.push(`기타 ${f.other}명 ${won(f.otherPay)}`);
+  el.innerHTML = `${parts.join(' + ')} = <b>${won(f.total)}원</b>`
+    + (f.capped ? `<br><span class="off">※ 기타 부양가족은 배우자 포함 4명까지만 인정되어 ${f.other}명만 계산했습니다.</span>` : '');
+}
+const won = n => Math.round(n).toLocaleString('ko-KR');
+// 실제 급여명세서는 항목마다 10원 미만을 버린다
+const floor10 = n => Math.floor((n + 1e-6) / 10) * 10;
+
+// 초과·야간·휴일근무수당 산정 기준: 실제 호봉과 무관하게 해당 계급 "10호봉" 월급여(봉급기준액)로 계산
+// 초과근무수당(시간당) = 봉급기준액 × 감액조정률 ÷ 209 × 1.5
+// 야간근무수당(시간당) = 봉급기준액 × 감액조정률 ÷ 209 × 0.5
+// 휴일근무수당(일당)   = 봉급기준액 × 감액조정률 ÷ 26  × 1.5
+// 감액조정률: 7급 상당 이상 55%, 8~9급 상당(순경·경장)은 2026년부터 60%
+//   ※ 실제 명세서(2026-07, 경장 8호봉)로 검증: 2,922,200 × 60% ÷ 26 × 1.5 = 101,153원/일 (명세서와 일치)
+const OT_STEP_BASIS = 10; // 시간외·야간·휴일근무수당 산정용 "기준호봉"(실제 호봉과 무관, 「공무원수당 등에 관한 규정」에 따른 별도 지정)
+const OT_ADJUST_60_RANKS = ['순경','경장'];   // 8~9급 상당
+function defaultAdjustFor(rankName){
+  return OT_ADJUST_60_RANKS.includes(rankName) ? 60 : 55;
+}
+function getAdjustPct(){
+  const el = document.getElementById('otAdjust');
+  const v = el ? +el.value : NaN;
+  return (isFinite(v) && v > 0 && v <= 100) ? v : 55;
+}
+function applyAdjustDefault(){
+  const el = document.getElementById('otAdjust');
+  const rEl = document.getElementById('rank');
+  if(!el || !rEl) return;
+  const name = (RANKS[+rEl.value] || {}).name;
+  if(name) el.value = defaultAdjustFor(name);
+}
+function renderRateInfo(rate, rankName){
+  const el = document.getElementById('rateInfo');
+  if(!el) return;
+  if(!rate){ el.innerHTML = `<span class="off">${rankName}은(는) 봉급표에 10호봉 값이 없어 단가를 낼 수 없습니다.</span>`; return; }
+  const auto = defaultAdjustFor(rankName);
+  const pct = getAdjustPct();
+  el.innerHTML = `<span class="off">단가 기준 · ${rankName} 10호봉 </span><b>${won(rate.base10)}원</b>`
+    + `<span class="off"> × ${pct}%</span>`
+    + (pct !== auto ? `<span class="off"> (기본 ${auto}%에서 변경함)</span>` : '')
+    + `<br>시간외 <b>${won(rate.ot)}원</b>/h · 야간 <b>${won(rate.night)}원</b>/h · 휴일 <b>${won(rate.holiday)}원</b>/일`;
+}
+
+function getOtNightHolidayRate(rankName){
+  const arr = SALARY_TABLE[rankName] || [];
+  const base10 = arr[OT_STEP_BASIS - 1];
+  if(base10 === null || base10 === undefined) return null;
+  const adjusted = base10 * (getAdjustPct() / 100);
+  // 실제 명세서는 '단가'를 원 단위로 먼저 반올림한 뒤 시간(일)을 곱한다
+  return {
+    base10,
+    ot: Math.round(adjusted / 209 * 1.5),
+    night: Math.round(adjusted / 209 * 0.5),
+    holiday: Math.round(adjusted / 26 * 1.5),
+  };
+}
+
+// ---- 근무 캘린더 ----
+const DUTY_TYPES = [
+  {name:'주간',     abbr:'주',   shift:'day'},
+  {name:'야간',     abbr:'야',   shift:'night'},
+  {name:'심야',     abbr:'심',   shift:'late'},
+  {name:'오후',     abbr:'오',   shift:'evening'},
+  {name:'당직',     abbr:'당',   shift:'duty'},
+  {name:'비번',     abbr:'비',   shift:null},
+  {name:'휴무',     abbr:'휴',   shift:null},
+  {name:'일근',     abbr:'일',   shift:'reg'},
+  {name:'연가',     abbr:'연',   shift:null},
+  {name:'저축연가', abbr:'저',   shift:null},
+  {name:'주간자원', abbr:'주자', shift:'day'},
+  {name:'야간자원', abbr:'야자', shift:'night'},
+];
+const DUTY_NAMES = DUTY_TYPES.map(d=>d.name);
+const DUTY_CYCLE = ['', ...DUTY_NAMES];
+const DUTY_ABBR  = Object.fromEntries(DUTY_TYPES.map(d=>[d.name, d.abbr]));
+const DUTY_SHIFT = Object.fromEntries(DUTY_TYPES.map(d=>[d.name, d.shift]));
+// 넓은 화면은 전체 명칭, 좁은 화면은 축약형 (CSS로 전환)
+function dualLabel(full, abbr){
+  return `<span class="badge-full">${full}</span><span class="badge-abbr">${abbr}</span>`;
+}
+const calendarState = {}; // 'YYYY-MM-DD' -> duty
+const overtimeState = {}; // 'YYYY-MM-DD' -> 그날의 연장근무 시간(0~8)
+const bankUseState = {};  // 'YYYY-MM-DD' -> 그날 사용한 초과저축 시간
+const otSaveState = {};   // 'YYYY-MM'    -> 그 달 초과근무 중 저축(적립)한 시간
+const holidayOverrideState = {}; // 'YYYY-MM-DD' -> true (설날·추석 등 직접 지정한 공휴일)
+const OT_MAX = 8;
+let calYear, calMonth; // calMonth: 0-based
+
+// ---- 공휴일 (연도별 계산, 대체공휴일 포함) ----
+// 신정·현충일은 대체공휴일 적용 대상이 아님. 삼일절·어린이날·부처님오신날·광복절·개천절·
+// 한글날·성탄절은 토요일 또는 일요일과 겹치면 다음 첫 평일이 대체공휴일로 지정됨
+// (2023년 개정으로 부처님오신날·성탄절이 대상에 추가됨).
+const FIXED_HOLIDAY_DEFS = [
+  {md:[1,1],   name:'신정',   substitutable:false},
+  {md:[3,1],   name:'삼일절', substitutable:true},
+  {md:[5,5],   name:'어린이날', substitutable:true},
+  {md:[6,6],   name:'현충일', substitutable:false},
+  {md:[8,15],  name:'광복절', substitutable:true},
+  {md:[10,3],  name:'개천절', substitutable:true},
+  {md:[10,9],  name:'한글날', substitutable:true},
+  {md:[12,25], name:'성탄절', substitutable:true},
+];
+// 설날·추석은 음력이라 해마다 양력 날짜가 달라 계산으로 못 구한다 — 당일만 표로 넣고
+// 연휴(전날·당일·다음날)와 대체공휴일은 아래에서 규정대로 만든다.
+// 표에 없는 해는 자동 표시되지 않으니 날짜를 눌러 '이 날을 공휴일로'를 켜야 한다.
+const LUNAR_HOLIDAY_DEFS = {
+  2025: { '설날':'2025-01-29', '부처님오신날':'2025-05-05', '추석':'2025-10-06' },
+  2026: { '설날':'2026-02-17', '부처님오신날':'2026-05-24', '추석':'2026-09-25' },
+  2027: { '설날':'2027-02-06', '부처님오신날':'2027-05-13', '추석':'2027-09-15' },
+};
+// 설날·추석만 전날·당일·다음날 3일 연휴. 부처님오신날은 하루짜리.
+const LUNAR_SPAN_HOLIDAYS = ['설날','추석'];
+const LUNAR_YEARS = Object.keys(LUNAR_HOLIDAY_DEFS).map(Number).sort((a,b)=>a-b);
+
+const holidayMapCache = {};
+
+function buildHolidayMap(year){
+  const map = {}; // 'YYYY-MM-DD' -> {name, isSubstitute}
+  FIXED_HOLIDAY_DEFS.forEach(h=>{
+    const [mm, dd] = h.md;
+    const date = new Date(year, mm-1, dd);
+    const key = dateKey(year, mm-1, dd);
+    map[key] = { name:h.name, isSubstitute:false };
+  });
+  // 음력 공휴일 (설날·부처님오신날·추석)
+  const lunar = LUNAR_HOLIDAY_DEFS[year];
+  if(lunar){
+    // 공휴일이 아닌 다음 첫 평일에 대체공휴일을 붙인다
+    const addSubstitute = (from, name)=>{
+      const next = new Date(from);
+      do {
+        next.setDate(next.getDate()+1);
+      } while(next.getDay()===0 || next.getDay()===6 || map[dateKey(next.getFullYear(), next.getMonth(), next.getDate())]);
+      map[dateKey(next.getFullYear(), next.getMonth(), next.getDate())] =
+        { name:`${name} 대체공휴일`, isSubstitute:true };
+      return next;
+    };
+
+    Object.keys(lunar).forEach(name=>{
+      const [ly, lm, ld] = lunar[name].split('-').map(Number);
+      const main = new Date(ly, lm-1, ld);
+
+      if(LUNAR_SPAN_HOLIDAYS.includes(name)){
+        // 전날·당일·다음날 3일 연휴. 연휴가 일요일이나 다른 공휴일과 겹치면 겹친 날 수만큼
+        // 뒤에 대체공휴일이 붙는다(관공서의 공휴일에 관한 규정 제3조).
+        // 토요일과만 겹치는 경우는 대체공휴일이 없다 — 설날·추석은 토요일이 대상이 아니다.
+        let overlaps = 0, last = main;
+        for(let i=-1; i<=1; i++){
+          const cur = new Date(main);
+          cur.setDate(cur.getDate()+i);
+          const k = dateKey(cur.getFullYear(), cur.getMonth(), cur.getDate());
+          if(cur.getDay()===0 || map[k]) overlaps++;
+          map[k] = { name: i===-1 ? `${name} 전날` : i===0 ? name : `${name} 다음날`, isSubstitute:false };
+          last = cur;
+        }
+        while(overlaps-- > 0) last = addSubstitute(last, name);
+      } else {
+        // 하루짜리 — 토·일 또는 다른 공휴일과 겹치면 대체공휴일 하루
+        const k = dateKey(main.getFullYear(), main.getMonth(), main.getDate());
+        const clash = map[k];
+        map[k] = { name: clash ? `${clash.name}·${name}` : name, isSubstitute:false };
+        if(clash || main.getDay()===0 || main.getDay()===6) addSubstitute(main, name);
+      }
+    });
+  }
+
+  FIXED_HOLIDAY_DEFS.forEach(h=>{
+    if(!h.substitutable) return;
+    const [mm, dd] = h.md;
+    const date = new Date(year, mm-1, dd);
+    const dow = date.getDay();
+    if(dow !== 0 && dow !== 6) return;
+    let next = new Date(date);
+    do {
+      next.setDate(next.getDate()+1);
+    } while(next.getDay()===0 || next.getDay()===6 || map[dateKey(next.getFullYear(), next.getMonth(), next.getDate())]);
+    const nk = dateKey(next.getFullYear(), next.getMonth(), next.getDate());
+    map[nk] = { name:`${h.name} 대체공휴일`, isSubstitute:true };
+  });
+  return map;
+}
+
+// 자동 표시되는 해가 어디까지인지 안내문에 그대로 반영한다 (표를 늘리면 문구도 따라 바뀐다)
+function renderLunarYearRange(){
+  const el = document.getElementById('lunarYearRange');
+  if(el && LUNAR_YEARS.length){
+    el.textContent = `${LUNAR_YEARS[0]}~${LUNAR_YEARS[LUNAR_YEARS.length-1]}년`;
+  }
+}
+
+function getHolidayMap(year){
+  if(!holidayMapCache[year]) holidayMapCache[year] = buildHolidayMap(year);
+  return holidayMapCache[year];
+}
+
+function dateKey(y,m,d){
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+}
+
+// ---- 교대 근무시각 (사용자가 시작~종료 시각을 직접 입력) ----
+// 입력한 시각으로부터 ① 1교대 근무시간 ② 야간근무수당 인정시간(22~06시 겹침)
+// ③ 휴일근무수당 판정용 9~18시 겹침을 계산한다.
+const SHIFT_DEFS = [
+  {key:'day',     label:'주간', duty:'주간', start:'09:00', end:'18:00'},
+  {key:'evening', label:'오후', duty:'오후', start:'14:00', end:'22:00', noHoliday:true},   // 오후 근무는 휴일근무수당 대상 제외
+  {key:'night',   label:'야간', duty:'야간', start:'18:00', end:'09:00'},
+  {key:'late',    label:'심야', duty:'심야', start:'22:00', end:'09:00'},
+  {key:'duty',    label:'당직', duty:'당직', start:'09:00', end:'09:00'},
+  {key:'reg',     label:'일근', duty:'일근', start:'09:00', end:'18:00'},
+];
+const SHIFT_BY_KEY = Object.fromEntries(SHIFT_DEFS.map(d=>[d.key, d]));
+const BREAK_HOURS = 1;
+
+function parseTime(v){
+  if(!v || typeof v !== 'string') return null;
+  const [h, m] = v.split(':').map(Number);
+  if(!isFinite(h) || !isFinite(m)) return null;
+  return h + m/60;
+}
+function overlapHours(a1, a2, b1, b2){
+  return Math.max(0, Math.min(a2, b2) - Math.max(a1, b1));
+}
+function fmtHours(h){
+  const r = Math.round(h * 10) / 10;
+  return Number.isInteger(r) ? String(r) : r.toFixed(1);
+}
+
+function getShift(key){
+  const def = SHIFT_BY_KEY[key];
+  if(!def) return {duration:0, nightPayHours:0, dayWindowHours:0, crossesMidnight:false, holidayEligible:false, span:0, breakHours:0};
+  const sEl = document.getElementById(`sh_${key}_start`);
+  const eEl = document.getElementById(`sh_${key}_end`);
+  const s = sEl ? parseTime(sEl.value) : null;
+  const e = eEl ? parseTime(eEl.value) : null;
+  const start = (s === null) ? parseTime(def.start) : s;
+  let end = (e === null) ? parseTime(def.end) : e;
+  if(end <= start) end += 24;
+  const span = end - start;
+  const crossesMidnight = end > 24;
+  const brEl = document.getElementById(`sh_${key}_break`);
+  const breakHours = (brEl && brEl.checked) ? Math.min(BREAK_HOURS, span) : 0;
+  const duration = Math.max(0, span - breakHours);
+  const rawNightHours = overlapHours(start, end, 0, 6)
+                      + overlapHours(start, end, 22, 30)
+                      + overlapHours(start, end, 46, 48);
+  const nightPayHours = Math.max(0, rawNightHours - Math.min(breakHours, rawNightHours));
+  const dayWindowHours = overlapHours(start, end, 9, 18);
+  return {
+    start, end, span, breakHours, duration, crossesMidnight, rawNightHours, nightPayHours, dayWindowHours,
+    holidayEligible: !def.noHoliday && !crossesMidnight && dayWindowHours > 0,
+  };
+}
+function getShifts(){
+  const out = {};
+  SHIFT_DEFS.forEach(d => out[d.key] = getShift(d.key));
+  return out;
+}
+
+function buildShiftSettings(){
+  const wrap = document.getElementById('shiftSettings');
+  if(!wrap) return;
+  wrap.innerHTML = SHIFT_DEFS.map(d=>`
+    <div class="shift-row">
+      <span class="shift-name duty-${d.duty}">${d.label}</span>
+      <div class="time-row">
+        <input type="time" id="sh_${d.key}_start" value="${d.start}">
+        <span class="tilde">~</span>
+        <input type="time" id="sh_${d.key}_end" value="${d.end}">
+      </div>
+      <span class="row-break"></span>
+      <label class="mini-check" title="휴게 1시간 제외"><input type="checkbox" id="sh_${d.key}_break" checked><span class="brk-label">휴게시간</span></label>
+      <span class="shift-sum" id="sum_${d.key}"></span>
+    </div>`).join('');
+  SHIFT_DEFS.forEach(d=>{
+    [`sh_${d.key}_start`, `sh_${d.key}_end`, `sh_${d.key}_break`].forEach(id=>{
+      const node = document.getElementById(id);
+      const handler = ()=>{ renderShiftInfo(); renderCalendar(); calc(); };
+      node.addEventListener('input', handler);
+      node.addEventListener('change', handler);
+    });
+  });
+}
+
+// 각 교대 줄의 요약 갱신
+function renderShiftInfo(){
+  SHIFT_DEFS.forEach(d=>{
+    const el = document.getElementById('sum_' + d.key);
+    if(!el) return;
+    const sh = getShift(d.key);
+    el.textContent = `${fmtHours(sh.duration)}h·야${fmtHours(sh.nightPayHours)}h·휴${sh.holidayEligible ? '○' : '✕'}`;
+  });
+}
+
+// '휴일'의 정의: 토요일·일요일·공휴일(대체공휴일 포함)
+function isPayableHoliday(year, key, dow){
+  return !!getHolidayMap(year)[key] || !!holidayOverrideState[key] || dow === 0 || dow === 6;
+}
+
+// 「공무원수당 등에 관한 규정」제17조(휴일근무수당)
+//   ① 현업공무원등으로서 "휴일에 9시부터 18시까지 근무하는 사람"에게 지급
+//   ② 1일에 대하여 봉급기준액의 26분의 1의 150퍼센트
+// → 위에서 입력한 실제 교대 시각이 9~18시와 겹치는 근무만 지급 대상.
+//    기본값(야간 18:00~익일 09:00)은 9~18시와 겹치지 않고 자정을 넘기므로 대상이 아니며,
+//    야간근무수당(제16조)만 지급된다. 연가·비번·휴무는 실제 근무가 아니므로 제외.
+//    '오후' 교대는 시각과 무관하게 휴일근무수당 대상에서 제외한다(SHIFT_DEFS의 noHoliday).
+// 미표시 휴일을 주간근무로 볼지 여부 (기본 꺼짐 — 표시한 날만 계산)
+function autoFillHoliday(){
+  const el = document.getElementById('autoHolidayWork');
+  return !!(el && el.checked);
+}
+
+function effectiveDuty(key, isHoliday){
+  return calendarState[key] || (isHoliday && autoFillHoliday() ? '주간' : '');
+}
+
+// 「공무원수당 등에 관한 규정」제17조 — 휴일에 9~18시 근무한 날만 1일분
+function earnsHolidayPay(duty, isHoliday, shifts){
+  if(!duty || !isHoliday) return false;
+  const k = DUTY_SHIFT[duty];
+  if(!k) return false;                    // 비번·휴무·연가
+  return shifts[k].holidayEligible;
+}
+
+// ---- 날짜 입력 시트: 캘린더 셀을 누르면 큰 버튼으로 근무유형·연장시간을 고른다 ----
+const DOW_NAMES = ['일','월','화','수','목','금','토'];
+const OT_PRESETS = [0, 0.5, 1, 2, 3, 4, 6, 8];   // 0.5시간 단위
+const BANK_PRESETS = [0, 0.5, 1, 2, 4, 8];   // 초과저축 사용 시간 빠른 선택 (0.5시간 단위)
+const BANK_USE_MAX = 24;
+let sheetKey = null;
+let sheetMode = 'day';   // 'day' = 캘린더 날짜, 'pattern' = 반복 순서 단계
+let patternIdx = -1;
+
+// 날짜용 요소만 보이게/숨기게
+function setSheetMode(mode){
+  sheetMode = mode;
+  const isDay = (mode === 'day');
+  ['sheetHolidayRow','sheetOtLabel','sheetOtStepper','sheetOtPresets',
+   'sheetBankLabel','sheetBankStepper','sheetBankPresets','sheetClear'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = isDay ? '' : 'none';
+  });
+}
+
+function openPatternSheet(idx){
+  patternIdx = idx;
+  sheetKey = null;
+  setSheetMode('pattern');
+  renderPatternSheet();
+  document.getElementById('daySheet').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function renderPatternSheet(){
+  const cur = currentPattern[patternIdx];
+  document.getElementById('sheetDate').textContent = `${patternIdx + 1}단계 근무유형`;
+  document.getElementById('sheetSub').innerHTML =
+    `<span class="off">반복 순서 ${patternIdx + 1}/${currentPattern.length}</span>`;
+  const picker = document.getElementById('dutyPicker');
+  picker.innerHTML = DUTY_NAMES.map(v=>
+    `<button type="button" class="duty-${v} ${v === cur ? 'sel' : ''}" data-duty="${v}">${v}</button>`
+  ).join('');
+  picker.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      currentPattern[patternIdx] = btn.dataset.duty;
+      renderPatternEditor();
+      renderPatternSheet();
+    });
+  });
+}
+
+function openDaySheet(key){
+  sheetKey = key;
+  setSheetMode('day');
+  renderDaySheet();
+  document.getElementById('daySheet').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeDaySheet(){
+  sheetKey = null;
+  patternIdx = -1;
+  document.getElementById('daySheet').hidden = true;
+  document.body.style.overflow = '';
+}
+
+function renderDaySheet(){
+  if(!sheetKey) return;
+  const [y, m, d] = sheetKey.split('-').map(Number);
+  const dt = new Date(y, m-1, d);
+  const dow = dt.getDay();
+  const holidayInfo = getHolidayMap(y)[sheetKey];
+  const hoEl = document.getElementById('sheetHoliday');
+  if(hoEl) hoEl.checked = !!holidayOverrideState[sheetKey];
+  const isHol = isPayableHoliday(y, sheetKey, dow);
+  const shifts = getShifts();
+  const duty = calendarState[sheetKey] || '';
+  const ot = overtimeState[sheetKey] || 0;
+
+  document.getElementById('sheetDate').textContent = `${m}월 ${d}일 (${DOW_NAMES[dow]})`;
+
+  const sub = [];
+  if(holidayInfo) sub.push(`<span class="hol">${holidayInfo.name}</span>`);
+  else if(holidayOverrideState[sheetKey]) sub.push(`<span class="hol">공휴일(직접 지정)</span>`);
+  else if(dow === 0) sub.push(`<span class="hol">일요일</span>`);
+  else if(dow === 6) sub.push(`<span class="hol">토요일</span>`);
+  const effective = effectiveDuty(sheetKey, isHol);
+  if(earnsHolidayPay(effective, isHol, shifts)) sub.push(`<span class="pay">휴일근무수당 대상</span>`);
+  else if(isHol) sub.push(`<span class="off">휴일근무수당 대상 아님</span>`);
+  document.getElementById('sheetSub').innerHTML = sub.join(' · ') || '평일';
+
+  // 근무유형 버튼 (미지정 포함)
+  document.getElementById('dutyPicker').innerHTML = DUTY_CYCLE.map(v=>{
+    const label = v === '' ? '미지정' : v;
+    const cls = v === '' ? '' : `duty-${v}`;
+    return `<button type="button" class="${cls} ${v === duty ? 'sel' : ''}" data-duty="${v}">${label}</button>`;
+  }).join('');
+  document.querySelectorAll('#dutyPicker button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const v = btn.dataset.duty;
+      if(v === ''){ delete calendarState[sheetKey]; } else { calendarState[sheetKey] = v; }
+      applySheetChange();
+    });
+  });
+
+  document.getElementById('otVal').textContent = fmtHours(ot);
+  document.getElementById('otPresets').innerHTML = OT_PRESETS.map(v=>
+    `<button type="button" class="${v === ot ? 'sel' : ''}" data-ot="${v}">${v === 0 ? '없음' : fmtHours(v) + 'h'}</button>`
+  ).join('');
+  document.querySelectorAll('#otPresets button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ setSheetOt(+btn.dataset.ot); });
+  });
+
+  const bankUse = Math.max(0, +(bankUseState[sheetKey] || 0));
+  document.getElementById('bankVal').textContent = fmtHours(bankUse);
+  document.getElementById('bankPresets').innerHTML = BANK_PRESETS.map(v=>
+    `<button type="button" class="${v === bankUse ? 'sel' : ''}" data-bank="${v}">${v === 0 ? '없음' : fmtHours(v) + 'h'}</button>`
+  ).join('');
+  document.querySelectorAll('#bankPresets button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ setSheetBank(+btn.dataset.bank); });
+  });
+}
+
+function setSheetOt(v){
+  if(!sheetKey) return;
+  const next = Math.max(0, Math.min(OT_MAX, Math.round(v * 2) / 2));   // 0.5시간 단위로 반올림
+  if(next === 0){ delete overtimeState[sheetKey]; } else { overtimeState[sheetKey] = next; }
+  applySheetChange();
+}
+
+function setSheetBank(v){
+  if(!sheetKey) return;
+  const next = Math.max(0, Math.min(BANK_USE_MAX, Math.round(v * 2) / 2));
+  if(next === 0){ delete bankUseState[sheetKey]; } else { bankUseState[sheetKey] = next; }
+  applySheetChange();
+}
+
+// 시트에서 바꾼 내용을 캘린더·급여에 즉시 반영하고 시트는 열어둔다
+function applySheetChange(){
+  const key = sheetKey;
+  renderCalendar();
+  calc();
+  sheetKey = key;      // renderCalendar가 시트를 건드리지 않도록 키 유지
+  renderDaySheet();
+}
+
+function monthKey(year, month){
+  return `${year}-${String(month+1).padStart(2,'0')}`;
+}
+
+// ---- 시간외근무(초과근무) 자동 산출: 월 실근무시간 − 법정 기준시간(176시간) ----
+const DEFAULT_LEGAL_HOURS = 176; // 월 법정 기준근무시간
+const LEAVE_CREDIT_HOURS = 8;    // 연가는 1일 8시간 근무한 것으로 간주(연가 사용에 따른 불이익 방지)
+
+function getLegalHours(){
+  const el = document.getElementById('legalHours');
+  const v = el ? +el.value : DEFAULT_LEGAL_HOURS;
+  return (isFinite(v) && v >= 0) ? v : DEFAULT_LEGAL_HOURS;
+}
+function getOtCap(){
+  const el = document.getElementById('otCap');
+  const v = el ? +el.value : 0;
+  return (v > 0) ? v : 0; // 0 = 상한 없음
+}
+
+function getMonthlyOvertime(year, month){
+  const shifts = getShifts();
+  const round1 = v => Math.round(v * 10) / 10;
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+
+  let shiftHours = 0, extraHours = 0, leaveHours = 0, bankUseHours = 0;
+  let workDays = 0, leaveCount = 0, savedLeaveDays = 0;
+
+  for(let d = 1; d <= daysInMonth; d++){
+    const key = dateKey(year, month, d);
+    const isHol = isPayableHoliday(year, key, new Date(year, month, d).getDay());
+    const duty = effectiveDuty(key, isHol);
+    const k = DUTY_SHIFT[duty];
+    if(k){ shiftHours += shifts[k].duration; workDays++; }
+    else if(duty === '연가'){ leaveHours += LEAVE_CREDIT_HOURS; leaveCount++; }
+    else if(duty === '저축연가'){ leaveHours += LEAVE_CREDIT_HOURS; savedLeaveDays++; }
+    extraHours += overtimeState[key] || 0;
+    bankUseHours += Math.max(0, +(bankUseState[key] || 0));   // 초과저축 사용분도 근무로 인정
+  }
+
+  const worked = shiftHours + extraHours + leaveHours + bankUseHours;
+  const legal = getLegalHours();
+  const rawTotal = round1(Math.max(0, worked - legal));
+  const cap = getOtCap();
+  const total = round1((cap > 0) ? Math.min(rawTotal, cap) : rawTotal);
+  // 초과저축으로 적립한 시간은 수당 대신 연가로 받으므로 지급 대상에서 뺀다
+  const savedOt = Math.max(0, +(otSaveState[monthKey(year, month)] || 0));
+  const appliedSave = round1(Math.min(savedOt, total));
+  const payable = round1(Math.max(0, total - appliedSave));
+  return {
+    workDays, leaveCount, savedLeaveDays,
+    shiftHours: round1(shiftHours),
+    extraHours: round1(extraHours),
+    leaveHours: round1(leaveHours),
+    bankUseHours: round1(bankUseHours),
+    worked: round1(worked),
+    legal, rawTotal, total, cap,
+    capped: cap > 0 && rawTotal > cap,
+    savedOt, appliedSave, payable,
+    saveOverflow: savedOt > total,
+  };
+}
+
+function renderOtBreakdown(info){
+  const el = document.getElementById('otBreakdown');
+  if(!el) return;
+  const bits = [];
+  if(info.workDays)   bits.push(`근무 ${info.workDays}일`);
+  if(info.leaveCount || info.savedLeaveDays){
+    const names = [];
+    if(info.leaveCount) names.push(`연가 ${info.leaveCount}일`);
+    if(info.savedLeaveDays) names.push(`저축연가 ${info.savedLeaveDays}일`);
+    bits.push(`${names.join(' · ')} (${fmtHours(info.leaveHours)}h 인정)`);
+  }
+  if(info.bankUseHours) bits.push(`초과저축 사용 ${fmtHours(info.bankUseHours)}h (인정)`);
+  if(info.extraHours) bits.push(`추가연장 ${fmtHours(info.extraHours)}h`);
+
+  const line1 = bits.length ? bits.join(' · ') : `<span class="off">근무 기록 없음</span>`;
+  const line2 = `실근무 <b>${fmtHours(info.worked)}h</b> − 법정 <b>${fmtHours(info.legal)}h</b> = 초과 `
+    + (info.rawTotal > 0 ? `<b>${fmtHours(info.rawTotal)}h</b>` : `<span class="off">0h</span>`);
+  let line3;
+  if(info.capped){
+    line3 = `<span class="off">→ 월 상한 ${fmtHours(info.cap)}h 적용, </span><b>${fmtHours(info.total)}h</b> 반영`;
+  } else if(info.cap > 0){
+    line3 = `<span class="off">월 상한 ${fmtHours(info.cap)}h 이내</span>`;
+  } else {
+    line3 = `<span class="off">월 상한 없음</span>`;
+  }
+  const lines = [line1, line2, line3];
+  if(info.savedOt > 0){
+    lines.push(`<span class="off">초과저축 적립 </span><b>${fmtHours(info.appliedSave)}h</b>`
+      + `<span class="off"> 차감 → 수당 지급 </span><b>${fmtHours(info.payable)}h</b>`
+      + (info.saveOverflow ? ` <span style="color:var(--red);">적립이 초과근무보다 많아 ${fmtHours(info.appliedSave)}h만 반영</span>` : ''));
+  }
+  el.innerHTML = lines.join('<br>');
+}
+
+// ================= 연가저축 · 초과저축 잔여 =================
+// 기준 시점의 보유량에서 시작해, 기준월부터 대상월까지 달마다
+//   연가저축: − 저축연가 사용일수
+//   초과저축: + 그 달 적립시간 − 그 달 사용시간
+// 을 이월 누적한다. (한도·이월기한은 기관 지침이 달라 검사하지 않는다)
+const BANK_MAX_MONTHS = 120;
+
+function getBankBase(){
+  const el = document.getElementById('bankBase');
+  const v = el ? el.value : '';
+  const m = /^(\d{4})-(\d{2})$/.exec(v || '');
+  if(!m) return null;
+  const month = +m[2] - 1;
+  if(month < 0 || month > 11) return null;
+  return { year: +m[1], month };
+}
+function numVal(id){
+  const el = document.getElementById(id);
+  const v = el ? +el.value : 0;
+  return isFinite(v) ? v : 0;
+}
+// 그 달의 저축 사용·적립량
+function bankMonthFlow(year, month){
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  let leaveDays = 0, useHours = 0;
+  for(let d = 1; d <= daysInMonth; d++){
+    const key = dateKey(year, month, d);
+    if(calendarState[key] === '저축연가') leaveDays++;
+    useHours += Math.max(0, +(bankUseState[key] || 0));
+  }
+  const info = getMonthlyOvertime(year, month);
+  return { leaveDays, useHours: Math.round(useHours*10)/10, saved: info.appliedSave };
+}
+// 대상 달 '말' 기준 잔여
+function bankBalance(year, month){
+  const round1 = v => Math.round(v * 10) / 10;
+  const start = { leaveDays: numVal('bankLeaveDays'), otHours: numVal('bankOtHours') };
+  const base = getBankBase();
+  if(!base) return { ready:false, ...start, leaveDays: round1(start.leaveDays), otHours: round1(start.otHours) };
+  const startIdx = base.year*12 + base.month;
+  const endIdx = year*12 + month;
+  if(endIdx < startIdx){
+    return { ready:true, before:true, leaveDays: round1(start.leaveDays), otHours: round1(start.otHours), months:0 };
+  }
+  let leave = start.leaveDays, ot = start.otHours;
+  let y = base.year, m = base.month, n = 0, capped = false;
+  while(y*12 + m <= endIdx){
+    if(n >= BANK_MAX_MONTHS){ capped = true; break; }
+    const f = bankMonthFlow(y, m);
+    leave -= f.leaveDays;
+    ot += f.saved - f.useHours;
+    m++; if(m > 11){ m = 0; y++; }
+    n++;
+  }
+  return { ready:true, leaveDays: round1(leave), otHours: round1(ot), months:n, capped };
+}
+
+function renderBankSummary(){
+  const el = document.getElementById('bankSummary');
+  if(!el) return;
+  const p = perfMonth();
+  const bal = bankBalance(p.year, p.month);
+  const flow = bankMonthFlow(p.year, p.month);
+  const lbl = monthLabel(p.year, p.month);
+
+  const card = (name, left, unit, flowHtml) => {
+    const minus = left < 0 ? ' minus' : '';
+    return `<div class="bank-card">
+      <div class="bank-name">${name}</div>
+      <div class="bank-left${minus}">${fmtHours(left)}<span>${unit}</span></div>
+      <div class="bank-flow">${flowHtml}</div>
+    </div>`;
+  };
+
+  if(!bal.ready){
+    el.innerHTML = `<div class="bank-card" style="grid-column:1 / -1;">
+      <div class="bank-flow" style="text-align:left;"><b>기준 시점</b>을 고르고 그때 보유하던 양을 넣으면 잔여가 계산됩니다.</div></div>`;
+    return;
+  }
+
+  const mLbl = bal.before ? '기준 전' : `${p.month+1}월`;
+  const leaveFlow = `<span class="off">${mLbl} 사용</span> <b>${flow.leaveDays}일</b>`;
+  const otFlow = `<span class="off">${mLbl} 적립</span> <b>${fmtHours(flow.saved)}h</b>`
+               + ` <span class="off">· 사용</span> <b>${fmtHours(flow.useHours)}h</b>`;
+
+  el.innerHTML = card('연가저축', bal.leaveDays, '일', leaveFlow)
+               + card('초과저축', bal.otHours, 'h', otFlow);
+}
+
+function renderCalendar(){
+  const dowWrap = document.getElementById('calDow');
+  dowWrap.innerHTML = ['일','월','화','수','목','금','토']
+    .map((d,i)=>`<div class="cal-dow ${i===0?'sun':i===6?'sat':''}">${d}</div>`).join('');
+
+  document.getElementById('calMonthLabel').textContent = `${calYear}년 ${calMonth+1}월`;
+
+  const first = new Date(calYear, calMonth, 1);
+  const startDow = first.getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const holidayMap = getHolidayMap(calYear);
+  const shifts = getShifts();
+
+  let cells = '';
+  for(let i=0;i<startDow;i++){
+    cells += `<div class="cal-cell empty"></div>`;
+  }
+  for(let d=1; d<=daysInMonth; d++){
+    const dow = new Date(calYear, calMonth, d).getDay();
+    const key = dateKey(calYear, calMonth, d);
+    const holidayInfo = holidayMap[key];
+    const isHoliday = isPayableHoliday(calYear, key, dow);
+    const explicitDuty = calendarState[key] || ''; // 자동 적용분은 배지로 표시하지 않음
+    const paysHoliday = earnsHolidayPay(effectiveDuty(key, isHoliday), isHoliday, shifts);
+    const otHours = overtimeState[key] || 0;
+    const bankUse = Math.max(0, +(bankUseState[key] || 0));
+    const cellClasses = ['cal-cell'];
+    if(dow===0) cellClasses.push('sun');
+    if(dow===6) cellClasses.push('sat');
+    const customHoliday = !holidayInfo && !!holidayOverrideState[key];
+    if(holidayInfo || customHoliday) cellClasses.push('holiday');
+    if(paysHoliday) cellClasses.push('holiday-pay');
+    cells += `<div class="${cellClasses.join(' ')}" data-key="${key}">
+      <div class="date-num">${d}</div>
+      ${holidayInfo ? `<div class="holiday-tag" title="${holidayInfo.name}">${dualLabel(holidayInfo.isSubstitute ? '대체공휴일' : holidayInfo.name, holidayInfo.isSubstitute ? '대체' : holidayInfo.name)}</div>`
+        : customHoliday ? `<div class="holiday-tag" title="직접 지정한 공휴일">공휴일</div>` : ''}
+      ${explicitDuty ? `<span class="duty-badge duty-${explicitDuty}" title="${explicitDuty}">${dualLabel(explicitDuty, DUTY_ABBR[explicitDuty] || explicitDuty)}</span>` : ''}
+      ${paysHoliday ? `<span class="pay-mark" title="휴일 9~18시 근무 — 휴일근무수당 1일분 지급">${dualLabel('휴일수당','휴수')}</span>` : ''}
+      ${bankUse > 0 ? `<span class="pay-mark" title="초과저축 사용 ${fmtHours(bankUse)}시간" style="background:rgba(10,107,116,0.12);color:#0a6b74;border-color:rgba(10,107,116,0.40);">${dualLabel('저축 '+fmtHours(bankUse)+'h','저'+fmtHours(bankUse))}</span>` : ''}
+      ${otHours>0 ? `<span class="ot-chip on" data-ot-key="${key}" title="교대 외 추가 근무시간">${fmtHours(otHours)}h</span>` : ''}
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = cells;
+
+  // 셀 전체가 터치 영역 — 누르면 큰 선택 시트가 열린다
+  document.querySelectorAll('#calGrid .cal-cell:not(.empty)').forEach(cell=>{
+    cell.addEventListener('click', ()=> openDaySheet(cell.dataset.key));
+  });
+
+  updateCalendarSummary();
+  renderProrateInfo();
+}
+
+// ---- 실적수당은 한 달 늦게 지급 ----
+// 급여명세서의 초과·야간·휴일근무수당은 그 달 근무가 아니라 "전월 근무 실적" 기준으로 지급된다.
+// (예: 1월 급여 = 1월 기본급 + 전년도 12월 근무의 시간외·야간·휴일근무수당)
+// 캘린더에서 보고 있는 달 = 지급월로 해석하고, 실적수당은 그 전월 캘린더에서 자동으로 가져온다.
+function prevMonthOf(year, month){
+  return (month === 0) ? { year: year-1, month: 11 } : { year, month: month-1 };
+}
+function perfMonth(){
+  return prevMonthOf(calYear, calMonth);
+}
+function monthLabel(year, month){
+  return `${year}년 ${month+1}월`;
+}
+
+// 지정한 달의 근무유형별 집계 (입력창은 건드리지 않음)
+function getCounts(year, month){
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const shifts = getShifts();
+  let workHours=0, nightPayHours=0, holidayWork=0, leave=0, workDays=0;
+  for(let d=1; d<=daysInMonth; d++){
+    const dow = new Date(year, month, d).getDay();
+    const key = dateKey(year, month, d);
+    const isHoliday = isPayableHoliday(year, key, dow);
+    const duty = effectiveDuty(key, isHoliday);
+    const k = DUTY_SHIFT[duty];
+    if(k){
+      workHours += shifts[k].duration;
+      nightPayHours += shifts[k].nightPayHours;
+      workDays++;
+    }
+    if(earnsHolidayPay(duty, isHoliday, shifts)) holidayWork++;
+    if(duty === '연가' || duty === '저축연가') leave++;
+  }
+  const round1 = v => Math.round(v * 10) / 10;
+  const otInfo = getMonthlyOvertime(year, month);
+  return {
+    year, month, workDays,
+    workHours: round1(workHours),
+    nightPayHours: round1(nightPayHours),
+    holidayWork, leave,
+    overtime: otInfo.payable,   // 저축 적립분을 뺀 실제 수당 지급 대상 시간
+    otTotal: otInfo.total,
+    otInfo,
+  };
+}
+
+// 캘린더에 보이는 달(=지급월)의 근무 집계 — 캘린더 요약 칩에 사용
+function getCalendarCounts(){
+  return getCounts(calYear, calMonth);
+}
+// 이번 급여에 실제로 반영되는 실적(=전월 근무) 집계 — 수당 계산에 사용
+function getPerfCounts(){
+  const p = perfMonth();
+  return getCounts(p.year, p.month);
+}
+
+// 캘린더가 바뀔 때만 호출: 요약 숫자 갱신 + 시간 입력창 자동 채움
+function updateCalendarSummary(){
+  const cur = getCalendarCounts();   // 화면에 보이는 달의 근무 (다음 달 급여에 반영됨)
+  const perf = getPerfCounts();      // 이번 달 급여에 반영되는 전월 근무
+  document.getElementById('sumWork').textContent = cur.workDays;
+  document.getElementById('sumHolidayWork').textContent = cur.holidayWork;
+  document.getElementById('sumLeave').textContent = cur.leave;
+  document.getElementById('sumOt').textContent = fmtHours(cur.overtime);
+
+  // 입력칸·수당은 전월 실적 기준
+  document.getElementById('workTotal').value = perf.workHours;
+  document.getElementById('night').value = perf.nightPayHours;
+  document.getElementById('ot').value = perf.overtime;
+  const saveEl = document.getElementById('otSave');
+  if(saveEl && document.activeElement !== saveEl) saveEl.value = perf.otInfo.savedOt || 0;
+  renderOtBreakdown(perf.otInfo);
+  renderBankSummary();
+
+  const p = perfMonth();
+  const payLbl = monthLabel(calYear, calMonth);
+  const perfLbl = monthLabel(p.year, p.month);
+  const calNote = document.getElementById('calMonthNote');
+  if(calNote){
+    const next = (calMonth === 11) ? monthLabel(calYear+1, 0) : monthLabel(calYear, calMonth+1);
+    calNote.innerHTML = `<b>${calMonth+1}월 급여 = ${calMonth+1}월 기본급여 + ${p.month+1}월의 수당</b>`;
+  }
+  // 어느 달 실적인지는 박지 하나로만 표시 (칸마다 반복하지 않는다)
+  const tagEl = document.getElementById('autoTagMonth');
+  if(tagEl) tagEl.textContent = `${p.month+1}월 실적`;
+
+  const goBtn = document.getElementById('goPerfMonth');
+  if(goBtn) goBtn.textContent = `◂ ${perfLbl} 캘린더로 이동 (실적 입력)`;
+
+  // 전월에 표시된 근무가 하나도 없으면 그 사실을 분명히 알림
+  const emptyEl = document.getElementById('perfEmpty');
+  if(emptyEl){
+    const nothing = perf.otInfo.workDays === 0 && perf.otInfo.leaveCount === 0
+                 && perf.otInfo.savedLeaveDays === 0 && perf.otInfo.bankUseHours === 0
+                 && perf.otInfo.extraHours === 0;
+    emptyEl.style.display = nothing ? 'block' : 'none';
+    if(nothing){
+      emptyEl.innerHTML = `<b>${perfLbl} 근무가 비어 있어</b> 초과·야간·휴일근무수당이 0원입니다. 위 버튼으로 이동해 입력하세요.`;
+    }
+  }
+
+  // 지금 보고 있는 달에 찍은 근무가 바로 보이도록 참고용 요약
+  const echo = document.getElementById('curMonthEcho');
+  if(echo){
+    const ci = cur.otInfo;
+    const nextLbl = (calMonth === 11) ? monthLabel(calYear+1, 0) : monthLabel(calYear, calMonth+1);
+    echo.innerHTML = `<span class="off">참고 · ${payLbl} 근무 (→ ${nextLbl} 급여)</span><br>`
+      + `실근무 <b>${fmtHours(ci.worked)}h</b> · 초과 <b>${fmtHours(ci.total)}h</b> · `
+      + `야간수당 <b>${fmtHours(cur.nightPayHours)}h</b> · 휴일수당 <b>${cur.holidayWork}일</b>`;
+  }
+  return perf;
+}
+
+// 근무 패턴 자동 생성 (사용자가 순서·단계 수를 직접 편집)
+const PATTERN_MIN = 1;
+const PATTERN_MAX = 11;
+const PATTERN_OPTIONS = DUTY_NAMES;
+let currentPattern = ['주간','야간','휴무','비번'];
+// 계급·호봉을 한 번이라도 직접 고쳤는지 (기본값 순경 1호봉으로 계산 중임을 알리기 위함)
+let rankTouched = false;
+
+// 초성 → 근무유형
+const ABBR_TO_DUTY = {'주':'주간','야':'야간','심':'심야','오':'오후','당':'당직','비':'비번','휴':'휴무','일':'일근','연':'연가','저':'저축연가'};
+// 자주 쓰는 반복 패턴 (초성 표기)
+const PRESET_PATTERNS = [
+  '주야휴비',
+  '주주주야비야비야비',
+  '당휴비',
+  '주야심비휴주야비비휴',
+  '주오야휴비주비야휴비',
+  '주야비비휴',
+  '주야비일일',
+  '당비일일일일',
+  '주주주주주휴휴',
+];
+function presetToPattern(str){
+  return str.split('').map(c => ABBR_TO_DUTY[c]).filter(Boolean);
+}
+function patternToAbbr(arr){
+  return arr.map(d => DUTY_ABBR[d] || d).join('');
+}
+
+// 프리셋 9개가 세로로 5줄을 먹어 '패턴 적용'을 첫 화면 밖으로 밀어냈다.
+// 기본은 3개만 보이고 나머지는 '더 보기'로 펼친다.
+const PRESET_VISIBLE = 3;
+let presetExpanded = false;
+
+// 접힌 상태에서도 지금 고른 패턴은 보이게 둔다 (선택 표시가 사라지면 안 되므로)
+function applyPresetCollapse(){
+  const wrap = document.getElementById('presetRow');
+  const toggle = document.getElementById('presetToggle');
+  if(!wrap || !toggle) return;
+  let hiddenCount = 0;
+  [...wrap.children].forEach((btn, i)=>{
+    const keep = presetExpanded || i < PRESET_VISIBLE || btn.classList.contains('sel');
+    btn.hidden = !keep;
+    if(!keep) hiddenCount++;
+  });
+  toggle.hidden = !presetExpanded && hiddenCount === 0;
+  toggle.textContent = presetExpanded ? '− 접기' : `+ 패턴 ${hiddenCount}개 더 보기`;
+  toggle.setAttribute('aria-expanded', String(presetExpanded));
+}
+
+function renderPresetRow(){
+  const wrap = document.getElementById('presetRow');
+  if(!wrap) return;
+  const cur = patternToAbbr(currentPattern);
+  wrap.innerHTML = PRESET_PATTERNS.map(pt=>{
+    const duties = presetToPattern(pt);
+    const seq = duties.map(d=>`<i class="pp-d duty-${d}">${DUTY_ABBR[d] || d}</i>`).join('');
+    return `<button type="button" class="${pt === cur ? 'sel' : ''}" aria-pressed="${pt === cur}" data-pt="${pt}" title="${duties.join(' → ')}">`
+      + `<span class="pp-cycle">${duties.length}일 주기</span><span class="pp-seq">${seq}</span></button>`;
+  }).join('');
+  wrap.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      currentPattern = presetToPattern(btn.dataset.pt);
+      renderPatternEditor();
+    });
+  });
+  applyPresetCollapse();
+}
+
+function renderPatternEditor(){
+  const wrap = document.getElementById('patternEditor');
+  wrap.innerHTML = currentPattern.map((duty, i) => `
+    <span class="pat-slot">
+      <button type="button" class="pat-chip duty-${duty}" data-idx="${i}" title="${duty}" aria-label="${i+1}단계 ${duty}, 눌러서 변경">${DUTY_ABBR[duty] || duty}</button>
+      ${i < currentPattern.length-1 ? '<span class="arrow">→</span>' : '<span class="arrow">↺</span>'}
+    </span>
+  `).join('');
+  document.getElementById('slotCount').textContent = `(${currentPattern.length}/${PATTERN_MAX}단계)`;
+
+  wrap.querySelectorAll('.pat-chip').forEach(btn=>{
+    btn.addEventListener('click', ()=> openPatternSheet(+btn.dataset.idx));
+  });
+
+  document.getElementById('addSlot').disabled = currentPattern.length >= PATTERN_MAX;
+  document.getElementById('removeSlot').disabled = currentPattern.length <= PATTERN_MIN;
+  renderPresetRow();
+}
+
+function applyShiftPattern(){
+  const startVal = document.getElementById('patternStart').value;
+  if(!startVal){
+    setPatternResult('패턴 시작일을 먼저 골라주세요.', true);
+    return;
+  }
+  const months = Math.max(1, Math.min(12, +document.getElementById('patternMonths').value || 3));
+  const [sy, sm, sd] = startVal.split('-').map(Number);
+  const start = new Date(sy, sm-1, sd);
+  const end = new Date(sy, sm-1+months, sd);
+
+  // 덮어쓸 범위의 날짜 키를 먼저 모은다 (되돌릴 수 없으니 세어서 알려주고 확인받는다)
+  const keys = [];
+  for(let cursor = new Date(start); cursor < end; cursor.setDate(cursor.getDate()+1)){
+    keys.push(dateKey(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()));
+  }
+
+  const overwritten = keys.filter(k => calendarState[k]).length;
+  const extras = keys.filter(k => overtimeState[k] || bankUseState[k]).length;
+  if(overwritten || extras){
+    const bits = [];
+    if(overwritten) bits.push(`근무기록 ${overwritten}일`);
+    if(extras) bits.push(`연장·저축 입력 ${extras}일`);
+    if(!confirm(`이미 입력된 ${bits.join(' · ')}이(가) 패턴으로 덮어써집니다. 되돌릴 수 없습니다.
+
+계속할까요?`)) return;
+  }
+
+  keys.forEach((key, i)=>{
+    calendarState[key] = currentPattern[i % currentPattern.length];
+    // 근무유형이 바뀌면 그 날에 매달린 연장·저축 입력은 앞뒤가 안 맞으므로 같이 지운다
+    // (비번인데 연장 4시간이 남는 상태를 막는다)
+    delete overtimeState[key];
+    delete bankUseState[key];
+  });
+
+  // 시작월로 이동해서 결과를 바로 확인
+  calYear = start.getFullYear();
+  calMonth = start.getMonth();
+  renderCalendar();
+  calc();
+  reportPatternApplied(start, end, keys.length);
+}
+
+// 적용 결과를 버튼 바로 옆에서 알려준다.
+// 실적수당은 전월 근무 기준이라, 채웠는데도 이번 달 금액이 그대로인 경우를 따로 짚어준다.
+function reportPatternApplied(start, end, days){
+  const last = new Date(end); last.setDate(last.getDate()-1);
+  const span = `${start.getMonth()+1}월 ${start.getDate()}일 ~ ${last.getMonth()+1}월 ${last.getDate()}일`;
+  const perf = perfMonth();
+  const perfHasWork = Object.keys(calendarState).some(k =>
+    k.startsWith(`${perf.year}-${String(perf.month+1).padStart(2,'0')}`));
+  let msg = `${span} · ${days}일을 채웠습니다.`;
+  if(!perfHasWork){
+    msg += ` 다만 ${monthLabel(calYear, calMonth)} 급여에 실리는 건 ${monthLabel(perf.year, perf.month)} 근무라, 시작일을 그 달로 당겨야 초과·야간·휴일수당이 잡힙니다.`;
+  }
+  setPatternResult(msg, !perfHasWork);
+}
+
+function setPatternResult(msg, warn){
+  const el = document.getElementById('patternResult');
+  if(!el) return;
+  el.textContent = msg;
+  el.classList.toggle('warn', !!warn);
+  el.hidden = false;
+  // 문구가 화면 밖으로 밀리면 읽히지 않으므로 그때만 끌어올린다 (즉시 이동 — 연출 아님)
+  const bar = document.getElementById('netBar');
+  const barH = (bar && !bar.hidden) ? bar.getBoundingClientRect().height : 0;
+  const r = el.getBoundingClientRect();
+  if(r.bottom > window.innerHeight - barH){
+    window.scrollBy(0, r.bottom - (window.innerHeight - barH) + 12);
+  }
+}
+
+function clearAllShifts(){
+  if(!confirm('캘린더에 표시된 모든 근무 기록(연장근무 포함)을 지울까요?')) return;
+  Object.keys(calendarState).forEach(k=>delete calendarState[k]);
+  Object.keys(overtimeState).forEach(k=>delete overtimeState[k]);
+  Object.keys(bankUseState).forEach(k=>delete bankUseState[k]);
+  Object.keys(otSaveState).forEach(k=>delete otSaveState[k]);
+  Object.keys(holidayOverrideState).forEach(k=>delete holidayOverrideState[k]);
+  renderCalendar();
+  calc();
+}
+
+function baseSalary(rankIdx, step){
+  const r = RANKS[rankIdx];
+  const arr = SALARY_TABLE[r.name] || [];
+  let idx = Math.min(step, MAX_STEP) - 1;
+  while(idx >= 0 && (arr[idx] === null || arr[idx] === undefined)) idx--;
+  if(idx < 0){
+    idx = arr.findIndex(v => v !== null && v !== undefined);
+  }
+  return idx >= 0 ? arr[idx] : 0;
+}
+
+function calc(){
+  const rankIdx = +document.getElementById('rank').value;
+  const step = +document.getElementById('step').value;
+  const ot = +document.getElementById('ot').value || 0;
+  const night = +document.getElementById('night').value || 0;
+  const family = familyAllowance();
+  const special = document.getElementById('special').checked;
+  const r = RANKS[rankIdx];
+
+  // 초과·야간·휴일근무수당은 전월 근무 실적 기준
+  const { holidayWork } = getPerfCounts();
+  const pm = perfMonth();
+  const perfTag = `(${pm.month+1}월분)`;
+
+  // 육아휴직 중에는 봉급이 지급되지 않고 고용보험의 육아휴직급여만 받는다.
+  // 봉급을 0으로 두면 봉급에 연동된 정근수당·대우공무원수당·관리업무수당·명절휴가비도 함께 0이 된다.
+  const onParentalLeave = document.getElementById('parentalLeave').checked;
+  // 그 달 일부만 휴직했다면 봉급은 근무일수만큼 나오므로 0으로 만들지 않는다 (일할계산이 처리)
+  const parentalDaysRaw = Math.floor(+document.getElementById('parentalDays').value || 0);
+  const fullMonthLeave = onParentalLeave && parentalDaysRaw <= 0;
+  const baseFull = baseSalary(rankIdx, step);
+  const base = fullMonthLeave ? 0 : baseFull;
+  const rate = getOtNightHolidayRate(r.name); // 계급별 10호봉 기준 공식 산출 (봉급표에 10호봉 값이 없으면 null)
+  const otPay = (rate && ot >= 1) ? rate.ot * ot : 0; // 1일 1시간 이상부터 인정
+  const nightPay = rate ? rate.night * night : 0;
+  const dangerPay = +document.getElementById('dangerGrade').value || 0;
+  const dangerBonusPay = document.getElementById('dangerBonus').checked ? DANGER_BONUS : 0;
+  const specialPay = special ? r.specialAllow : 0;
+  const familyPay = family.total;
+  renderFamilyInfo(family);
+  const holidayWorkPay = rate ? rate.holiday * holidayWork : 0;
+  renderRateInfo(rate, r.name);
+
+  // 법정수당 · 실비변상 (선택 입력)
+  const jgAllowOn = document.getElementById('jgAllow').checked;
+  const jgRate = +document.getElementById('jgRate').value || 0;
+  const jgPay = jgAllowOn ? base * (jgRate/100) : 0;
+  const jgBonus = +document.getElementById('jgBonus').value || 0;
+  const daewooPay = document.getElementById('daewoo').checked ? base * 0.041 : 0;
+  const remotePay = document.getElementById('remoteAllow').checked ? (+document.getElementById('remoteAmt').value || 0) : 0;
+  const proxyPay = document.getElementById('proxyAllow').checked ? 200000 : 0;
+  const mgmtPay = document.getElementById('mgmtAllow').checked ? base * 0.09 : 0;
+  const mealPay = document.getElementById('mealAllow').checked ? (+document.getElementById('mealAmt').value || 0) : 0;
+  const gradePay = +document.getElementById('gradeAllow').value || 0;
+  const holidayBonusPay = document.getElementById('holidayBonus').checked ? base * 0.6 : 0;
+  const dispatchPay = +document.getElementById('dispatchAllow').value || 0;
+  const parentalMonth = +document.getElementById('parentalMonth').value || 1;
+  const parentalMonthly = parentalMonth <= 3 ? 2500000 : parentalMonth <= 6 ? 2000000 : 1600000;
+  // 그 달 며칠만 육아휴직한 경우(복직·개시 달)는 그 일수만큼만 지급된다
+  const monthDaysTotal = new Date(calYear, calMonth+1, 0).getDate();
+  let parentalDays = Math.floor(+document.getElementById('parentalDays').value || 0);
+  if(parentalDays < 0 || parentalDays > monthDaysTotal) parentalDays = 0;
+  const parentalPartial = onParentalLeave && parentalDays > 0;
+  const parentalLeavePay = onParentalLeave
+    ? (parentalPartial ? parentalMonthly * parentalDays / monthDaysTotal : parentalMonthly)
+    : 0;
+  const retroPay = +document.getElementById('retroPay').value || 0;
+
+  const corePayItems = [
+    ...(fullMonthLeave ? [] : [["기본급", base]]),
+    [`시간외근무수당 ${perfTag}`, otPay],
+    [`야간근무수당 ${perfTag}`, nightPay],
+    [`휴일근무수당 ${perfTag}`, holidayWorkPay],
+    ["위험근무수당", dangerPay],
+    ["위험근무수당가산금", dangerBonusPay],
+    ["경찰특수업무수당", specialPay],
+    // 가족수당은 명세서처럼 배우자·자녀·기타로 나눠 각각 일할계산·절사한다
+    ...(family.total > 0
+      ? [["가족수당(배우자)", family.spousePay],
+         ["가족수당(자녀)", family.childPay],
+         ["가족수당(기타)", family.otherPay]].filter(([,v]) => v > 0)
+      : [["가족수당", 0]]),
+  ].filter(([n,v]) => v > 0 || !['위험근무수당가산금'].includes(n));
+  const optionalPayItems = [
+    ["정근수당", jgPay],
+    ["정근수당가산금", jgBonus],
+    ["대우공무원수당", daewooPay],
+    ["특수지근무수당", remotePay],
+    ["업무대행수당", proxyPay],
+    ["관리업무수당", mgmtPay],
+    ["정액급식비", mealPay],
+    ["직급보조비", gradePay],
+    ["명절휴가비", holidayBonusPay],
+    ["출동업무수당", dispatchPay],
+    ["육아휴직급여", parentalLeavePay],
+    ["소급분", retroPay],
+  ].filter(([,v]) => v > 0);
+  // 정액 항목은 일할계산(지급일수 ÷ 그 달 일수, 10원 미만 버림) 대상.
+  // 초과·야간·휴일근무수당은 실제 근무 실적이라 제외한다.
+  const pr = getProrate();
+  // 실적수당(월 표기가 붙음)은 접두사로, 나머지는 정확한 이름으로 판단
+  const NO_PRORATE_PREFIX = ['시간외근무수당','야간근무수당','휴일근무수당'];
+  const NO_PRORATE_EXACT = ['정근수당','명절휴가비','육아휴직급여','소급분'];
+  const proratePay = ([n, v]) => {
+    if(!pr.on || pr.ratio >= 1) return [n, floor10(v)];
+    if(NO_PRORATE_PREFIX.some(x => n.startsWith(x))) return [n, floor10(v)];
+    if(NO_PRORATE_EXACT.includes(n)) return [n, floor10(v)];
+    return [n, floor10(v * pr.ratio)];
+  };
+  const payItems = [...corePayItems, ...optionalPayItems].map(proratePay);
+  const totalPay = payItems.reduce((s,[,v])=>s+v,0);
+
+  // 과세 대상 급여 (비과세 제외) — 소득세 산정용
+  const taxablePay = payItems.reduce((sum,[n,v]) => sum + v - taxFreeOf(n, v), 0);
+  // 일할계산을 하지 않은 '한 달 전액' 기준 과세급여 — 기준소득월액 추정용
+  // (기준소득월액은 전년도 소득 기준이라 이번 달을 며칠만 근무해도 줄지 않는다)
+  const fullTaxablePay = [...corePayItems, ...optionalPayItems]
+    .map(([n,v]) => [n, floor10(v)])
+    .reduce((sum,[n,v]) => sum + v - taxFreeOf(n, v), 0);
+
+  // 공제
+  // 경찰공무원은 국민연금이 아닌 공무원연금(일반기여금) 대상이며, 고용보험은 공무원 미적용 대상입니다.
+  // 일반기여금(공무원연금) = 기준소득월액 × 9%. 직접 입력하면 그 값을, 없으면 추정치를 쓴다.
+  const baseIncome = +document.getElementById('baseIncome').value || 0;
+  const baseIncomeEst = fullTaxablePay * BASE_INCOME_FACTOR;
+  const pension = (baseIncome > 0 ? baseIncome : baseIncomeEst) * PENSION_RATE;
+  // 건강보험료 = 보수월액 × 3.595% (2026년 7.19%의 절반), 장기요양 = 건강보험료 × 13.14%
+  // 체크 = '유예' → 건강보험료·장기요양보험료를 0원으로 (육아휴직 등)
+  const healthWaive = document.getElementById('healthWaive').checked;
+  const healthOn = !healthWaive;
+  const payBase = +document.getElementById('payBase').value || 0;
+  const health = healthOn ? (payBase > 0 ? payBase : fullTaxablePay) * HEALTH_RATE : 0;
+  const longTermCare = health * CARE_RATE;
+  // 소득세: 명세서 금액을 입력하면 그대로, 없으면 간이세액표 근사
+  const taxManual = +document.getElementById('incomeTaxManual').value || 0;
+  const famCount = 1 + (document.getElementById('spouse').checked ? 1 : 0)
+                 + (+document.getElementById('children').value || 0)
+                 + (+document.getElementById('otherDeps').value || 0);
+  const childCount = +document.getElementById('children').value || 0;
+  const incomeTaxEst = estimateIncomeTax(taxablePay, famCount, childCount);
+  const incomeTaxBase = taxManual > 0 ? taxManual : incomeTaxEst;
+  const localTax = incomeTaxBase * 0.1;
+  const policeMutualAid = +document.getElementById('policeMutualAid').value || 0; // 경찰공제회비 등 개인 납입액
+  const otherDeduct = +document.getElementById('otherDeduct').value || 0; // 지정기부금·우수리공제 등 소액 기타공제 합산
+
+  // 추정으로 계산된 항목에는 이름 뒤에 표시를 달아 사용자가 바로 알아채게 한다
+  const EST = ' <span class="est">추정</span>';
+  const coreDeductItems = [
+    ["일반기여금(공무원연금)" + (baseIncome > 0 ? '' : EST), pension],
+    ["건강보험료" + (healthWaive ? ' <span class="off">유예</span>' : (payBase > 0 ? '' : EST)), health],
+    ["장기요양보험료" + (healthWaive ? ' <span class="off">유예</span>' : (payBase > 0 ? '' : EST)), longTermCare],
+    ["소득세" + (taxManual > 0 ? '' : EST), incomeTaxBase],
+    ["지방소득세" + (taxManual > 0 ? '' : EST), localTax],
+  ];
+  const optionalDeductItems = [
+    ["경찰공제회비", policeMutualAid],
+    ["기타공제", otherDeduct],
+  ].filter(([,v]) => v > 0);
+  const deductItems = [...coreDeductItems, ...optionalDeductItems].map(([n,v]) => [n, floor10(v)]);
+  const totalDeduct = deductItems.reduce((s,[,v])=>s+v,0);
+  const net = totalPay - totalDeduct;
+
+  // 렌더링
+  document.getElementById('rankLabel').textContent = `${r.name} ${step}호봉`;
+  const rateNotice = document.getElementById('rateNotice');
+  const notices = [];
+  if(!rankTouched){
+    notices.push(`아직 <b>계급·호봉</b>을 고르지 않아 기본값(<b>${r.name} ${step}호봉</b>)으로 계산 중입니다. 위에서 본인 계급·호봉을 골라주세요.`);
+  }
+  if(!rate){
+    notices.push(`${r.name}은(는) 봉급표에 10호봉 값이 없어 초과·야간·휴일근무수당을 계산할 수 없습니다.`);
+  }
+  const estMissing = [];
+  if(baseIncome <= 0) estMissing.push('기준소득월액');
+  if(payBase <= 0 && healthOn) estMissing.push('보수월액');
+  if(taxManual <= 0) estMissing.push('소득세');
+  if(estMissing.length){
+    notices.push(`공제의 <b>${estMissing.join(' · ')}</b>은(는) <b>추정치</b>입니다. `
+      + `급여명세서 공제 항목의 산출식에 적힌 값을 <b>공제 (선택)</b> 칸에 그대로 넣으면 실제와 똑같이 맞습니다.`);
+  }
+  if(onParentalLeave){
+    notices.push(fullMonthLeave
+      ? `<b>육아휴직 중(한 달 전체)</b> — 기본급(${won(baseFull)}원)과 봉급 연동 수당이 빠졌습니다.`
+      : `<b>육아휴직 ${parentalDays}일</b> — 육아휴직급여는 ${parentalDays}/${monthDaysTotal}만 지급되고, 봉급은 일할계산으로 남습니다.`);
+  }
+  if(notices.length){
+    rateNotice.style.display = 'block';
+    rateNotice.innerHTML = notices.join('<br>');
+  } else {
+    rateNotice.style.display = 'none';
+  }
+  document.getElementById('netPay').innerHTML = `${won(net)}<span>원</span>`;
+  const netBarAmount = document.getElementById('netBarAmount');
+  if(netBarAmount) netBarAmount.textContent = `${won(net)}원`;
+  syncNetBar();
+  document.getElementById('totalPay').textContent = won(totalPay) + '원';
+  document.getElementById('totalDeduct').textContent = won(totalDeduct) + '원';
+
+  document.getElementById('payRows').innerHTML = payItems
+    .map(([n,v])=>`<div class="row"><span class="name">${n}</span><span class="val">${won(v)}원</span></div>`)
+    .join('');
+  document.getElementById('deductRows').innerHTML = deductItems
+    .map(([n,v])=>`<div class="row"><span class="name">${n}</span><span class="val">${won(v)}원</span></div>`)
+    .join('');
+
+  scheduleSave();
+}
+
+// ================= 저장 / 불러오기 =================
+// 입력값과 캘린더를 브라우저에 자동 저장하고, 다음에 열면 그대로 복원한다.
+// (저장이 막힌 환경에서도 계산기는 정상 동작한다)
+const STORE_KEY = 'polpay.state.v1';
+const SAVED_FIELDS = [
+  'rank','step','years',
+  'legalHours','otCap','otAdjust','autoHolidayWork',
+  'bankBase','bankLeaveDays','bankOtHours',
+  'spouse','children','otherDeps','dangerGrade','dangerBonus','special',
+  'prorate','paidDays','baseIncome','payBase','healthWaive','incomeTaxManual',
+  'jgAllow','jgRate','jgBonus','daewoo','remoteAllow','remoteAmt',
+  'proxyAllow','mgmtAllow','mealAllow','mealAmt','gradeAllow','holidayBonus',
+  'dispatchAllow','policeMutualAid','otherDeduct','parentalLeave','parentalMonth','parentalDays','retroPay',
+  'patternStart','patternMonths',
+];
+let storageAvailable = false;
+let restoring = false;
+let saveTimer = null;
+
+function checkStorage(){
+  try{
+    localStorage.setItem('__polpay_test__','1');
+    localStorage.removeItem('__polpay_test__');
+    return true;
+  }catch(e){ return false; }
+}
+
+function shiftFieldIds(){
+  const ids = [];
+  SHIFT_DEFS.forEach(d=>{ ids.push(`sh_${d.key}_start`, `sh_${d.key}_end`, `sh_${d.key}_break`); });
+  return ids;
+}
+
+function collectState(){
+  const fields = {};
+  [...SAVED_FIELDS, ...shiftFieldIds()].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    fields[id] = (el.type === 'checkbox') ? el.checked : el.value;
+  });
+  return {
+    v: 2,
+    savedAt: new Date().toISOString(),
+    fields,
+    pattern: currentPattern.slice(),
+    rankTouched,
+    calendar: calendarState,
+    overtime: overtimeState,
+    bankUse: bankUseState,
+    otSave: otSaveState,
+    holidays: holidayOverrideState,
+  };
+}
+
+// 위험근무수당 금액이 바뀌기 전(갑 8만·을 7만)에 저장된 값을 새 등급으로 옮긴다
+const LEGACY_DANGER = { '80000':'60000', '70000':'50000' };
+
+function applyState(data){
+  if(!data || typeof data !== 'object') return false;
+  restoring = true;
+  try{
+    if(data.fields && LEGACY_DANGER[data.fields.dangerGrade]){
+      data.fields.dangerGrade = LEGACY_DANGER[data.fields.dangerGrade];
+    }
+    // 예전 저장본의 healthOn(체크=공제함)을 healthWaive(체크=유예)로 뒤집어 옮긴다
+    if(data.fields && data.fields.healthOn !== undefined && data.fields.healthWaive === undefined){
+      data.fields.healthWaive = !data.fields.healthOn;
+    }
+    // v2 이전 저장본은 '휴게 1시간 제외'가 기본 꺼짐이었으므로 켜준다
+    if(data.fields && (data.v || 1) < 2){
+      SHIFT_DEFS.forEach(d => { data.fields[`sh_${d.key}_break`] = true; });
+    }
+    // 예전 교대 시각 필드 이름 → 새 이름
+    if(data.fields){
+      const map = {dayStart:'sh_day_start', dayEnd:'sh_day_end', dayBreak:'sh_day_break',
+                   nightStart:'sh_night_start', nightEnd:'sh_night_end', nightBreak:'sh_night_break'};
+      Object.entries(map).forEach(([o,n])=>{
+        if(data.fields[o] !== undefined && data.fields[n] === undefined) data.fields[n] = data.fields[o];
+      });
+    }
+    if(data.fields){
+      Object.entries(data.fields).forEach(([id, v])=>{
+        const el = document.getElementById(id);
+        if(!el) return;
+        if(el.type === 'checkbox') el.checked = !!v; else el.value = v;
+      });
+    }
+    if(Array.isArray(data.pattern) && data.pattern.length){
+      currentPattern = data.pattern.filter(x => PATTERN_OPTIONS.includes(x));
+      if(!currentPattern.length) currentPattern = ['주간','야간','비번','휴무'];
+      renderPatternEditor();
+    }
+    Object.keys(calendarState).forEach(k=>delete calendarState[k]);
+    Object.keys(overtimeState).forEach(k=>delete overtimeState[k]);
+    Object.keys(bankUseState).forEach(k=>delete bankUseState[k]);
+    Object.keys(otSaveState).forEach(k=>delete otSaveState[k]);
+    Object.keys(holidayOverrideState).forEach(k=>delete holidayOverrideState[k]);
+    rankTouched = !!data.rankTouched;
+    if(data.bankUse) Object.assign(bankUseState, data.bankUse);
+    if(data.otSave) Object.assign(otSaveState, data.otSave);
+    if(data.overtime) Object.assign(overtimeState, data.overtime);
+    if(data.holidays) Object.assign(holidayOverrideState, data.holidays);
+    if(data.calendar){
+      // 예전 '휴일근무' 유형은 사라졌으므로 주간 + 공휴일 지정으로 옮긴다
+      Object.entries(data.calendar).forEach(([k, v])=>{
+        if(v === '휴일근무'){ calendarState[k] = '주간'; holidayOverrideState[k] = true; }
+        else if(DUTY_NAMES.includes(v)) calendarState[k] = v;
+      });
+    }
+  } finally {
+    restoring = false;
+  }
+  return true;
+}
+
+function setSaveStatus(text, warn){
+  const el = document.getElementById('saveStatus');
+  if(!el) return;
+  el.innerHTML = text;
+  el.classList.toggle('warn', !!warn);
+}
+
+function timeLabel(){
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+function saveNow(){
+  if(!storageAvailable || restoring) return;
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify(collectState()));
+    setSaveStatus(`✓ 자동 저장됨 ${timeLabel()}`);
+  }catch(e){
+    storageAvailable = false;
+    setSaveStatus('⚠ 저장 공간이 가득 찼습니다', true);
+  }
+}
+function scheduleSave(){
+  if(!storageAvailable || restoring) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 400);
+}
+
+function loadSaved(){
+  if(!storageAvailable) return false;
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return false;
+    return applyState(JSON.parse(raw));
+  }catch(e){ return false; }
+}
+
+function resetAll(){
+  if(!confirm('저장된 근무 기록과 입력값을 모두 지우고 처음 상태로 되돌릴까요?\n되돌릴 수 없습니다.')) return;
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  location.reload();
+}
+
+function init(){
+  buildShiftSettings();
+  const rankSel = document.getElementById('rank');
+  rankSel.innerHTML = RANKS.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
+
+  const stepSel = document.getElementById('step');
+  stepSel.innerHTML = Array.from({length:MAX_STEP},(_,i)=>i+1)
+    .map(s=>`<option value="${s}">${s}호봉</option>`).join('');
+
+  [rankSel, stepSel, 'ot','night','workTotal','spouse','children','otherDeps','dangerGrade','dangerBonus','special',
+   'baseIncome','payBase','healthWaive','incomeTaxManual',
+   'jgAllow','jgRate','jgBonus','daewoo','remoteAllow','remoteAmt',
+   'proxyAllow','mgmtAllow','mealAllow','mealAmt','gradeAllow','holidayBonus',
+   'dispatchAllow','policeMutualAid','otherDeduct',
+   'parentalLeave','parentalMonth','parentalDays','retroPay'].forEach(el=>{
+    const node = typeof el === 'string' ? document.getElementById(el) : el;
+    node.addEventListener('input', calc);
+    node.addEventListener('change', calc);
+  });
+
+  // 계급을 바꾸면 감액조정률 기본값을 다시 채운다 (이후 직접 수정 가능)
+  rankSel.addEventListener('change', ()=>{ applyAdjustDefault(); calc(); });
+  // 계급·호봉을 직접 고르면 기본값 경고를 없앤다
+  [rankSel, stepSel].forEach(node=>{
+    node.addEventListener('change', ()=>{ if(!restoring){ rankTouched = true; calc(); scheduleSave(); } });
+  });
+  ['otAdjust'].forEach(id=>{
+    const node = document.getElementById(id);
+    node.addEventListener('input', calc);
+    node.addEventListener('change', calc);
+  });
+
+  const yearsEl = document.getElementById('years');
+  yearsEl.addEventListener('input', ()=>{ applyYears(); calc(); });
+  yearsEl.addEventListener('change', ()=>{ applyYears(); calc(); });
+
+  ['prorate','paidDays'].forEach(id=>{
+    const node = document.getElementById(id);
+    const handler = ()=>{ renderProrateInfo(); calc(); };
+    node.addEventListener('input', handler);
+    node.addEventListener('change', handler);
+  });
+
+  ['otCap','legalHours'].forEach(id=>{
+    const node = document.getElementById(id);
+    const handler = ()=>{ updateCalendarSummary(); calc(); };
+    node.addEventListener('input', handler);
+    node.addEventListener('change', handler);
+  });
+
+  // 저축 보유량 — 잔여만 다시 그리면 된다
+  ['bankBase','bankLeaveDays','bankOtHours'].forEach(id=>{
+    const node = document.getElementById(id);
+    const handler = ()=>{ renderBankSummary(); scheduleSave(); };
+    node.addEventListener('input', handler);
+    node.addEventListener('change', handler);
+  });
+
+  // 초과저축 적립 — 실적 월(전월)에 기록한다
+  const otSaveEl = document.getElementById('otSave');
+  const otSaveHandler = ()=>{
+    const p = perfMonth();
+    const v = Math.max(0, +otSaveEl.value || 0);
+    if(v === 0) delete otSaveState[monthKey(p.year, p.month)];
+    else otSaveState[monthKey(p.year, p.month)] = v;
+    updateCalendarSummary();
+    calc();
+  };
+  otSaveEl.addEventListener('input', otSaveHandler);
+  otSaveEl.addEventListener('change', otSaveHandler);
+
+  document.getElementById('bankMinus').addEventListener('click', ()=>{
+    setSheetBank((+(bankUseState[sheetKey] || 0)) - 0.5);
+  });
+  document.getElementById('bankPlus').addEventListener('click', ()=>{
+    setSheetBank((+(bankUseState[sheetKey] || 0)) + 0.5);
+  });
+
+  const today = new Date();
+  calYear = today.getFullYear();
+  calMonth = today.getMonth();
+  document.getElementById('prevMonth').addEventListener('click', ()=>{
+    calMonth--; if(calMonth<0){calMonth=11; calYear--;}
+    renderCalendar(); calc();
+  });
+  document.getElementById('nextMonth').addEventListener('click', ()=>{
+    calMonth++; if(calMonth>11){calMonth=0; calYear++;}
+    renderCalendar(); calc();
+  });
+  document.getElementById('autoHolidayWork').addEventListener('change', ()=>{
+    renderCalendar(); calc();
+  });
+  // 날짜 입력 시트
+  document.getElementById('sheetClose').addEventListener('click', closeDaySheet);
+  document.getElementById('sheetDone').addEventListener('click', closeDaySheet);
+  document.getElementById('daySheet').addEventListener('click', (e)=>{
+    if(e.target.id === 'daySheet') closeDaySheet();
+  });
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && !document.getElementById('daySheet').hidden) closeDaySheet();
+  });
+  document.getElementById('otMinus').addEventListener('click', ()=>{
+    setSheetOt((overtimeState[sheetKey] || 0) - 0.5);
+  });
+  document.getElementById('otPlus').addEventListener('click', ()=>{
+    setSheetOt((overtimeState[sheetKey] || 0) + 0.5);
+  });
+  document.getElementById('sheetClear').addEventListener('click', ()=>{
+    if(!sheetKey) return;
+    delete calendarState[sheetKey];
+    delete overtimeState[sheetKey];
+    delete bankUseState[sheetKey];
+    delete holidayOverrideState[sheetKey];
+    applySheetChange();
+  });
+  document.getElementById('sheetHoliday').addEventListener('change', (e)=>{
+    if(!sheetKey) return;
+    if(e.target.checked) holidayOverrideState[sheetKey] = true;
+    else delete holidayOverrideState[sheetKey];
+    applySheetChange();
+  });
+
+  document.getElementById('goPerfMonth').addEventListener('click', ()=>{
+    const p = perfMonth();
+    calYear = p.year; calMonth = p.month;
+    renderCalendar(); calc();
+    document.querySelector('.cal-panel').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  document.getElementById('applyPattern').addEventListener('click', applyShiftPattern);
+  document.getElementById('clearPattern').addEventListener('click', clearAllShifts);
+  document.getElementById('presetToggle').addEventListener('click', ()=>{
+    presetExpanded = !presetExpanded;
+    applyPresetCollapse();
+  });
+  document.getElementById('addSlot').addEventListener('click', ()=>{
+    if(currentPattern.length < PATTERN_MAX){
+      currentPattern.push('주간');
+      renderPatternEditor();
+    }
+  });
+  document.getElementById('removeSlot').addEventListener('click', ()=>{
+    if(currentPattern.length > PATTERN_MIN){
+      currentPattern.pop();
+      renderPatternEditor();
+    }
+  });
+  renderPatternEditor();
+
+  // 패턴 시작일 기본값: 오늘
+  document.getElementById('patternStart').value =
+    `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+  document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+  // ---- 저장된 값 복원 ----
+  storageAvailable = checkStorage();
+  const loaded = storageAvailable && loadSaved();
+
+  // 저축 기준 시점 기본값 — 비어 있으면 올해 1월
+  const bankBaseEl = document.getElementById('bankBase');
+  if(bankBaseEl && !bankBaseEl.value){
+    bankBaseEl.value = `${new Date().getFullYear()}-01`;
+  }
+
+  if(!loaded) applyAdjustDefault();   // 저장본이 없을 때만 계급별 기본 감액조정률
+  applyYears(!loaded);   // 저장된 값이 있으면 덮어쓰지 않고 안내만 갱신
+  renderShiftInfo();
+  renderProrateInfo();
+  renderCalendar();
+  calc();
+
+  // 첫 화면 안내는 초기 자동 저장에 덮이지 않게 마지막에 표시
+  clearTimeout(saveTimer);
+  if(storageAvailable){
+    setSaveStatus('✓ 자동 저장 켜짐');
+  } else {
+    setSaveStatus('⚠ 자동 저장 불가 (브라우저 설정 확인)', true);
+  }
+}
+
+// ---- 결과 요약 바 ----
+// 페이지가 길어 입력칸과 결과가 한 화면에 못 들어온다. 결과 카드가 화면 밖일 때만
+// 하단에 실수령액을 띄우고, 누르면 결과로 데려간다.
+let syncNetBar = ()=>{};
+
+function setupNetBar(){
+  const bar  = document.getElementById('netBar');
+  const hero = document.querySelector('.hero');
+  if(!bar || !hero) return;
+
+  bar.addEventListener('click', ()=>{
+    hero.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  // 스크롤 이벤트는 브라우저가 프레임당 한 번으로 묶어주므로 여기서 바로 재본다
+  function sync(){
+    const r = hero.getBoundingClientRect();
+    bar.hidden = r.top < window.innerHeight && r.bottom > 0;   // 결과가 보이면 바는 숨는다
+  }
+  window.addEventListener('scroll', sync, {passive:true});
+  window.addEventListener('resize', sync);
+
+  syncNetBar = sync;   // 캘린더·수당이 바뀌어 결과 위치가 밀릴 때도 다시 맞춘다
+  sync();
+}
+
+init();
+setupNetBar();
+renderLunarYearRange();
+</script>
+</body>
+</html>
