@@ -2043,7 +2043,7 @@
         </div>
       </div>
       <div class="pattern-field pattern-order">
-        <label>근무 패턴을 선택 하거나 없으면 눌러서 만드세요 <span class="slot-count" id="slotCount">(4/11단계)</span></label>
+        <label title="일근은 토·일·공휴일에 걸리면 휴무로 채워집니다">근무 패턴을 선택 하거나 없으면 눌러서 만드세요 <span class="slot-count" id="slotCount">(4/11단계)</span></label>
         <div class="preset-row" id="presetRow"></div>
         <button type="button" class="preset-toggle" id="presetToggle" aria-expanded="false" hidden></button>
         <div class="pattern-chip-row" id="patternEditor"></div>
@@ -3652,6 +3652,15 @@ function renderPatternEditor(){
   renderPresetRow();
 }
 
+// 일근은 관공서 근무라 토·일·공휴일에는 쉰다 (경찰서도 공휴일은 쉰다).
+// 당비일일일일 같은 패턴에서 '일근' 차례가 휴일에 걸리면 휴무로 채운다 — 안 그러면 초과시간이 부풀려진다.
+// 실제로 나와 일했다면 그 날짜를 눌러 근무유형을 직접 바꾸면 된다.
+function restIfOfficeHoliday(duty, key){
+  if(duty !== '일근') return duty;
+  const [y, m, d] = key.split('-').map(Number);
+  return isPayableHoliday(y, key, new Date(y, m - 1, d).getDay()) ? '휴무' : duty;
+}
+
 function applyShiftPattern(){
   const startVal = document.getElementById('patternStart').value;
   if(!startVal){
@@ -3681,7 +3690,7 @@ function applyShiftPattern(){
   }
 
   keys.forEach((key, i)=>{
-    calendarState[key] = currentPattern[i % currentPattern.length];
+    calendarState[key] = restIfOfficeHoliday(currentPattern[i % currentPattern.length], key);
     // 근무유형이 바뀌면 그 날에 매달린 연장·저축 입력은 앞뒤가 안 맞으므로 같이 지운다
     // (비번인데 연장 4시간이 남는 상태를 막는다)
     delete overtimeState[key];
@@ -4616,7 +4625,11 @@ function svCandidates(){
   const p = svPattern(), L = p.length;
   const out = [];
   for(let o = 0; o < L; o++){
-    if(sv.answers.every(a => a.duty === null || p[svMod(o - a.back, L)] === a.duty)) out.push(o);
+    if(sv.answers.every(a => {
+      if(a.duty === null) return true;
+      const dt = svFromDayNum(svTodayNum() - a.back);
+      return restIfOfficeHoliday(p[svMod(o - a.back, L)], dateKey(dt.y, dt.m, dt.d)) === a.duty;
+    })) out.push(o);
   }
   return out;
 }
@@ -4642,7 +4655,7 @@ function svPrevAnchorUsable(){
 function svDutyOn(y, m, d, anchor = sv.anchor){
   if(sv.kind === 'weekday') return svIsHoliday(y, m, d) ? '휴무' : '일근';
   const p = svPattern();
-  return p[svMod(anchor.idx + svDayNum(y, m, d) - anchor.day, p.length)];
+  return restIfOfficeHoliday(p[svMod(anchor.idx + svDayNum(y, m, d) - anchor.day, p.length)], dateKey(y, m, d));
 }
 
 // ---- 단계 이동 ----
@@ -4825,7 +4838,9 @@ function svRenderAnchor(){
         ? '어제 저녁에 시작해 지금까지 이어지는 야간근무는 <b>어제</b> 근무예요. 오늘 근무가 아직 시작 전이면 예정된 근무를 골라 주세요.'
         : '오늘 근무 하나로 지난달과 이번 달 근무표를 모두 채워요.')
     : '같은 근무가 패턴에 여러 번 있어서 하루만 더 물어볼게요.';
-  const uniq = [...new Set(p)];
+  // 묻는 날이 휴일이면 일근 차례는 휴무로 보이므로 버튼도 그렇게 바꾼다
+  const dayKeyStr = dateKey(day.getFullYear(), day.getMonth(), day.getDate());
+  const uniq = [...new Set(p.map(d => restIfOfficeHoliday(d, dayKeyStr)))];
   return svQ(q, sub)
     + head
     + `<div class="sv-duties">${uniq.map(d => `<button type="button" class="sv-duty duty-${d}" data-act="ans" data-v="${d}">${d}</button>`).join('')}</div>`
