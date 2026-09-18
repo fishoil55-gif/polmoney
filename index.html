@@ -627,6 +627,50 @@
   .row.total .name, .row.total .val{color:var(--cream);}
   .ledger.deduction .row.total .val{color:var(--red);}
 
+  /* 명세서형 결과 — 지급월분 / 전월 실적분 묶음, 항목을 누르면 계산 근거 */
+  .slip-meta{font-size:13px; color:var(--slate); margin-top:4px;}
+  .hero-sum{
+    display:flex; flex-wrap:wrap; gap:6px 18px;
+    margin-top:14px; padding-top:12px;
+    border-top:1px solid rgba(255,255,255,0.14);
+    font-size:13px; color:#a8acb3;
+  }
+  .hero-sum b{color:#ffffff; font-weight:600; margin-left:4px; font-variant-numeric:tabular-nums;}
+  .slip-tip{font-size:12.5px; color:var(--slate-dim); margin:-8px 0 14px;}
+  .slip-group + .slip-group{margin-top:14px;}
+  .slip-group-h{
+    display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;
+    padding:7px 10px;
+    border-radius:8px;
+    background:var(--navy-700);
+    font-size:13px;
+  }
+  .slip-group-h b{color:var(--cream);}
+  .slip-group-h span{color:var(--slate-dim); font-size:12px;}
+  .slip-group.perf .slip-group-h{background:var(--tint-primary);}
+  .slip-group.perf .slip-group-h b{color:var(--gold);}
+  .row.slip-sub{border-bottom:none; font-size:13.5px; padding:7px 0 0;}
+  .row.slip-sub .name, .row.slip-sub .val{color:var(--slate);}
+  details.slip-row > summary{list-style:none; cursor:pointer;}
+  details.slip-row > summary::-webkit-details-marker{display:none;}
+  details.slip-row > summary .name::after{
+    content:'›';
+    display:inline-block;
+    margin-left:6px;
+    color:var(--slate-dim);
+    transition:transform .15s ease;
+  }
+  details.slip-row[open] > summary .name::after{transform:rotate(90deg);}
+  details.slip-row > summary:hover .name{color:var(--gold);}
+  .slip-basis{
+    font-size:12.5px; line-height:1.55; color:var(--slate);
+    background:var(--navy-700);
+    border-radius:8px;
+    padding:8px 10px;
+    margin:0 0 8px;
+  }
+  @media (prefers-reduced-motion:reduce){ details.slip-row > summary .name::after{transition:none;} }
+
   .note{
     margin-top:22px;
     font-size:12.5px;
@@ -1794,6 +1838,33 @@
   .sv label.sv-field, .sv label.sv-danger{margin:0 0 14px; font-size:inherit; color:inherit;}
   .sv-row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
 
+  /* 자원근무 날짜 고르기 — 실적월 달력 */
+  .sv-cal{display:grid; grid-template-columns:repeat(7, 1fr); gap:4px;}
+  .sv-cal-dow{text-align:center; font-size:12px; color:var(--slate-dim); padding:2px 0 4px;}
+  .sv-cal-dow.sun{color:var(--red);}
+  .sv-cal-dow.sat{color:var(--blue);}
+  .sv-cal-cell{
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    min-width:0;
+    padding:6px 0 7px;
+    border:1.5px solid var(--line-soft);
+    border-radius:10px;
+    background:#ffffff;
+    font-family:var(--sans);
+    cursor:pointer;
+  }
+  .sv-cal-cell .n{font-size:12.5px; font-weight:600; color:var(--cream);}
+  .sv-cal-cell.hol .n{color:var(--red);}
+  .sv-cal-cell i{
+    font-style:normal;
+    min-width:26px; padding:0 2px;
+    line-height:20px;
+    font-size:11px; font-weight:700;
+    border-radius:5px;
+    border:1px solid transparent;
+  }
+  .sv-cal-cell.on{border-color:var(--gold); background:var(--tint-primary);}
+
   /* 수당 체크리스트 */
   .sv-checks{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:14px; overflow:hidden;}
   .sv-check + .sv-check{border-top:1px solid var(--line-soft);}
@@ -1875,7 +1946,7 @@
     </div>
     <div class="head-copy">
       <p class="tagline">복잡한 경찰 급여, 직접 계산해보면 답이 보입니다.</p>
-      <div class="sub">경찰 월급 계산기 · v3.0 (2026-08-30)</div>
+      <div class="sub">경찰 월급 계산기 · v4.0 (2026-09-18)</div>
     </div>
   </header>
   <div class="sv-entry" id="svEntry">
@@ -2269,7 +2340,10 @@
 
   <div class="panel">
     <div class="payslip-head">
-      <h2 style="margin:0;">계산 결과</h2>
+      <div>
+        <h2 style="margin:0;" id="slipTitle">급여명세서</h2>
+        <div class="slip-meta" id="slipMeta"></div>
+      </div>
       <span class="rank-name" id="rankLabel">순경 1호봉</span>
     </div>
     <div class="rate-notice" id="rateNotice" style="display:none;"></div>
@@ -2277,16 +2351,21 @@
     <div class="hero">
       <div class="label">예상 실수령액 (월)</div>
       <div class="amount" id="netPay">0<span>원</span></div>
+      <div class="hero-sum">
+        <span>총 지급 <b id="heroPay">0원</b></span>
+        <span>총 공제 <b id="heroDeduct">0원</b></span>
+      </div>
     </div>
+    <p class="slip-tip">항목을 누르면 어떻게 계산됐는지 보여요.</p>
 
     <div class="cols">
       <div class="ledger">
-        <h3>지급 항목</h3>
+        <h3>지급 내역</h3>
         <div id="payRows"></div>
         <div class="row total"><span class="name">총지급액</span><span class="val" id="totalPay">0</span></div>
       </div>
       <div class="ledger deduction">
-        <h3>공제 항목</h3>
+        <h3>공제 내역</h3>
         <div id="deductRows"></div>
         <div class="row total"><span class="name">총공제액</span><span class="val" id="totalDeduct">0</span></div>
       </div>
@@ -3792,12 +3871,82 @@ function calc(){
   document.getElementById('totalPay').textContent = won(totalPay) + '원';
   document.getElementById('totalDeduct').textContent = won(totalDeduct) + '원';
 
-  document.getElementById('payRows').innerHTML = payItems
-    .map(([n,v])=>`<div class="row"><span class="name">${n}</span><span class="val">${won(v)}원</span></div>`)
-    .join('');
-  document.getElementById('deductRows').innerHTML = deductItems
-    .map(([n,v])=>`<div class="row"><span class="name">${n}</span><span class="val">${won(v)}원</span></div>`)
-    .join('');
+  document.getElementById('heroPay').textContent = won(totalPay) + '원';
+  document.getElementById('heroDeduct').textContent = won(totalDeduct) + '원';
+  document.getElementById('slipTitle').textContent = `${calYear}년 ${calMonth+1}월 급여명세서`;
+  document.getElementById('slipMeta').textContent = `${calMonth+1}월 20일 지급 · ${pm.month+1}월 근무 반영`;
+
+  // 항목별 계산 근거 — 명세서 항목을 누르면 펼쳐진다
+  const pmLbl = `${pm.month+1}월`;
+  const dangerOpt = document.getElementById('dangerGrade').selectedOptions[0];
+  const PAY_BASIS = {
+    '기본급': `${r.name} ${step}호봉 · 2026년 경찰공무원 봉급표`,
+    '시간외근무수당': rate ? `${pmLbl} 초과근무 ${fmtHours(ot)}시간 × 시간당 ${won(rate.ot)}원` : '',
+    '야간근무수당': rate ? `${pmLbl} 야간(22~06시) ${fmtHours(night)}시간 × 시간당 ${won(rate.night)}원` : '',
+    '휴일근무수당': rate ? `${pmLbl} 휴일 주간근무 ${holidayWork}일 × 1일 ${won(rate.holiday)}원` : '',
+    '위험근무수당': dangerOpt ? dangerOpt.textContent : '',
+    '위험근무수당가산금': '갑종 가산금 월 2만원',
+    '경찰특수업무수당': `${r.name} 계급별 예시 금액`,
+    '가족수당(배우자)': '배우자 월 4만원',
+    '가족수당(자녀)': `자녀 ${family.children}명 (첫째 5만 · 둘째 8만 · 셋째부터 12만원)`,
+    '가족수당(기타)': `기타 부양가족 ${family.other}명 × 2만원`,
+    '가족수당': '대상 가족 없음',
+    '정근수당': `봉급 ${won(base)}원 × ${jgRate}% (근무연수 기준)`,
+    '정근수당가산금': `근무 ${getYears()}년 기준 월 정액`,
+    '대우공무원수당': `봉급 ${won(base)}원 × 4.1%`,
+    '특수지근무수당': '입력한 금액',
+    '업무대행수당': '월 20만원 정액',
+    '관리업무수당': `봉급 ${won(base)}원 × 9%`,
+    '정액급식비': '월 정액 · 20만원까지 비과세',
+    '직급보조비': '계급별 월 정액',
+    '명절휴가비': `봉급 ${won(base)}원 × 60%`,
+    '출동업무수당': '입력한 금액',
+    '육아휴직급여': `휴직 ${parentalMonth}개월째 월 ${won(parentalMonthly)}원`
+      + (parentalPartial ? ` × ${parentalDays}/${monthDaysTotal}일` : '') + ' · 비과세',
+    '소급분': '입력한 금액 (일할계산 제외)',
+  };
+  const DEDUCT_BASIS = {
+    '일반기여금(공무원연금)': baseIncome > 0
+      ? `기준소득월액 ${won(baseIncome)}원 × 9%`
+      : `기준소득월액 추정 ${won(baseIncomeEst)}원 (과세급여 × ${BASE_INCOME_FACTOR}) × 9%`,
+    '건강보험료': healthWaive ? '유예된 달이라 0원'
+      : `보수월액 ${payBase > 0 ? '' : '추정 '}${won(payBase > 0 ? payBase : fullTaxablePay)}원 × 3.595%`,
+    '장기요양보험료': healthWaive ? '유예된 달이라 0원' : '건강보험료 × 13.14%',
+    '소득세': taxManual > 0 ? '입력한 명세서 금액'
+      : `근로소득 간이세액표 추정 · 과세급여 ${won(taxablePay)}원 · 공제대상 가족 ${famCount}명`,
+    '지방소득세': '소득세 × 10%',
+    '경찰공제회비': '입력한 금액',
+    '기타공제': '입력한 금액',
+  };
+  const isPerf = n => NO_PRORATE_PREFIX.some(x => n.startsWith(x));
+  const plainName = n => n.replace(/<[^>]*>/g, '').replace(perfTag, '').trim();
+  const prorated = n => pr.on && pr.ratio < 1 && !isPerf(n) && !NO_PRORATE_EXACT.includes(plainName(n));
+  const basisOf = (n, table) => {
+    const b = table[plainName(n)] || '';
+    return b + (table === PAY_BASIS && b && prorated(n) ? ` · 일할계산 ${pr.days}/${pr.total}일` : '');
+  };
+  // 다시 계산해도 펼쳐 둔 항목은 그대로 둔다
+  const openKeys = new Set([...document.querySelectorAll('#payRows details[open], #deductRows details[open]')]
+    .map(d => d.dataset.k));
+  const rowHtml = ([n, v], table, label = n) => {
+    const note = basisOf(n, table);
+    const key = plainName(n);
+    const inner = `<span class="name">${label}</span><span class="val">${won(v)}원</span>`;
+    return note
+      ? `<details class="slip-row" data-k="${key}" ${openKeys.has(key) ? 'open' : ''}><summary class="row">${inner}</summary><div class="slip-basis">${note}</div></details>`
+      : `<div class="row">${inner}</div>`;
+  };
+  const sumOf = arr => arr.reduce((s, [, v]) => s + v, 0);
+  const group = (title, sub, items, cls, labelFn) => items.length ? `<div class="slip-group ${cls}">
+      <div class="slip-group-h"><b>${title}</b><span>${sub}</span></div>
+      ${items.map(it => rowHtml(it, PAY_BASIS, labelFn(it[0]))).join('')}
+      <div class="row slip-sub"><span class="name">소계</span><span class="val">${won(sumOf(items))}원</span></div>
+    </div>` : '';
+  document.getElementById('payRows').innerHTML =
+      group(`${calMonth+1}월분`, '기본급 · 수당', payItems.filter(([n]) => !isPerf(n)), '', n => n)
+    + group(`${pmLbl} 근무 실적분`, '초과 · 야간 · 휴일 — 지난달 근무 기준', payItems.filter(([n]) => isPerf(n)), 'perf',
+            n => n.replace(perfTag, '').trim());
+  document.getElementById('deductRows').innerHTML = deductItems.map(it => rowHtml(it, DEDUCT_BASIS)).join('');
 
   scheduleSave();
 }
@@ -4173,10 +4322,11 @@ const SURVEY_KEY = 'polpay.survey.v1';
 const PAYDAY = 20;                      // 공무원 봉급일 (매월 20일)
 const SV_WEEKDAY_PT = '주주주주주휴휴';  // 평일 근무는 순서가 아니라 요일에 맞춰 채운다
 const SV_BUILD_DUTIES = ['주간','야간','심야','오후','당직','비번','휴무','일근'];
-const SV_ORDER = ['intro','month','pattern','anchor','extra','leave','bank','rank','family','allow','confirm'];
-const SV_WORK_STEPS = ['pattern','anchor','extra','leave','bank'];
+const SV_ORDER = ['intro','month','pattern','anchor','volunteer','extra','leave','bank','rank','family','allow','confirm'];
+const SV_WORK_STEPS = ['pattern','anchor','volunteer','extra','leave','bank'];
 const SV_PAY_STEPS = ['rank','family','allow'];
 const SV_OT_CHUNK = 4;                  // 추가근무를 날짜에 나눠 담을 때 하루 몫
+const SV_VOL_TYPES = ['주간자원','야간자원'];
 
 // 수당 체크리스트 — 모두 체크 안 된 상태로 시작하고, 체크한 항목만 추가 입력칸이 열린다
 const SV_ALLOW = [
@@ -4275,6 +4425,7 @@ function svNew(){
     kind, pattern, custom,
     answers: [], anchor: null, conflict: false, guessed: false,
     prevAnchor: saved.anchor || null, prevRejected: false,
+    vol: null, volDays: {}, volBrush: '주간자원',   // 자원근무: 'YYYY-MM-DD' → 주간자원·야간자원
     extra: null, extraHours: 0,
     leaveDays: 0,
     bank: !!saved.bank, otSave: 0, savedLeave: 0,
@@ -4335,6 +4486,7 @@ function svCanNext(){
   switch(sv.cur){
     case 'pattern': return svPattern().length > 0;
     case 'anchor':  return !!sv.anchor;
+    case 'volunteer': return sv.vol === 'no' || (sv.vol === 'yes' && Object.keys(sv.volDays).length > 0);
     case 'extra':   return sv.extra !== null;
     default:        return true;
   }
@@ -4511,13 +4663,54 @@ function svRenderAnchor(){
     + `<button type="button" class="sv-skip" data-act="ans" data-v="">기억이 안 나요 · 연가 등 다른 날이었어요</button>`;
 }
 
+// 자원근무 — 날짜를 알아야 휴일근무수당(휴일 9~18시 근무)과 야간수당이 제대로 붙는다
+function svVolSummary(){
+  const keys = Object.keys(sv.volDays).sort();
+  const cnt = t => keys.filter(k => sv.volDays[k] === t).length;
+  const hol = keys.filter(k => { const [y, m, d] = k.split('-').map(Number); return svIsHoliday(y, m - 1, d); }).length;
+  return { keys, day: cnt('주간자원'), night: cnt('야간자원'), hol };
+}
+function svRenderVolunteer(){
+  const perf = svPerf();
+  const pm = perf.month + 1;
+  let more = '';
+  if(sv.vol === 'yes'){
+    const days = new Date(perf.year, perf.month + 1, 0).getDate();
+    const startDow = new Date(perf.year, perf.month, 1).getDay();
+    let cells = DOW_NAMES.map((d, i) => `<span class="sv-cal-dow ${i === 0 ? 'sun' : i === 6 ? 'sat' : ''}">${d}</span>`).join('');
+    for(let i = 0; i < startDow; i++) cells += '<span></span>';
+    for(let d = 1; d <= days; d++){
+      const key = dateKey(perf.year, perf.month, d);
+      const vol = sv.volDays[key];
+      const duty = vol || svDutyOn(perf.year, perf.month, d);
+      const hol = svIsHoliday(perf.year, perf.month, d);
+      cells += `<button type="button" class="sv-cal-cell ${vol ? 'on' : ''} ${hol ? 'hol' : ''}" data-act="vday" data-v="${key}" aria-pressed="${!!vol}" aria-label="${pm}월 ${d}일 ${duty}${hol ? ' 휴일' : ''}">`
+        + `<span class="n">${d}</span>${svDutyBadge(duty)}</button>`;
+    }
+    const s = svVolSummary();
+    more = `<div class="sv-label">어떤 자원근무인가요?</div>
+      <div class="sv-chips">${SV_VOL_TYPES.map(t => `<button type="button" class="sv-chip ${sv.volBrush === t ? 'sel' : ''}" data-act="brush" data-v="${t}">${t === '주간자원' ? '주간 자원' : '야간 자원'}</button>`).join('')}</div>
+      <div class="sv-label">자원근무한 날을 눌러 주세요 <span style="font-weight:500;">· 다시 누르면 취소</span></div>
+      <div class="sv-cal">${cells}</div>
+      <div class="sv-callout" style="margin-top:14px;" aria-live="polite">${s.keys.length
+        ? `주간 자원 <b>${s.day}일</b> · 야간 자원 <b>${s.night}일</b>${s.hol ? ` — 그중 <b>휴일 ${s.hol}일</b>` : ''}`
+        : '아직 고른 날이 없어요.'}</div>`;
+  }
+  return svQ(`${pm}월에 자원근무를 했나요?`,
+      '비번·휴무 날 자원해서 나간 근무요. 날짜를 알아야 <b>휴일근무수당</b>과 야간수당이 맞게 들어가요.')
+    + `<div class="sv-opts" style="margin-bottom:18px;">
+        ${svOpt('vol', 'no', '안 했어요', '', sv.vol === 'no')}
+        ${svOpt('vol', 'yes', '했어요', '달력에서 날짜를 골라요', sv.vol === 'yes')}
+      </div>${more}`;
+}
+
 function svRenderExtra(){
   const pm = svPerf().month + 1;
   const hours = sv.extra === 'yes' ? `<div class="sv-label">모두 합쳐 대략 몇 시간인가요?</div>
       <div class="sv-chips">${[2,4,8,12,16,24].map(h => `<button type="button" class="sv-chip ${+sv.extraHours === h ? 'sel' : ''}" data-act="set" data-k="extraHours" data-v="${h}">${h}시간</button>`).join('')}</div>
       ${svStepper('extraHours', sv.extraHours, 0.5, '시간', '추가근무 시간', 200)}` : '';
   return svQ(`${pm}월에 교대 근무 말고<br>더 일한 시간이 있나요?`,
-      '퇴근 후 남아서 일한 시간, 쉬는 날 불려 나간 시간 같은 것들이요. <b>교대 근무로 생기는 초과시간은 알아서 계산해요.</b>')
+      '퇴근 후 남아서 일한 시간, 쉬는 날 불려 나간 시간 같은 것들이요. <b>교대 근무와 자원근무로 생기는 초과시간은 알아서 계산해요.</b>')
     + `<div class="sv-opts">
         ${svOpt('extra', 'none', '없어요', '', sv.extra === 'none')}
         ${svOpt('extra', 'yes', '있어요', '', sv.extra === 'yes')}
@@ -4609,6 +4802,11 @@ function svRenderConfirm(){
 
   const extra = sv.extra === 'yes' ? `${fmtHours(+sv.extraHours || 0)}시간`
               : sv.extra === 'unknown' ? '모름 → 0시간으로 계산' : '없음';
+  const vs = svVolSummary();
+  const volTxt = sv.vol === 'yes' && vs.keys.length
+    ? [vs.day ? `주간 ${vs.day}일` : '', vs.night ? `야간 ${vs.night}일` : ''].filter(Boolean).join(' · ')
+      + ` <span style="color:var(--slate);font-weight:500;">(${vs.keys.map(k => +k.slice(8)).join('·')}일)</span>`
+    : '없음';
   const bank = sv.bank ? `적립 ${fmtHours(+sv.otSave || 0)}시간 · 저축연가 ${sv.savedLeave}일` : '사용 안 함';
   const fam = [sv.spouse ? '배우자' : '', sv.children ? `자녀 ${sv.children}명` : '', sv.otherDeps ? `기타 ${sv.otherDeps}명` : '']
     .filter(Boolean).join(' · ') || '없음';
@@ -4635,6 +4833,7 @@ function svRenderConfirm(){
         <div class="sv-sum-head">${pm}월 근무</div>
         ${row('pattern', '근무 패턴', patternTxt)}
         ${sv.kind !== 'weekday' ? row('anchor', '오늘 근무', todayDuty) : ''}
+        ${row('volunteer', '자원근무', volTxt)}
         ${row('extra', '추가근무', extra)}
         ${row('leave', '연가', `${sv.leaveDays}일`)}
         ${row('bank', '저축', bank)}
@@ -4654,7 +4853,7 @@ function svRenderConfirm(){
 
 const SV_RENDER = {
   intro: svRenderIntro, month: svRenderMonth, pattern: svRenderPattern, anchor: svRenderAnchor,
-  extra: svRenderExtra, leave: svRenderLeave, bank: svRenderBank,
+  volunteer: svRenderVolunteer, extra: svRenderExtra, leave: svRenderLeave, bank: svRenderBank,
   rank: svRenderRank, family: svRenderFamily, allow: svRenderAllow, confirm: svRenderConfirm,
 };
 
@@ -4687,6 +4886,7 @@ function svOnClick(e){
   switch(act){
     case 'pay': {
       const [y, m] = v.split('-').map(Number);
+      if(y !== sv.payYear || m !== sv.payMonth) sv.volDays = {};   // 실적월이 바뀌면 고른 날짜는 무효
       sv.payYear = y; sv.payMonth = m;
       break;
     }
@@ -4723,6 +4923,17 @@ function svOnClick(e){
     case 'topattern':
       svResetAnchor(); svGo('pattern');
       return;
+    case 'vol':
+      sv.vol = v;
+      if(v === 'no'){ sv.volDays = {}; svRender(); svAutoNext(); return; }
+      break;
+    case 'brush':
+      sv.volBrush = v;
+      break;
+    case 'vday':
+      if(sv.volDays[v] === sv.volBrush) delete sv.volDays[v];
+      else sv.volDays[v] = sv.volBrush;
+      break;
     case 'extra':
       sv.extra = v;
       if(v !== 'yes'){ sv.extraHours = 0; svRender(); svAutoNext(); return; }
@@ -4797,12 +5008,20 @@ function svApply(){
   const startDate = svFromDayNum(from);
   svSetField('patternStart', dateKey(startDate.y, startDate.m, startDate.d));
 
-  // 2) 실적월 연가·저축연가 — 휴일이 아닌 근무일에서 고르게 골라 바꾼다
+  // 2) 실적월 자원근무 — 고른 날짜를 주간자원·야간자원으로 바꾼다
+  const perfPrefix = `${perf.year}-${String(perf.month + 1).padStart(2, '0')}-`;
+  if(sv.vol === 'yes'){
+    Object.entries(sv.volDays).forEach(([key, t]) => { if(key.startsWith(perfPrefix)) calendarState[key] = t; });
+  }
+
+  // 3) 실적월 연가·저축연가 — 휴일이 아닌 정규 근무일에서 고르게 골라 바꾼다 (자원근무 날은 제외)
   const days = new Date(perf.year, perf.month + 1, 0).getDate();
   const work = [];
   for(let d = 1; d <= days; d++){
     const key = dateKey(perf.year, perf.month, d);
-    if(DUTY_SHIFT[calendarState[key]]) work.push({key, hol: svIsHoliday(perf.year, perf.month, d)});
+    if(DUTY_SHIFT[calendarState[key]] && !SV_VOL_TYPES.includes(calendarState[key])){
+      work.push({key, hol: svIsHoliday(perf.year, perf.month, d)});
+    }
   }
   const weekdays = work.filter(w => !w.hol).map(w => w.key);
   const allWork = weekdays.concat(work.filter(w => w.hol).map(w => w.key));
@@ -4818,7 +5037,7 @@ function svApply(){
     calendarState[pool[idx]] = duty;
   });
 
-  // 3) 교대 외 추가근무 — 남은 근무일에 나눠 담는다 (시간외 계산은 월 합계만 쓴다)
+  // 4) 교대 외 추가근무 — 남은 근무일에 나눠 담는다 (시간외 계산은 월 합계만 쓴다)
   let rest = sv.extra === 'yes' ? Math.max(0, +sv.extraHours || 0) : 0;
   const otDays = work.map(w => w.key).filter(k => DUTY_SHIFT[calendarState[k]]);
   for(let i = 0; rest > 0 && otDays.length && i < otDays.length * 2; i++){
@@ -4829,11 +5048,11 @@ function svApply(){
     rest -= add;
   }
 
-  // 4) 초과저축 적립 (실적월 기록)
+  // 5) 초과저축 적립 (실적월 기록)
   const mk = monthKey(perf.year, perf.month);
   if(sv.bank && +sv.otSave > 0) otSaveState[mk] = +sv.otSave; else delete otSaveState[mk];
 
-  // 5) 급여월 입력칸
+  // 6) 급여월 입력칸
   const rankChanged = +svFieldVal('rank') !== sv.rank;
   const yearsChanged = +svFieldVal('years') !== sv.years;
   svSetField('rank', sv.rank);
@@ -4855,7 +5074,7 @@ function svApply(){
   });
   if(!sv.allow.retro) svSetField('retroPay', 0);
 
-  // 6) 급여월로 이동해 다시 계산
+  // 7) 급여월로 이동해 다시 계산
   calYear = sv.payYear; calMonth = sv.payMonth;
   renderCalendar();
   calc();
