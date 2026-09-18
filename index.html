@@ -860,6 +860,9 @@
   .duty-저축연가{background:#0a6b74;color:#ffffff;}
   .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
   .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
+  .duty-당직자원{background:#ffd0e6;color:#8c1450;}
+  .duty-심야자원{background:#1c1740;color:#d9d4ff;border-color:#1c1740;}
+  .duty-오후자원{background:#ece8ff;color:#4b3fa0;}
 
   /* 근무 패턴 생성기 */
   .pattern-bar{
@@ -1055,6 +1058,9 @@
   .pattern-chip-row .duty-저축연가{background:#0a6b74;color:#ffffff;}
   .pattern-chip-row .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
   .pattern-chip-row .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
+  .pattern-chip-row .duty-당직자원{background:#ffd0e6;color:#8c1450;}
+  .pattern-chip-row .duty-심야자원{background:#1c1740;color:#d9d4ff;border-color:#1c1740;}
+  .pattern-chip-row .duty-오후자원{background:#ece8ff;color:#4b3fa0;}
   .pattern-slot-actions{
     display:flex;
     gap:8px;
@@ -1372,6 +1378,9 @@
   .duty-picker .duty-저축연가{background:#0a6b74;color:#ffffff;}
   .duty-picker .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
   .duty-picker .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
+  .duty-picker .duty-당직자원{background:#ffd0e6;color:#8c1450;}
+  .duty-picker .duty-심야자원{background:#1c1740;color:#d9d4ff;border-color:#1c1740;}
+  .duty-picker .duty-오후자원{background:#ece8ff;color:#4b3fa0;}
   .duty-picker button.sel{
     outline:2px solid var(--gold);
     outline-offset:2px;
@@ -2118,6 +2127,7 @@
       <details class="more mini"><summary>쓰는 법</summary><div class="note-body">
         · <b>쓸 때</b> — 캘린더에서 날짜를 눌러 근무유형 <b>저축연가</b>를 고르거나, <b>초과저축 사용</b> 시간을 넣으세요.<br>
         · 저축분을 쓴 날은 <b>근무한 것으로 인정</b>합니다 (저축연가 1일 = 8시간).<br>
+        · 근무일에 <b>초과저축 시간</b>을 쓰면 그만큼 근무에서 빠지고 같은 시간을 인정하므로 인정시간은 그대로입니다. <b>야간수당은 줄지 않아</b> 야간근무일에 쓰는 편이 유리합니다.<br>
         · <b>모을 때</b> — 위 <b>저축적립</b> 칸에 시간을 넣으면 그만큼 시간외근무수당에서 빠지고 잔여에 쌓입니다.<br>
         · 저축 한도·이월 기한은 기관 지침이 달라 검사하지 않습니다. 보유량은 직접 확인해 넣으세요.
       </div></details>
@@ -2399,7 +2409,7 @@
         · 추정으로 계산된 공제 항목에는 목록에 <b>추정</b> 표시가 붙습니다.<br>
         · 각 항목은 실제 명세서처럼 10원 미만을 버립니다.<br>
         · 위험근무수당·경찰특수업무수당은 예시 금액이며, 일부 고호봉은 표에 있는 가장 가까운 하위 호봉으로 대체합니다.<br>
-        · <b>초과저축 적립</b> 시간은 수당 대신 연가로 받는 것이므로 시간외근무수당 지급 시간에서 빼고, <b>저축연가·초과저축 사용분</b>은 근무한 것으로 인정합니다.
+        · <b>초과저축 적립</b> 시간은 수당 대신 연가로 받는 것이므로 시간외근무수당 지급 시간에서 빼고, <b>저축연가·초과저축 사용분</b>은 근무한 것으로 인정합니다. 근무일에 쓴 초과저축 시간은 교대 시간에서 빼고 같은 만큼 인정하며, 야간수당은 줄이지 않습니다.
       </div></details>
     </div>
   </div>
@@ -2769,6 +2779,9 @@ const DUTY_TYPES = [
   {name:'저축연가', abbr:'저',   shift:null},
   {name:'주간자원', abbr:'주자', shift:'day'},
   {name:'야간자원', abbr:'야자', shift:'night'},
+  {name:'당직자원', abbr:'당자', shift:'duty'},
+  {name:'심야자원', abbr:'심자', shift:'late'},
+  {name:'오후자원', abbr:'오자', shift:'evening'},   // 오후 교대처럼 휴일근무수당 대상 아님
 ];
 const DUTY_NAMES = DUTY_TYPES.map(d=>d.name);
 const DUTY_CYCLE = ['', ...DUTY_NAMES];
@@ -3194,11 +3207,15 @@ function getMonthlyOvertime(year, month){
     const isHol = isPayableHoliday(year, key, new Date(year, month, d).getDay());
     const duty = effectiveDuty(key, isHol);
     const k = DUTY_SHIFT[duty];
-    if(k){ shiftHours += shifts[k].duration; workDays++; }
+    // 초과저축 사용분은 근무로 인정한다. 근무일에 쓴 시간은 그날 근무에서 빠진 시간이므로
+    // 교대 시간에서 빼고 같은 만큼 인정해 인정시간은 그대로 둔다 (근무를 다 한 것처럼 더 얹지 않는다).
+    // 야간수당은 주간·야간 어느 날에 쓰든 줄이지 않는다 — 야간근무일에 쓰는 편이 유리하다.
+    const bankUse = Math.max(0, +(bankUseState[key] || 0));
+    if(k){ shiftHours += Math.max(0, shifts[k].duration - bankUse); workDays++; }
     else if(duty === '연가'){ leaveHours += LEAVE_CREDIT_HOURS; leaveCount++; }
     else if(duty === '저축연가'){ leaveHours += LEAVE_CREDIT_HOURS; savedLeaveDays++; }
     extraHours += overtimeState[key] || 0;
-    bankUseHours += Math.max(0, +(bankUseState[key] || 0));   // 초과저축 사용분도 근무로 인정
+    bankUseHours += bankUse;
   }
 
   const worked = shiftHours + extraHours + leaveHours + bankUseHours;
@@ -4340,7 +4357,8 @@ const SV_ORDER = ['intro','month','pattern','anchor','shifts','volunteer','leave
 const SV_WORK_STEPS = ['pattern','anchor','shifts','volunteer','leave','extra','bank'];
 const SV_PAY_STEPS = ['rank','family','allow'];
 const SV_OT_CHUNK = 4;                  // 추가근무를 날짜에 나눠 담을 때 하루 몫
-const SV_VOL_TYPES = ['주간자원','야간자원'];
+const SV_VOL_TYPES = ['주간자원','야간자원','당직자원','심야자원','오후자원'];
+const svVolLabel = t => t.replace('자원', ' 자원');
 const SV_LEAVE_TYPES = ['연가','저축연가'];
 
 // 수당 체크리스트 — 모두 체크 안 된 상태로 시작하고, 체크한 항목만 추가 입력칸이 열린다
@@ -4440,7 +4458,7 @@ function svNew(){
     kind, pattern, custom,
     answers: [], anchor: null, conflict: false, guessed: false,
     prevAnchor: saved.anchor || null, prevRejected: false,
-    vol: null, volDays: {}, volBrush: '주간자원',   // 자원근무: 'YYYY-MM-DD' → 주간자원·야간자원
+    vol: null, volDays: {}, volBrush: '주간자원',   // 자원근무: 'YYYY-MM-DD' → 주간·야간·당직·심야·오후 자원
     extra: null, extraHours: 0,
     leave: null, leaveDates: {}, leaveBrush: '연가',   // 연가: 'YYYY-MM-DD' → 연가·저축연가
     bank: !!saved.bank, otSave: 0,
@@ -4783,7 +4801,8 @@ function svVolSummary(){
   const keys = Object.keys(sv.volDays).sort();
   const cnt = t => keys.filter(k => sv.volDays[k] === t).length;
   const hol = keys.filter(k => { const [y, m, d] = k.split('-').map(Number); return svIsHoliday(y, m - 1, d); }).length;
-  return { keys, day: cnt('주간자원'), night: cnt('야간자원'), hol };
+  const counts = SV_VOL_TYPES.map(t => [t, cnt(t)]).filter(([, n]) => n > 0);
+  return { keys, counts, hol };
 }
 function svRenderVolunteer(){
   const perf = svPerf();
@@ -4800,11 +4819,12 @@ function svRenderVolunteer(){
     });
     const s = svVolSummary();
     more = `<div class="sv-label">어떤 자원근무인가요?</div>
-      <div class="sv-chips">${SV_VOL_TYPES.map(t => `<button type="button" class="sv-chip ${sv.volBrush === t ? 'sel' : ''}" data-act="brush" data-v="${t}">${t === '주간자원' ? '주간 자원' : '야간 자원'}</button>`).join('')}</div>
+      <div class="sv-chips">${SV_VOL_TYPES.map(t => `<button type="button" class="sv-chip ${sv.volBrush === t ? 'sel' : ''}" data-act="brush" data-v="${t}">${svVolLabel(t)}</button>`).join('')}</div>
+      <p class="sv-sub" style="font-size:13px; margin:-4px 0 14px;">${svVolLabel(sv.volBrush)}: ${svShiftSummary(DUTY_SHIFT[sv.volBrush])} <span style="color:var(--slate-dim);">(근무 시각은 급여 입력의 '교대 근무시간'을 따라요)</span></p>
       <div class="sv-label">자원근무한 날을 눌러 주세요 <span style="font-weight:500;">· 다시 누르면 취소</span></div>
       ${cal}
       <div class="sv-callout" style="margin-top:14px;" aria-live="polite">${s.keys.length
-        ? `주간 자원 <b>${s.day}일</b> · 야간 자원 <b>${s.night}일</b>${s.hol ? ` — 그중 <b>휴일 ${s.hol}일</b>` : ''}`
+        ? s.counts.map(([t, n]) => `${svVolLabel(t)} <b>${n}일</b>`).join(' · ') + (s.hol ? ` — 그중 <b>휴일 ${s.hol}일</b>` : '')
         : '아직 고른 날이 없어요.'}</div>`;
   }
   return svQ(`${pm}월에 자원근무를 했나요?`,
@@ -4908,7 +4928,7 @@ function svRenderConfirm(){
               : sv.extra === 'unknown' ? '모름 → 0시간으로 계산' : '없음';
   const vs = svVolSummary();
   const volTxt = sv.vol === 'yes' && vs.keys.length
-    ? [vs.day ? `주간 ${vs.day}일` : '', vs.night ? `야간 ${vs.night}일` : ''].filter(Boolean).join(' · ')
+    ? vs.counts.map(([t, n]) => `${t.replace('자원', '')} ${n}일`).join(' · ')
       + ` <span style="color:var(--slate);font-weight:500;">(${vs.keys.map(k => +k.slice(8)).join('·')}일)</span>`
     : '없음';
   const bank = sv.bank ? `적립 ${fmtHours(+sv.otSave || 0)}시간` : '사용 안 함';
@@ -5141,7 +5161,7 @@ function svApply(){
   const startDate = svFromDayNum(from);
   svSetField('patternStart', dateKey(startDate.y, startDate.m, startDate.d));
 
-  // 2) 실적월 자원근무 — 고른 날짜를 주간자원·야간자원으로 바꾼다
+  // 2) 실적월 자원근무 — 고른 날짜를 주간·야간·당직·심야·오후 자원으로 바꾼다
   const perfPrefix = `${perf.year}-${String(perf.month + 1).padStart(2, '0')}-`;
   if(sv.vol === 'yes'){
     Object.entries(sv.volDays).forEach(([key, t]) => { if(key.startsWith(perfPrefix)) calendarState[key] = t; });
