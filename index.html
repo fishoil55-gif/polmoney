@@ -2191,7 +2191,7 @@
             <option value="50000">을종 (5만원)</option>
             <option value="40000">병종 (4만원)</option>
           </select>
-          <label class="mini-check"><input type="checkbox" id="dangerBonus"> 가산금 (갑종 월 2만원)</label>
+          <label class="mini-check"><input type="checkbox" id="dangerBonus" checked> 가산금 (갑종 월 2만원)</label>
         </div>
       </div>
       <div class="allowance-card key">
@@ -3751,7 +3751,9 @@ function baseSalary(rankIdx, step){
 // pv가 없으면 지금 캘린더의 급여월을 계산해 화면에 그린다.
 // pv = {year, month, counts, ov}이면 그 달을 계산해 숫자만 돌려준다 (다음 달 미리보기).
 //   counts: 그 달 수당의 실적(=전월) 집계, ov: 입력칸 대신 쓸 값 {id: 값}
-function calc(pv){
+function calc(arg){
+  // 입력칸 이벤트 리스너로도 불리므로 Event 객체가 들어오면 미리보기 인자가 아니다
+  const pv = (arg && arg.counts) ? arg : null;
   const Y = pv ? pv.year : calYear, M = pv ? pv.month : calMonth;
   const ov = (pv && pv.ov) || {};
   const $v = id => (id in ov) ? ov[id] : document.getElementById(id).value;
@@ -3781,7 +3783,8 @@ function calc(pv){
   const otPay = (rate && ot >= 1) ? rate.ot * ot : 0; // 1일 1시간 이상부터 인정
   const nightPay = rate ? rate.night * night : 0;
   const dangerPay = +$v('dangerGrade') || 0;
-  const dangerBonusPay = $c('dangerBonus') ? DANGER_BONUS : 0;
+  // 가산금은 갑종에만 붙는다 — 을종·병종·미대상이면 체크돼 있어도 0
+  const dangerBonusPay = ($c('dangerBonus') && dangerPay === 60000) ? DANGER_BONUS : 0;
   const specialPay = special ? r.specialAllow : 0;
   const familyPay = family.total;
   if(!pv) renderFamilyInfo(family);
