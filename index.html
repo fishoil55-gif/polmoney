@@ -1864,6 +1864,20 @@
     border:1px solid transparent;
   }
   .sv-cal-cell.on{border-color:var(--gold); background:var(--tint-primary);}
+  .sv-cal-cell:disabled{cursor:default; opacity:.45; background:var(--navy-700);}
+
+  /* 근무 시간 확인 */
+  .sv-shift{border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:10px;}
+  .sv-shift-h{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .sv-shift-h i{
+    font-style:normal; font-size:14px; font-weight:700;
+    padding:3px 10px; border-radius:7px; border:1px solid transparent;
+  }
+  .sv-shift-sum{font-size:12.5px; color:var(--slate); line-height:1.4;}
+  .sv-shift-t{display:flex; align-items:center; gap:8px;}
+  .sv .sv-shift-t input[type=time]{flex:1; min-width:0; padding:10px; font-size:16px;}
+  .sv-shift-t span{color:var(--slate-dim);}
+  .sv .sv-shift .sv-inline{margin-top:10px;}
 
   /* 수당 체크리스트 */
   .sv-checks{display:flex; flex-direction:column; border:1px solid var(--line); border-radius:14px; overflow:hidden;}
@@ -4322,11 +4336,12 @@ const SURVEY_KEY = 'polpay.survey.v1';
 const PAYDAY = 20;                      // 공무원 봉급일 (매월 20일)
 const SV_WEEKDAY_PT = '주주주주주휴휴';  // 평일 근무는 순서가 아니라 요일에 맞춰 채운다
 const SV_BUILD_DUTIES = ['주간','야간','심야','오후','당직','비번','휴무','일근'];
-const SV_ORDER = ['intro','month','pattern','anchor','volunteer','extra','leave','bank','rank','family','allow','confirm'];
-const SV_WORK_STEPS = ['pattern','anchor','volunteer','extra','leave','bank'];
+const SV_ORDER = ['intro','month','pattern','anchor','shifts','volunteer','leave','extra','bank','rank','family','allow','confirm'];
+const SV_WORK_STEPS = ['pattern','anchor','shifts','volunteer','leave','extra','bank'];
 const SV_PAY_STEPS = ['rank','family','allow'];
 const SV_OT_CHUNK = 4;                  // 추가근무를 날짜에 나눠 담을 때 하루 몫
 const SV_VOL_TYPES = ['주간자원','야간자원'];
+const SV_LEAVE_TYPES = ['연가','저축연가'];
 
 // 수당 체크리스트 — 모두 체크 안 된 상태로 시작하고, 체크한 항목만 추가 입력칸이 열린다
 const SV_ALLOW = [
@@ -4427,8 +4442,8 @@ function svNew(){
     prevAnchor: saved.anchor || null, prevRejected: false,
     vol: null, volDays: {}, volBrush: '주간자원',   // 자원근무: 'YYYY-MM-DD' → 주간자원·야간자원
     extra: null, extraHours: 0,
-    leaveDays: 0,
-    bank: !!saved.bank, otSave: 0, savedLeave: 0,
+    leave: null, leaveDates: {}, leaveBrush: '연가',   // 연가: 'YYYY-MM-DD' → 연가·저축연가
+    bank: !!saved.bank, otSave: 0,
     rank: +svFieldVal('rank') || 0, hobong: +svFieldVal('step') || 1, years: +svFieldVal('years') || 0,
     spouse: !!svFieldVal('spouse'), children: +svFieldVal('children') || 0, otherDeps: +svFieldVal('otherDeps') || 0,
     danger: svFieldVal('dangerGrade'),
@@ -4443,6 +4458,7 @@ function svPattern(){
 }
 function svResetAnchor(){
   sv.answers = []; sv.anchor = null; sv.conflict = false; sv.guessed = false;
+  sv.leaveDates = {};   // 근무표가 바뀌면 그날이 근무일인지도 바뀌므로 연가 날짜는 다시 고른다
 }
 // 오늘이 패턴의 몇 번째 칸인지 — 답과 모순되지 않는 후보만 남긴다
 function svCandidates(){
@@ -4486,6 +4502,7 @@ function svCanNext(){
   switch(sv.cur){
     case 'pattern': return svPattern().length > 0;
     case 'anchor':  return !!sv.anchor;
+    case 'leave':   return sv.leave === 'no' || (sv.leave === 'yes' && Object.keys(sv.leaveDates).length > 0);
     case 'volunteer': return sv.vol === 'no' || (sv.vol === 'yes' && Object.keys(sv.volDays).length > 0);
     case 'extra':   return sv.extra !== null;
     default:        return true;
@@ -4663,6 +4680,104 @@ function svRenderAnchor(){
     + `<button type="button" class="sv-skip" data-act="ans" data-v="">기억이 안 나요 · 연가 등 다른 날이었어요</button>`;
 }
 
+// 근무 시간 확인 — 근무지마다 교대 시각이 달라 야간·초과·휴일수당이 바뀐다.
+// 급여 입력의 '교대 근무시간' 칸을 그대로 고치므로 설문을 닫아도 남는다.
+function svShiftKeys(){
+  if(sv.kind === 'weekday') return ['reg'];
+  return [...new Set(svPattern().map(d => DUTY_SHIFT[d]).filter(Boolean))];
+}
+function svShiftSummary(key){
+  const s = getShift(key);
+  return `${fmtHours(s.duration)}시간 근무 · 야간수당 ${fmtHours(s.nightPayHours)}시간 · 휴일수당 ${s.holidayEligible ? '대상' : '대상 아님'}`;
+}
+function svRenderShifts(){
+  const keys = svShiftKeys();
+  const rows = keys.map(k=>{
+    const def = SHIFT_BY_KEY[k];
+    const st = document.getElementById(`sh_${k}_start`).value;
+    const en = document.getElementById(`sh_${k}_end`).value;
+    const brk = document.getElementById(`sh_${k}_break`).checked;
+    return `<div class="sv-shift">
+      <div class="sv-shift-h"><i class="duty-${def.duty}">${def.label}</i><span class="sv-shift-sum" data-sum="${k}">${svShiftSummary(k)}</span></div>
+      <div class="sv-shift-t">
+        <input type="time" data-sh="sh_${k}_start" value="${st}" aria-label="${def.label} 시작 시각">
+        <span>~</span>
+        <input type="time" data-sh="sh_${k}_end" value="${en}" aria-label="${def.label} 끝 시각">
+      </div>
+      <label class="sv-inline"><input type="checkbox" data-sh="sh_${k}_break" ${brk ? 'checked' : ''}> 휴게 1시간 빼기</label>
+    </div>`;
+  }).join('');
+  return svQ('근무 시간이 맞나요?',
+      '근무지마다 교대 시각이 달라요. 이 시간으로 <b>야간·초과·휴일수당</b>을 계산하니, 다르면 고쳐 주세요.')
+    + rows
+    + `<p class="sv-sub" style="margin-top:14px; font-size:13px;">여기서 고친 시간은 <b>급여 입력</b>의 '교대 근무시간'에 그대로 저장돼요.</p>`;
+}
+
+// 실적월 달력 — 자원근무·연가 날짜 고르기에 같이 쓴다
+function svMonthCal(cellFn){
+  const perf = svPerf();
+  const days = new Date(perf.year, perf.month + 1, 0).getDate();
+  const startDow = new Date(perf.year, perf.month, 1).getDay();
+  let cells = DOW_NAMES.map((d, i) => `<span class="sv-cal-dow ${i === 0 ? 'sun' : i === 6 ? 'sat' : ''}">${d}</span>`).join('');
+  for(let i = 0; i < startDow; i++) cells += '<span></span>';
+  for(let d = 1; d <= days; d++) cells += cellFn(perf.year, perf.month, d);
+  return `<div class="sv-cal">${cells}</div>`;
+}
+// 설문에서 정한 그날의 근무 (패턴 + 자원근무, 연가 적용 전)
+function svBaseDuty(y, m, d){
+  return sv.volDays[dateKey(y, m, d)] || svDutyOn(y, m, d);
+}
+
+// 연가 — 어느 근무를 빼고 썼는지에 따라 인정시간·야간수당이 달라지므로 날짜를 정확히 받는다
+function svLeaveSummary(){
+  const keys = Object.keys(sv.leaveDates).sort();
+  let lostH = 0, lostNight = 0;
+  const items = keys.map(k=>{
+    const [y, m, d] = k.split('-').map(Number);
+    const base = svBaseDuty(y, m - 1, d);
+    const sh = getShift(DUTY_SHIFT[base]);
+    lostH += sh.duration - LEAVE_CREDIT_HOURS;
+    lostNight += sh.nightPayHours;
+    return { key: k, d, base, type: sv.leaveDates[k] };
+  });
+  return { keys, items, lostH, lostNight,
+    leave: items.filter(i => i.type === '연가').length,
+    saved: items.filter(i => i.type === '저축연가').length };
+}
+function svRenderLeave(){
+  const pm = svPerf().month + 1;
+  let more = '';
+  if(sv.leave === 'yes'){
+    const cal = svMonthCal((y, m, d)=>{
+      const key = dateKey(y, m, d);
+      const base = svBaseDuty(y, m, d);
+      const lv = sv.leaveDates[key];
+      const hol = svIsHoliday(y, m, d);
+      const can = !!DUTY_SHIFT[base] && !sv.volDays[key];   // 원래 근무가 있는 날만 연가를 쓸 수 있다
+      return `<button type="button" class="sv-cal-cell ${lv ? 'on' : ''} ${hol ? 'hol' : ''}" data-act="lday" data-v="${key}" ${can ? '' : 'disabled'} aria-pressed="${!!lv}" aria-label="${pm}월 ${d}일 ${base}${lv ? ', ' + lv : ''}${hol ? ' 휴일' : ''}">`
+        + `<span class="n">${d}</span>${svDutyBadge(lv || base)}</button>`;
+    });
+    const s = svLeaveSummary();
+    const fmt = v => (v > 0 ? '−' : v < 0 ? '+' : '') + fmtHours(Math.abs(v));
+    const effect = s.keys.length
+      ? `${[s.leave ? `연가 <b>${s.leave}일</b>` : '', s.saved ? `저축연가 <b>${s.saved}일</b>` : ''].filter(Boolean).join(' · ')}
+         <br>${s.items.map(i => `${i.d}일(${i.base})`).join(' · ')}
+         <br><span style="font-size:13.5px;">근무 인정 <b>${fmt(s.lostH)}시간</b> · 야간수당 <b>${fmt(s.lostNight)}시간</b> <span style="color:var(--slate);">— 연가는 하루 8시간으로 인정해요</span></span>`
+      : '아직 고른 날이 없어요.';
+    more = `<div class="sv-label">무엇을 썼나요?</div>
+      <div class="sv-chips">${SV_LEAVE_TYPES.map(t => `<button type="button" class="sv-chip ${sv.leaveBrush === t ? 'sel' : ''}" data-act="lbrush" data-v="${t}">${t}</button>`).join('')}</div>
+      <div class="sv-label">쓴 날을 눌러 주세요 <span style="font-weight:500;">· 근무가 있던 날만 고를 수 있어요</span></div>
+      ${cal}
+      <div class="sv-callout" style="margin-top:14px;" aria-live="polite">${effect}</div>`;
+  }
+  return svQ(`${pm}월에 연가를 쓴 날이 있나요?`,
+      '<b>야간 근무일</b>에 쓴 연가와 <b>주간 근무일</b>에 쓴 연가는 초과·야간수당이 달라져요. 정확한 날짜를 골라 주세요. 저축연가도 여기서 골라요.')
+    + `<div class="sv-opts" style="margin-bottom:18px;">
+        ${svOpt('leave', 'no', '안 썼어요', '', sv.leave === 'no')}
+        ${svOpt('leave', 'yes', '썼어요', '달력에서 날짜를 골라요', sv.leave === 'yes')}
+      </div>${more}`;
+}
+
 // 자원근무 — 날짜를 알아야 휴일근무수당(휴일 9~18시 근무)과 야간수당이 제대로 붙는다
 function svVolSummary(){
   const keys = Object.keys(sv.volDays).sort();
@@ -4675,23 +4790,19 @@ function svRenderVolunteer(){
   const pm = perf.month + 1;
   let more = '';
   if(sv.vol === 'yes'){
-    const days = new Date(perf.year, perf.month + 1, 0).getDate();
-    const startDow = new Date(perf.year, perf.month, 1).getDay();
-    let cells = DOW_NAMES.map((d, i) => `<span class="sv-cal-dow ${i === 0 ? 'sun' : i === 6 ? 'sat' : ''}">${d}</span>`).join('');
-    for(let i = 0; i < startDow; i++) cells += '<span></span>';
-    for(let d = 1; d <= days; d++){
-      const key = dateKey(perf.year, perf.month, d);
+    const cal = svMonthCal((y, m, d)=>{
+      const key = dateKey(y, m, d);
       const vol = sv.volDays[key];
-      const duty = vol || svDutyOn(perf.year, perf.month, d);
-      const hol = svIsHoliday(perf.year, perf.month, d);
-      cells += `<button type="button" class="sv-cal-cell ${vol ? 'on' : ''} ${hol ? 'hol' : ''}" data-act="vday" data-v="${key}" aria-pressed="${!!vol}" aria-label="${pm}월 ${d}일 ${duty}${hol ? ' 휴일' : ''}">`
+      const duty = vol || svDutyOn(y, m, d);
+      const hol = svIsHoliday(y, m, d);
+      return `<button type="button" class="sv-cal-cell ${vol ? 'on' : ''} ${hol ? 'hol' : ''}" data-act="vday" data-v="${key}" aria-pressed="${!!vol}" aria-label="${pm}월 ${d}일 ${duty}${hol ? ' 휴일' : ''}">`
         + `<span class="n">${d}</span>${svDutyBadge(duty)}</button>`;
-    }
+    });
     const s = svVolSummary();
     more = `<div class="sv-label">어떤 자원근무인가요?</div>
       <div class="sv-chips">${SV_VOL_TYPES.map(t => `<button type="button" class="sv-chip ${sv.volBrush === t ? 'sel' : ''}" data-act="brush" data-v="${t}">${t === '주간자원' ? '주간 자원' : '야간 자원'}</button>`).join('')}</div>
       <div class="sv-label">자원근무한 날을 눌러 주세요 <span style="font-weight:500;">· 다시 누르면 취소</span></div>
-      <div class="sv-cal">${cells}</div>
+      ${cal}
       <div class="sv-callout" style="margin-top:14px;" aria-live="polite">${s.keys.length
         ? `주간 자원 <b>${s.day}일</b> · 야간 자원 <b>${s.night}일</b>${s.hol ? ` — 그중 <b>휴일 ${s.hol}일</b>` : ''}`
         : '아직 고른 날이 없어요.'}</div>`;
@@ -4718,17 +4829,10 @@ function svRenderExtra(){
       </div>${hours}`;
 }
 
-function svRenderLeave(){
-  const pm = svPerf().month + 1;
-  return svQ(`${pm}월에 연가를 며칠 썼나요?`, '연가 1일은 8시간 근무한 것으로 인정돼요. 초과시간에서 손해 보지 않도록 반영할게요.')
-    + `<div class="sv-chips">${[0,1,2,3,4,5].map(n => `<button type="button" class="sv-chip ${sv.leaveDays === n ? 'sel' : ''}" data-act="set" data-k="leaveDays" data-v="${n}">${n === 0 ? '안 썼어요' : n + '일'}</button>`).join('')}</div>`
-    + svStepper('leaveDays', sv.leaveDays, 1, '일', '연가 일수', 31);
-}
-
 function svRenderBank(){
   const pm = svPerf().month + 1;
   const more = sv.bank ? `<div class="sv-field"><span>${pm}월 초과근무 중 수당 대신 저축한 시간</span>${svStepper('otSave', sv.otSave, 0.5, '시간', '저축 적립 시간', 200)}</div>
-      <div class="sv-field"><span>${pm}월에 쓴 저축연가</span>${svStepper('savedLeave', sv.savedLeave, 1, '일', '저축연가 일수', 31)}</div>` : '';
+      <p class="sv-sub" style="font-size:13px;">저축연가를 쓴 날은 앞의 연가 달력에서 <b>저축연가</b>로 골라 주세요.</p>` : '';
   return svQ('초과저축·연가저축을 쓰시나요?', '초과근무를 수당 대신 휴가로 모아두는 제도예요. <b>대부분은 \'아니요\'</b>예요.')
     + `<div class="sv-opts" style="margin-bottom:18px;">
         ${svOpt('bank', 'no', '아니요', '', !sv.bank)}
@@ -4807,7 +4911,16 @@ function svRenderConfirm(){
     ? [vs.day ? `주간 ${vs.day}일` : '', vs.night ? `야간 ${vs.night}일` : ''].filter(Boolean).join(' · ')
       + ` <span style="color:var(--slate);font-weight:500;">(${vs.keys.map(k => +k.slice(8)).join('·')}일)</span>`
     : '없음';
-  const bank = sv.bank ? `적립 ${fmtHours(+sv.otSave || 0)}시간 · 저축연가 ${sv.savedLeave}일` : '사용 안 함';
+  const bank = sv.bank ? `적립 ${fmtHours(+sv.otSave || 0)}시간` : '사용 안 함';
+  const ls = svLeaveSummary();
+  const leaveTxt = sv.leave === 'yes' && ls.keys.length
+    ? ls.items.map(i => `${i.d}일 ${i.base}${i.type === '저축연가' ? '(저축)' : ''}`).join(' · ')
+    : '없음';
+  const shiftTxt = svShiftKeys().map(k => {
+    const s = getShift(k);
+    const p = t => `${String(Math.floor(t % 24)).padStart(2, '0')}:${String(Math.round((t % 1) * 60)).padStart(2, '0')}`;
+    return `${SHIFT_BY_KEY[k].label} ${p(s.start)}~${p(s.end)}`;
+  }).join('<br>');
   const fam = [sv.spouse ? '배우자' : '', sv.children ? `자녀 ${sv.children}명` : '', sv.otherDeps ? `기타 ${sv.otherDeps}명` : '']
     .filter(Boolean).join(' · ') || '없음';
   const allowOn = SV_ALLOW.filter(a => sv.allow[a.id]).map(a => a.label).join(', ') || '해당 없음';
@@ -4833,9 +4946,10 @@ function svRenderConfirm(){
         <div class="sv-sum-head">${pm}월 근무</div>
         ${row('pattern', '근무 패턴', patternTxt)}
         ${sv.kind !== 'weekday' ? row('anchor', '오늘 근무', todayDuty) : ''}
+        ${row('shifts', '근무 시간', shiftTxt)}
         ${row('volunteer', '자원근무', volTxt)}
         ${row('extra', '추가근무', extra)}
-        ${row('leave', '연가', `${sv.leaveDays}일`)}
+        ${row('leave', '연가', leaveTxt)}
         ${row('bank', '저축', bank)}
       </div>
       <div class="sv-sum">
@@ -4852,7 +4966,7 @@ function svRenderConfirm(){
 }
 
 const SV_RENDER = {
-  intro: svRenderIntro, month: svRenderMonth, pattern: svRenderPattern, anchor: svRenderAnchor,
+  intro: svRenderIntro, month: svRenderMonth, pattern: svRenderPattern, anchor: svRenderAnchor, shifts: svRenderShifts,
   volunteer: svRenderVolunteer, extra: svRenderExtra, leave: svRenderLeave, bank: svRenderBank,
   rank: svRenderRank, family: svRenderFamily, allow: svRenderAllow, confirm: svRenderConfirm,
 };
@@ -4886,7 +5000,7 @@ function svOnClick(e){
   switch(act){
     case 'pay': {
       const [y, m] = v.split('-').map(Number);
-      if(y !== sv.payYear || m !== sv.payMonth) sv.volDays = {};   // 실적월이 바뀌면 고른 날짜는 무효
+      if(y !== sv.payYear || m !== sv.payMonth){ sv.volDays = {}; sv.leaveDates = {}; }   // 실적월이 바뀌면 고른 날짜는 무효
       sv.payYear = y; sv.payMonth = m;
       break;
     }
@@ -4932,7 +5046,18 @@ function svOnClick(e){
       break;
     case 'vday':
       if(sv.volDays[v] === sv.volBrush) delete sv.volDays[v];
-      else sv.volDays[v] = sv.volBrush;
+      else { sv.volDays[v] = sv.volBrush; delete sv.leaveDates[v]; }
+      break;
+    case 'leave':
+      sv.leave = v;
+      if(v === 'no'){ sv.leaveDates = {}; svRender(); svAutoNext(); return; }
+      break;
+    case 'lbrush':
+      sv.leaveBrush = v;
+      break;
+    case 'lday':
+      if(sv.leaveDates[v] === sv.leaveBrush) delete sv.leaveDates[v];
+      else sv.leaveDates[v] = sv.leaveBrush;
       break;
     case 'extra':
       sv.extra = v;
@@ -4940,7 +5065,7 @@ function svOnClick(e){
       break;
     case 'bank':
       sv.bank = v === 'yes';
-      if(!sv.bank){ sv.otSave = 0; sv.savedLeave = 0; svRender(); svAutoNext(); return; }
+      if(!sv.bank){ sv.otSave = 0; svRender(); svAutoNext(); return; }
       break;
     case 'spouse':
       sv.spouse = v === 'yes';
@@ -4969,6 +5094,14 @@ function svOnClick(e){
 // 숫자·선택 입력 — 다시 그리면 입력 중인 칸의 포커스가 날아가므로 값만 옮긴다
 function svOnInput(e){
   const el = e.target;
+  if(el.dataset.sh){
+    const target = document.getElementById(el.dataset.sh);
+    if(!target) return;
+    if(el.type === 'checkbox') target.checked = el.checked; else target.value = el.value;
+    target.dispatchEvent(new Event('change'));   // 급여 입력 쪽 요약·캘린더·계산을 다시 돌린다
+    document.querySelectorAll('#svBody [data-sum]').forEach(s => { s.textContent = svShiftSummary(s.dataset.sum); });
+    return;
+  }
   if(el.dataset.k){
     const k = el.dataset.k;
     if(k === 'danger') sv.danger = el.value;
@@ -5014,28 +5147,20 @@ function svApply(){
     Object.entries(sv.volDays).forEach(([key, t]) => { if(key.startsWith(perfPrefix)) calendarState[key] = t; });
   }
 
-  // 3) 실적월 연가·저축연가 — 휴일이 아닌 정규 근무일에서 고르게 골라 바꾼다 (자원근무 날은 제외)
+  // 3) 실적월 연가·저축연가 — 고른 날짜 그대로 (원래 근무가 있던 날만)
+  if(sv.leave === 'yes'){
+    Object.entries(sv.leaveDates).forEach(([key, t])=>{
+      if(key.startsWith(perfPrefix) && DUTY_SHIFT[calendarState[key]] && !SV_VOL_TYPES.includes(calendarState[key])){
+        calendarState[key] = t;
+      }
+    });
+  }
   const days = new Date(perf.year, perf.month + 1, 0).getDate();
   const work = [];
   for(let d = 1; d <= days; d++){
     const key = dateKey(perf.year, perf.month, d);
-    if(DUTY_SHIFT[calendarState[key]] && !SV_VOL_TYPES.includes(calendarState[key])){
-      work.push({key, hol: svIsHoliday(perf.year, perf.month, d)});
-    }
+    if(DUTY_SHIFT[calendarState[key]] && !SV_VOL_TYPES.includes(calendarState[key])) work.push({key});
   }
-  const weekdays = work.filter(w => !w.hol).map(w => w.key);
-  const allWork = weekdays.concat(work.filter(w => w.hol).map(w => w.key));
-  const leaves = [...Array(sv.leaveDays).fill('연가'),
-                  ...Array(sv.bank ? sv.savedLeave : 0).fill('저축연가')].slice(0, allWork.length);
-  // 평일 근무일이 충분하면 그 안에서만 고르게 — 모자랄 때만 휴일 근무일까지 쓴다
-  const pool = weekdays.length >= leaves.length ? weekdays : allWork;
-  const picked = new Set();
-  leaves.forEach((duty, i)=>{
-    let idx = Math.floor((i + 0.5) * pool.length / leaves.length);
-    while(picked.has(idx)) idx = (idx + 1) % pool.length;
-    picked.add(idx);
-    calendarState[pool[idx]] = duty;
-  });
 
   // 4) 교대 외 추가근무 — 남은 근무일에 나눠 담는다 (시간외 계산은 월 합계만 쓴다)
   let rest = sv.extra === 'yes' ? Math.max(0, +sv.extraHours || 0) : 0;
