@@ -4505,6 +4505,9 @@ const SV_ALLOW = [
            {field:'parentalDays', unit:'일 휴직', step:1, max:31, ph:'0=한 달 전체'}]},
 ];
 
+// 이번 달에만 해당하는 수당 — 설문을 열 때마다 체크 해제로 시작
+const SV_ALLOW_MONTHLY_RESET = ['retro', 'jg', 'hb'];
+
 let sv = null;
 let svEditing = false;   // 확인 화면에서 [수정]으로 들어온 경우 — 다음을 누르면 확인 화면으로 돌아간다
 
@@ -4569,10 +4572,12 @@ function svNew(){
   }
   if(kind === 'preset' && !pattern.length) pattern = presetToPattern(PRESET_PATTERNS[0]);
 
-  // 수당 체크리스트는 저장된 값으로 미리 채운다 (체크 항목은 체크 여부, 소급분은 금액이 있는지)
+  // 수당 체크리스트는 저장된 값으로 미리 채운다 (체크 항목은 체크 여부, 소급분은 금액이 있는지).
+  // 매달 나오지 않는 항목(소급분·정근수당·명절휴가비)은 항상 체크 해제로 시작한다.
   const allow = {}, vals = {};
   SV_ALLOW.forEach(a=>{
-    allow[a.id] = a.field ? !!svFieldVal(a.field) : (a.inputs || []).some(i => (+svFieldVal(i.field) || 0) > 0);
+    if(SV_ALLOW_MONTHLY_RESET.includes(a.id)) allow[a.id] = false;
+    else allow[a.id] = a.field ? !!svFieldVal(a.field) : (a.inputs || []).some(i => (+svFieldVal(i.field) || 0) > 0);
     (a.inputs || []).forEach(i=>{
       const v = svFieldVal(i.field);
       vals[i.field] = (v === null || +v === 0) ? '' : v;
