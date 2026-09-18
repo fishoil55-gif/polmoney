@@ -4486,7 +4486,7 @@ function svVolTypes(){
 }
 const SV_LEAVE_TYPES = ['연가','저축연가'];
 
-// 수당 체크리스트 — 모두 체크 안 된 상태로 시작하고, 체크한 항목만 추가 입력칸이 열린다
+// 수당 체크리스트 — 처음엔 모두 체크 안 된 상태, 다음부터는 저장된 값대로. 체크한 항목만 추가 입력칸이 열린다
 const SV_ALLOW = [
   {id:'retro',    label:'소급분',          desc:'명세서의 소급 항목 합계',
    inputs:[{field:'retroPay', unit:'원', step:1000, ph:'금액'}]},
@@ -4569,9 +4569,10 @@ function svNew(){
   }
   if(kind === 'preset' && !pattern.length) pattern = presetToPattern(PRESET_PATTERNS[0]);
 
+  // 수당 체크리스트는 저장된 값으로 미리 채운다 (체크 항목은 체크 여부, 소급분은 금액이 있는지)
   const allow = {}, vals = {};
   SV_ALLOW.forEach(a=>{
-    allow[a.id] = false;
+    allow[a.id] = a.field ? !!svFieldVal(a.field) : (a.inputs || []).some(i => (+svFieldVal(i.field) || 0) > 0);
     (a.inputs || []).forEach(i=>{
       const v = svFieldVal(i.field);
       vals[i.field] = (v === null || +v === 0) ? '' : v;
