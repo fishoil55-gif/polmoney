@@ -4468,9 +4468,9 @@ const SURVEY_KEY = 'polpay.survey.v1';
 const PAYDAY = 20;                      // 공무원 봉급일 (매월 20일)
 const SV_WEEKDAY_PT = '주주주주주휴휴';  // 평일 근무는 순서가 아니라 요일에 맞춰 채운다
 const SV_BUILD_DUTIES = ['주간','야간','심야','오후','당직','비번','휴무','일근'];
-const SV_ORDER = ['intro','month','pattern','anchor','shifts','volunteer','leave','extra','bank','rank','family','allow','confirm'];
+const SV_ORDER = ['intro','month','pattern','anchor','shifts','volunteer','leave','extra','bank','rank','family','allow','deduct','confirm'];
 const SV_WORK_STEPS = ['pattern','anchor','shifts','volunteer','leave','extra','bank'];
-const SV_PAY_STEPS = ['rank','family','allow'];
+const SV_PAY_STEPS = ['rank','family','allow','deduct'];
 const SV_OT_CHUNK = 4;                  // 추가근무를 날짜에 나눠 담을 때 하루 몫
 const SV_VOL_TYPES = ['주간자원','야간자원','당직자원','심야자원','오후자원'];
 const svVolLabel = t => t.replace('자원', ' 자원');
@@ -4587,6 +4587,7 @@ function svNew(){
     rank: +svFieldVal('rank') || 0, hobong: +svFieldVal('step') || 1, years: +svFieldVal('years') || 0,
     spouse: !!svFieldVal('spouse'), children: +svFieldVal('children') || 0, otherDeps: +svFieldVal('otherDeps') || 0,
     danger: svFieldVal('dangerGrade'),
+    mutual: (+svFieldVal('policeMutualAid') || 0) > 0 ? 'yes' : null, mutualAmt: +svFieldVal('policeMutualAid') || 0,
     allow, vals,
   };
 }
@@ -4643,6 +4644,7 @@ function svCanNext(){
   switch(sv.cur){
     case 'pattern': return svPattern().length > 0;
     case 'anchor':  return !!sv.anchor;
+    case 'deduct':  return sv.mutual === 'no' || (sv.mutual === 'yes' && sv.mutualAmt > 0);
     case 'leave':   return sv.leave === 'no' || (sv.leave === 'yes' && Object.keys(sv.leaveDates).length > 0);
     case 'volunteer': return sv.vol === 'no' || (sv.vol === 'yes' && Object.keys(sv.volDays).length > 0);
     case 'extra':   return sv.extra !== null;
@@ -5014,6 +5016,19 @@ function svAllowHint(id){
   }
   return false;
 }
+// 공제 — 건강보험·기여금·소득세는 자동 계산이라 묻지 않고, 개인별로 다른 경찰공제회비만 묻는다
+function svRenderDeduct(){
+  const amt = sv.mutual === 'yes' ? `<div class="sv-label">한 달에 얼마씩 내나요?</div>
+      <div class="sv-chips">${[30000,50000,100000,150000,200000].map(v => `<button type="button" class="sv-chip ${+sv.mutualAmt === v ? 'sel' : ''}" data-act="set" data-k="mutualAmt" data-v="${v}">${v/10000}만원</button>`).join('')}</div>
+      ${svStepper('mutualAmt', sv.mutualAmt, 10000, '원', '경찰공제회비', 2000000)}
+      <p class="sv-sub" style="font-size:13px; margin-top:12px;">급여명세서 공제란의 <b>경찰공제회비</b> 금액이에요.</p>` : '';
+  return svQ('경찰공제회비를 내시나요?', '건강보험·기여금·소득세는 알아서 계산해요. 사람마다 다른 <b>경찰공제회비</b>만 알려주세요.')
+    + `<div class="sv-opts" style="margin-bottom:18px;">
+        ${svOpt('mutual', 'no', '안 내요', '', sv.mutual === 'no')}
+        ${svOpt('mutual', 'yes', '내요', '금액을 넣어요', sv.mutual === 'yes')}
+      </div>${amt}`;
+}
+
 function svRenderAllow(){
   const dangerOpts = [...document.getElementById('dangerGrade').options]
     .map(o => `<option value="${o.value}" ${o.value === String(sv.danger) ? 'selected' : ''}>${o.textContent}</option>`).join('');
@@ -5103,6 +5118,7 @@ function svRenderConfirm(){
         ${row('family', '가족', fam)}
         ${row('allow', '위험근무', dangerTxt)}
         ${row('allow', '추가 수당', allowOn)}
+        ${row('deduct', '경찰공제회비', sv.mutual === 'yes' && sv.mutualAmt > 0 ? `월 ${won(sv.mutualAmt)}원` : '안 냄')}
       </div>
       <div class="sv-callout ${existing ? 'warn' : ''}">
         ${pm}월 ~ ${endM}월 근무표를 캘린더에 채워요.${existing ? ` <b>이미 입력된 ${existing}일은 새 근무표로 바뀌어요.</b>` : ''}
@@ -5113,7 +5129,7 @@ function svRenderConfirm(){
 const SV_RENDER = {
   intro: svRenderIntro, month: svRenderMonth, pattern: svRenderPattern, anchor: svRenderAnchor, shifts: svRenderShifts,
   volunteer: svRenderVolunteer, extra: svRenderExtra, leave: svRenderLeave, bank: svRenderBank,
-  rank: svRenderRank, family: svRenderFamily, allow: svRenderAllow, confirm: svRenderConfirm,
+  rank: svRenderRank, family: svRenderFamily, allow: svRenderAllow, deduct: svRenderDeduct, confirm: svRenderConfirm,
 };
 
 function svRender(){
@@ -5207,6 +5223,10 @@ function svOnClick(e){
     case 'extra':
       sv.extra = v;
       if(v !== 'yes'){ sv.extraHours = 0; svRender(); svAutoNext(); return; }
+      break;
+    case 'mutual':
+      sv.mutual = v;
+      if(v === 'no'){ sv.mutualAmt = 0; svRender(); svAutoNext(); return; }
       break;
     case 'bank':
       sv.bank = v === 'yes';
@@ -5335,6 +5355,7 @@ function svApply(){
   svSetField('children', sv.children);
   svSetField('otherDeps', sv.otherDeps);
   svSetField('dangerGrade', sv.danger);
+  svSetField('policeMutualAid', sv.mutual === 'yes' ? Math.max(0, +sv.mutualAmt || 0) : 0);
   SV_ALLOW.forEach(a=>{
     const on = !!sv.allow[a.id];
     if(a.field) svSetField(a.field, on);
