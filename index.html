@@ -4485,11 +4485,13 @@ const SV_WORK_STEPS = ['pattern','anchor','shifts','volunteer','leave','extra','
 const SV_PAY_STEPS = ['rank','family','allow','deduct'];
 const SV_OT_CHUNK = 4;                  // 추가근무를 날짜에 나눠 담을 때 하루 몫
 const SV_VOL_TYPES = ['주간자원','야간자원','당직자원','심야자원','오후자원'];
-const svVolLabel = t => t.replace('자원', ' 자원');
+const svVolLabel = t => (t === '주간자원' && sv && svPattern().includes('일근') && !svPattern().includes('주간'))
+  ? '주간(일근) 자원' : t.replace('자원', ' 자원');
 // 자원근무 종류는 근무 패턴을 따른다 — 당휴비면 당직, 주야심비면 심야까지.
 // 패턴에 자원 종류가 하나도 없으면(일근 등) 주간·야간을 보여준다.
 function svVolTypes(){
-  const shifts = new Set(svPattern().map(d => DUTY_SHIFT[d]).filter(Boolean));
+  // 일근 자원은 주간 자원과 같다 (09~18시) — 일근이 든 패턴이면 주간 자원을 보여준다
+  const shifts = new Set(svPattern().map(d => DUTY_SHIFT[d]).filter(Boolean).map(s => s === 'reg' ? 'day' : s));
   const inPattern = SV_VOL_TYPES.filter(t => shifts.has(DUTY_SHIFT[t]));
   return inPattern.length ? inPattern : ['주간자원','야간자원'];
 }
