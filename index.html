@@ -2072,6 +2072,7 @@
       <details class="more"><summary>자세한 규칙</summary><div class="note-body">
         · 대상 판정은 아래 <b>교대 시각</b> 기준입니다. <b>9~18시를 통째로 근무</b>해야 하며(09:30 출근·17:00 퇴근 등은 제외), 자정을 넘기는 교대도 제외됩니다. 06:00~18:00처럼 더 길게 근무하면 대상입니다.<br>
         · <b>오후 근무</b>는 9~18시와 일부 겹치더라도 휴일근무수당을 지급하지 않습니다.<br>
+        · <b>육아시간</b>을 쓴 날은 9~18시를 다 채우지 못하므로 휴일근무수당에서 빠집니다. 근무시간은 유급이라 그대로 인정됩니다.<br>
         · 연가는 급여 공제가 없고, 비번·휴무는 근무가 아니므로 제외됩니다.<br>
         · <b>설날·추석</b>은 음력이라 <span id="lunarYearRange">일부 연도</span>만 연휴·대체공휴일까지 자동 표시됩니다. 그 밖의 해는 날짜를 눌러 <b>'이 날을 공휴일로'</b>를 켜주세요.
       </div></details>
@@ -2519,6 +2520,14 @@
     </div>
     <div class="ot-presets" id="sheetOtPresets"><div class="ot-presets-inner" id="otPresets"></div></div>
 
+    <div class="sheet-label" id="sheetCareLabel">육아시간 사용</div>
+    <div class="ot-stepper" id="sheetCareStepper">
+      <button type="button" id="careMinus" aria-label="0.5시간 줄이기">−</button>
+      <div class="ot-val"><span id="careVal">0</span><span class="unit">시간</span></div>
+      <button type="button" id="carePlus" aria-label="0.5시간 늘리기">+</button>
+    </div>
+    <div class="ot-presets" id="sheetCarePresets"><div class="ot-presets-inner" id="carePresets"></div></div>
+
     <div class="sheet-label" id="sheetEduLabel">교육 인정시간</div>
     <div class="ot-stepper" id="sheetEduStepper">
       <button type="button" id="eduMinus" aria-label="0.5시간 줄이기">−</button>
@@ -2855,9 +2864,12 @@ const overtimeState = {}; // 'YYYY-MM-DD' -> 그날의 연장근무 시간(0~8)
 const bankUseState = {};  // 'YYYY-MM-DD' -> 그날 사용한 초과저축 시간
 const otSaveState = {};   // 'YYYY-MM'    -> 그 달 초과근무 중 저축(적립)한 시간
 const eduHoursState = {}; // 'YYYY-MM-DD' -> 그날 교육으로 인정한 시간 (없으면 기본 인정시간)
+const careState = {};     // 'YYYY-MM-DD' -> 그날 쓴 육아시간 (유급이라 근무시간은 그대로, 휴일근무수당만 빠진다)
 const holidayOverrideState = {}; // 'YYYY-MM-DD' -> true (설날·추석 등 직접 지정한 공휴일)
 const OT_MAX = 8;
 const EDU_MAX = 24;
+const CARE_DEFAULT = 2;   // 육아시간은 보통 하루 2시간
+const CARE_MAX = 8;
 // 교육으로 표시한 날 인정할 시간 — 날짜별 값이 없으면 기본 인정시간을 쓴다
 function eduDefaultHours(){
   const el = document.getElementById('eduHours');
@@ -3104,10 +3116,12 @@ function effectiveDuty(key, isHoliday){
 }
 
 // 「공무원수당 등에 관한 규정」제17조 — 휴일에 9~18시 근무한 날만 1일분
-function earnsHolidayPay(duty, isHoliday, shifts){
+function earnsHolidayPay(duty, isHoliday, shifts, key){
   if(!duty || !isHoliday) return false;
   const k = DUTY_SHIFT[duty];
   if(!k) return false;                    // 비번·휴무·연가
+  // 육아시간을 쓴 날은 9~18시를 다 채우지 못하므로 휴일근무수당 대상이 아니다
+  if(key && careState[key] > 0) return false;
   return shifts[k].holidayEligible;
 }
 
@@ -3116,6 +3130,7 @@ const DOW_NAMES = ['일','월','화','수','목','금','토'];
 const OT_PRESETS = [0, 0.5, 1, 2, 3, 4, 6, 8];   // 0.5시간 단위
 const BANK_PRESETS = [0, 0.5, 1, 2, 4, 8];   // 초과저축 사용 시간 빠른 선택 (0.5시간 단위)
 const EDU_PRESETS = [2, 4, 6, 8];            // 교육 인정시간 빠른 선택
+const CARE_PRESETS = [0, 1, 2];              // 육아시간 빠른 선택
 const BANK_USE_MAX = 24;
 let sheetKey = null;
 let sheetMode = 'day';   // 'day' = 캘린더 날짜, 'pattern' = 반복 순서 단계
@@ -3126,6 +3141,7 @@ function setSheetMode(mode){
   sheetMode = mode;
   const isDay = (mode === 'day');
   ['sheetHolidayRow','sheetOtLabel','sheetOtStepper','sheetOtPresets','sheetEduLabel','sheetEduStepper','sheetEduPresets',
+   'sheetCareLabel','sheetCareStepper','sheetCarePresets',
    'sheetBankLabel','sheetBankStepper','sheetBankPresets','sheetClear'].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.style.display = isDay ? '' : 'none';
@@ -3194,8 +3210,8 @@ function renderDaySheet(){
   else if(dow === 0) sub.push(`<span class="hol">일요일</span>`);
   else if(dow === 6) sub.push(`<span class="hol">토요일</span>`);
   const effective = effectiveDuty(sheetKey, isHol);
-  if(earnsHolidayPay(effective, isHol, shifts)) sub.push(`<span class="pay">휴일근무수당 대상</span>`);
-  else if(isHol) sub.push(`<span class="off">휴일근무수당 대상 아님</span>`);
+  if(earnsHolidayPay(effective, isHol, shifts, sheetKey)) sub.push(`<span class="pay">휴일근무수당 대상</span>`);
+  else if(isHol) sub.push(`<span class="off">휴일근무수당 대상 아님${careState[sheetKey] > 0 ? ' (육아시간)' : ''}</span>`);
   document.getElementById('sheetSub').innerHTML = sub.join(' · ') || '평일';
 
   // 근무유형 버튼 (미지정 포함)
@@ -3219,6 +3235,23 @@ function renderDaySheet(){
   document.querySelectorAll('#otPresets button').forEach(btn=>{
     btn.addEventListener('click', ()=>{ setSheetOt(+btn.dataset.ot); });
   });
+
+  // 육아시간은 실제 근무가 있는 날에만 묻는다 (휴일이면 휴일근무수당이 빠진다)
+  const careCur = Math.max(0, +(careState[sheetKey] || 0));
+  const showCare = !!DUTY_SHIFT[duty];
+  ['sheetCareLabel','sheetCareStepper','sheetCarePresets'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = showCare ? '' : 'none';
+  });
+  if(showCare){
+    document.getElementById('careVal').textContent = fmtHours(careCur);
+    document.getElementById('carePresets').innerHTML = CARE_PRESETS.map(v=>
+      `<button type="button" class="${v === careCur ? 'sel' : ''}" data-care="${v}">${v === 0 ? '없음' : fmtHours(v) + 'h'}</button>`
+    ).join('');
+    document.querySelectorAll('#carePresets button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{ setSheetCare(+btn.dataset.care); });
+    });
+  }
 
   // 교육 인정시간은 '교육'으로 표시한 날에만 묻는다
   const isEdu = duty === '교육';
@@ -3254,6 +3287,12 @@ function setSheetOt(v){
   applySheetChange();
 }
 
+function setSheetCare(v){
+  if(!sheetKey) return;
+  const next = Math.max(0, Math.min(CARE_MAX, Math.round(v * 2) / 2));
+  if(next === 0) delete careState[sheetKey]; else careState[sheetKey] = next;
+  applySheetChange();
+}
 function setSheetEdu(v){
   if(!sheetKey) return;
   eduHoursState[sheetKey] = Math.max(0, Math.min(EDU_MAX, Math.round(v * 2) / 2));
@@ -3553,7 +3592,7 @@ function getCounts(year, month){
       workHours += eduHoursFor(key);   // 교육은 인정시간만 근무로 본다
       workDays++;
     }
-    if(earnsHolidayPay(duty, isHoliday, shifts)) holidayWork++;
+    if(earnsHolidayPay(duty, isHoliday, shifts, key)) holidayWork++;
     if(duty === '연가' || duty === '저축연가') leave++;
   }
   const round1 = v => Math.round(v * 10) / 10;
@@ -4234,6 +4273,7 @@ function collectState(){
     bankUse: bankUseState,
     otSave: otSaveState,
     edu: eduHoursState,
+    care: careState,
     holidays: holidayOverrideState,
   };
 }
@@ -4281,11 +4321,13 @@ function applyState(data){
     Object.keys(bankUseState).forEach(k=>delete bankUseState[k]);
     Object.keys(otSaveState).forEach(k=>delete otSaveState[k]);
     Object.keys(eduHoursState).forEach(k=>delete eduHoursState[k]);
+    Object.keys(careState).forEach(k=>delete careState[k]);
     Object.keys(holidayOverrideState).forEach(k=>delete holidayOverrideState[k]);
     rankTouched = !!data.rankTouched;
     if(data.bankUse) Object.assign(bankUseState, data.bankUse);
     if(data.otSave) Object.assign(otSaveState, data.otSave);
     if(data.edu) Object.assign(eduHoursState, data.edu);
+    if(data.care) Object.assign(careState, data.care);
     if(data.overtime) Object.assign(overtimeState, data.overtime);
     if(data.holidays) Object.assign(holidayOverrideState, data.holidays);
     if(data.calendar){
@@ -4419,6 +4461,12 @@ function init(){
   const eduDefaultHandler = ()=>{ updateCalendarSummary(); calc(); };
   eduHoursEl.addEventListener('input', eduDefaultHandler);
   eduHoursEl.addEventListener('change', eduDefaultHandler);
+  document.getElementById('careMinus').addEventListener('click', ()=>{
+    setSheetCare((+(careState[sheetKey] || 0)) - 0.5);
+  });
+  document.getElementById('carePlus').addEventListener('click', ()=>{
+    setSheetCare((+(careState[sheetKey] || 0)) + 0.5);
+  });
   document.getElementById('eduMinus').addEventListener('click', ()=>{
     setSheetEdu(eduHoursFor(sheetKey) - 0.5);
   });
@@ -4468,6 +4516,7 @@ function init(){
     delete overtimeState[sheetKey];
     delete bankUseState[sheetKey];
     delete eduHoursState[sheetKey];
+    delete careState[sheetKey];
     delete holidayOverrideState[sheetKey];
     applySheetChange();
   });
@@ -4569,8 +4618,8 @@ const SURVEY_KEY = 'polpay.survey.v1';
 const PAYDAY = 20;                      // 공무원 봉급일 (매월 20일)
 const SV_WEEKDAY_PT = '주주주주주휴휴';  // 평일 근무는 순서가 아니라 요일에 맞춰 채운다
 const SV_BUILD_DUTIES = ['주간','야간','심야','오후','당직','비번','휴무','일근'];
-const SV_ORDER = ['intro','month','pattern','anchor','shifts','volunteer','edu','leave','extra','bank','rank','family','allow','deduct','confirm'];
-const SV_WORK_STEPS = ['pattern','anchor','shifts','volunteer','edu','leave','extra','bank'];
+const SV_ORDER = ['intro','month','pattern','anchor','shifts','volunteer','edu','care','leave','extra','bank','rank','family','allow','deduct','confirm'];
+const SV_WORK_STEPS = ['pattern','anchor','shifts','volunteer','edu','care','leave','extra','bank'];
 const SV_PAY_STEPS = ['rank','family','allow','deduct'];
 const SV_OT_CHUNK = 4;                  // 추가근무를 날짜에 나눠 담을 때 하루 몫
 const SV_VOL_TYPES = ['주간자원','야간자원','당직자원','심야자원','오후자원'];
@@ -4693,6 +4742,7 @@ function svNew(){
     prevAnchor: saved.anchor || null, prevRejected: false,
     vol: null, volDays: {}, volBrush: '주간자원',   // 자원근무: 'YYYY-MM-DD' → 주간·야간·당직·심야·오후 자원
     edu: null, eduDates: {}, eduBrush: 8,           // 교육: 'YYYY-MM-DD' → 인정시간
+    care: null, careDates: {}, careBrush: CARE_DEFAULT,   // 육아시간: 'YYYY-MM-DD' → 사용시간
     extra: null, extraHours: 0,
     leave: null, leaveDates: {}, leaveBrush: '연가',   // 연가: 'YYYY-MM-DD' → 연가·저축연가
     bank: !!saved.bank, otSave: 0,
@@ -4714,6 +4764,7 @@ function svResetAnchor(){
   sv.leaveDates = {};   // 근무표가 바뀌면 그날이 근무일인지도 바뀌므로 연가 날짜는 다시 고른다
   sv.volDays = {};      // 자원근무 종류도 패턴을 따르므로 같이 다시 고른다
   sv.eduDates = {};     // 교육도 그날 근무가 무엇이냐에 따라 계산이 달라진다
+  sv.careDates = {};    // 육아시간은 휴일근무일에만 묻는다
 }
 // 오늘이 패턴의 몇 번째 칸인지 — 답과 모순되지 않는 후보만 남긴다
 function svCandidates(){
@@ -4755,7 +4806,26 @@ function svDutyOn(y, m, d, anchor = sv.anchor){
 
 // ---- 단계 이동 ----
 function svSteps(){
-  return SV_ORDER.filter(s => !(s === 'anchor' && sv.kind === 'weekday'));
+  return SV_ORDER.filter(s =>
+    !(s === 'anchor' && sv.kind === 'weekday') &&
+    !(s === 'care' && !svHolidayWorkDays().length));   // 휴일에 근무한 날이 없으면 육아시간은 물을 필요가 없다
+}
+// 실적월에서 휴일근무수당 대상이 되는 날 (연가·교육으로 빠진 날은 제외)
+function svHolidayWorkDays(){
+  if(!sv.anchor && sv.kind !== 'weekday') return [];
+  const perf = svPerf();
+  const days = new Date(perf.year, perf.month + 1, 0).getDate();
+  const shifts = getShifts();
+  const out = [];
+  for(let d = 1; d <= days; d++){
+    const key = dateKey(perf.year, perf.month, d);
+    if(sv.leaveDates[key] || (sv.eduDates[key] && !DUTY_SHIFT[svBaseDuty(perf.year, perf.month, d)])) continue;
+    const duty = svBaseDuty(perf.year, perf.month, d);
+    const k = DUTY_SHIFT[duty];
+    if(!k || !svIsHoliday(perf.year, perf.month, d)) continue;
+    if(shifts[k].holidayEligible) out.push({ key, d, duty });
+  }
+  return out;
 }
 function svCanNext(){
   switch(sv.cur){
@@ -4763,6 +4833,7 @@ function svCanNext(){
     case 'anchor':  return !!sv.anchor;
     case 'deduct':  return sv.mutual === 'no' || (sv.mutual === 'yes' && sv.mutualAmt > 0);
     case 'leave':   return sv.leave === 'no' || (sv.leave === 'yes' && Object.keys(sv.leaveDates).length > 0);
+    case 'care':    return sv.care === 'no' || (sv.care === 'yes' && Object.keys(sv.careDates).length > 0);
     case 'edu':     return sv.edu === 'no' || (sv.edu === 'yes' && Object.keys(sv.eduDates).length > 0);
     case 'volunteer': return sv.vol === 'no' || (sv.vol === 'yes' && Object.keys(sv.volDays).length > 0);
     case 'extra':   return sv.extra !== null;
@@ -5042,6 +5113,35 @@ function svRenderEdu(){
       </div>${more}`;
 }
 
+// 육아시간 — 유급이라 근무시간은 그대로지만, 9~18시를 다 채우지 못해 휴일근무수당이 빠진다.
+// 휴일에 근무한 날이 있을 때만 묻고, 그 날짜만 보여준다.
+function svRenderCare(){
+  const pm = svPerf().month + 1;
+  const days = svHolidayWorkDays();
+  let more = '';
+  if(sv.care === 'yes'){
+    const chips = days.map(x=>{
+      const on = sv.careDates[x.key];
+      return `<button type="button" class="sv-chip ${on ? 'sel' : ''}" data-act="cday" data-v="${x.key}" aria-pressed="${!!on}">`
+        + `${x.d}일 ${x.duty}${on ? ` · ${fmtHours(on)}h` : ''}</button>`;
+    }).join('');
+    const used = Object.keys(sv.careDates).length;
+    more = `<div class="sv-label">하루에 몇 시간 썼나요?</div>
+      <div class="sv-chips">${[1, 2].map(v => `<button type="button" class="sv-chip ${+sv.careBrush === v ? 'sel' : ''}" data-act="cbrush" data-v="${v}">${v}시간</button>`).join('')}</div>
+      ${svStepper('careBrush', sv.careBrush, 0.5, '시간', '육아시간', 8)}
+      <div class="sv-label">육아시간을 쓴 날을 눌러 주세요 <span style="font-weight:500;">· 다시 누르면 취소</span></div>
+      <div class="sv-chips">${chips}</div>
+      <div class="sv-callout" style="margin-top:6px;" aria-live="polite">휴일근무 <b>${days.length}일</b> 중 <b>${used}일</b>에 육아시간을 썼어요.
+        → 휴일근무수당은 <b>${days.length - used}일분</b>만 나와요.</div>`;
+  }
+  return svQ(`${pm}월 휴일근무한 날에<br>육아시간을 썼나요?`,
+      `${pm}월에 휴일근무수당 대상인 날이 <b>${days.length}일</b> 있어요. 그날 육아시간을 쓰면 9~18시를 다 채우지 못해 <b>휴일근무수당이 빠집니다.</b> 근무시간은 유급이라 그대로 인정돼요.`)
+    + `<div class="sv-opts" style="margin-bottom:18px;">
+        ${svOpt('care', 'no', '안 썼어요', '', sv.care === 'no')}
+        ${svOpt('care', 'yes', '썼어요', '쓴 날을 골라요', sv.care === 'yes')}
+      </div>${more}`;
+}
+
 // 연가 — 어느 근무를 빼고 썼는지에 따라 인정시간·야간수당이 달라지므로 날짜를 정확히 받는다
 function svLeaveSummary(){
   const keys = Object.keys(sv.leaveDates).sort();
@@ -5248,6 +5348,10 @@ function svRenderConfirm(){
   const eduTxt = sv.edu === 'yes' && es.keys.length
     ? `인정 ${fmtHours(es.hours)}시간 <span style="color:var(--slate);font-weight:500;">(${es.items.map(i => i.d).join('·')}일)</span>`
     : '없음';
+  const careKeys = Object.keys(sv.careDates).sort();
+  const careTxt = sv.care === 'yes' && careKeys.length
+    ? `${careKeys.map(k => +k.slice(8)).join('·')}일 <span style="color:var(--slate);font-weight:500;">(휴일수당 ${careKeys.length}일분 제외)</span>`
+    : '안 씀';
   const ls = svLeaveSummary();
   const leaveTxt = sv.leave === 'yes' && ls.keys.length
     ? ls.items.map(i => `${i.d}일 ${i.base}${i.type === '저축연가' ? '(저축)' : ''}`).join(' · ')
@@ -5285,6 +5389,7 @@ function svRenderConfirm(){
         ${row('shifts', '근무 시간', shiftTxt)}
         ${row('volunteer', '자원근무', volTxt)}
         ${row('edu', '교육', eduTxt)}
+        ${svHolidayWorkDays().length ? row('care', '육아시간', careTxt) : ''}
         ${row('extra', '추가근무', extra)}
         ${row('leave', '연가', leaveTxt)}
         ${row('bank', '저축', bank)}
@@ -5305,7 +5410,7 @@ function svRenderConfirm(){
 
 const SV_RENDER = {
   intro: svRenderIntro, month: svRenderMonth, pattern: svRenderPattern, anchor: svRenderAnchor, shifts: svRenderShifts,
-  volunteer: svRenderVolunteer, edu: svRenderEdu, extra: svRenderExtra, leave: svRenderLeave, bank: svRenderBank,
+  volunteer: svRenderVolunteer, edu: svRenderEdu, care: svRenderCare, extra: svRenderExtra, leave: svRenderLeave, bank: svRenderBank,
   rank: svRenderRank, family: svRenderFamily, allow: svRenderAllow, deduct: svRenderDeduct, confirm: svRenderConfirm,
 };
 
@@ -5396,6 +5501,17 @@ function svOnClick(e){
     case 'eday':
       if(sv.eduDates[v]) delete sv.eduDates[v];
       else { sv.eduDates[v] = Math.max(0.5, +sv.eduBrush || 8); delete sv.leaveDates[v]; }
+      break;
+    case 'care':
+      sv.care = v;
+      if(v === 'no'){ sv.careDates = {}; svRender(); svAutoNext(); return; }
+      break;
+    case 'cbrush':
+      sv.careBrush = +v;
+      break;
+    case 'cday':
+      if(sv.careDates[v]) delete sv.careDates[v];
+      else sv.careDates[v] = Math.max(0.5, +sv.careBrush || CARE_DEFAULT);
       break;
     case 'leave':
       sv.leave = v;
@@ -5514,7 +5630,15 @@ function svApply(){
     });
   }
 
-  // 4) 실적월 연가·저축연가 — 고른 날짜 그대로 (원래 근무가 있던 날만)
+  // 4) 실적월 육아시간 — 그날 휴일근무수당만 빠진다 (근무시간은 그대로)
+  Object.keys(careState).forEach(key => { if(key.startsWith(perfPrefix)) delete careState[key]; });
+  if(sv.care === 'yes'){
+    Object.entries(sv.careDates).forEach(([key, hrs])=>{
+      if(key.startsWith(perfPrefix) && DUTY_SHIFT[calendarState[key]]) careState[key] = Math.max(0, +hrs || 0);
+    });
+  }
+
+  // 5) 실적월 연가·저축연가 — 고른 날짜 그대로 (원래 근무가 있던 날만)
   if(sv.leave === 'yes'){
     Object.entries(sv.leaveDates).forEach(([key, t])=>{
       if(key.startsWith(perfPrefix) && DUTY_SHIFT[calendarState[key]] && !SV_VOL_TYPES.includes(calendarState[key])){
@@ -5529,7 +5653,7 @@ function svApply(){
     if(DUTY_SHIFT[calendarState[key]] && !SV_VOL_TYPES.includes(calendarState[key]) && !sv.eduDates[key]) work.push({key});
   }
 
-  // 5) 교대 외 추가근무 — 남은 근무일에 나눠 담는다 (시간외 계산은 월 합계만 쓴다)
+  // 6) 교대 외 추가근무 — 남은 근무일에 나눠 담는다 (시간외 계산은 월 합계만 쓴다)
   let rest = sv.extra === 'yes' ? Math.max(0, +sv.extraHours || 0) : 0;
   const otDays = work.map(w => w.key).filter(k => DUTY_SHIFT[calendarState[k]]);
   for(let i = 0; rest > 0 && otDays.length && i < otDays.length * 2; i++){
@@ -5540,11 +5664,11 @@ function svApply(){
     rest -= add;
   }
 
-  // 6) 초과저축 적립 (실적월 기록)
+  // 7) 초과저축 적립 (실적월 기록)
   const mk = monthKey(perf.year, perf.month);
   if(sv.bank && +sv.otSave > 0) otSaveState[mk] = +sv.otSave; else delete otSaveState[mk];
 
-  // 7) 급여월 입력칸
+  // 8) 급여월 입력칸
   const rankChanged = +svFieldVal('rank') !== sv.rank;
   const yearsChanged = +svFieldVal('years') !== sv.years;
   svSetField('rank', sv.rank);
@@ -5567,7 +5691,7 @@ function svApply(){
   });
   if(!sv.allow.retro) svSetField('retroPay', 0);
 
-  // 8) 급여월로 이동해 다시 계산
+  // 9) 급여월로 이동해 다시 계산
   calYear = sv.payYear; calMonth = sv.payMonth;
   renderCalendar();
   calc();
