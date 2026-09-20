@@ -2101,7 +2101,7 @@
       <div class="shift-settings" id="shiftSettings"></div>
       <div class="field-row" style="margin-top:10px;">
         <div>
-          <label for="eduHours" style="margin-top:0;" title="비번날 교육 등 '교육'으로 표시한 날에 기본으로 인정할 근무시간. 날짜별로 따로 고칠 수 있습니다">교육 기본 인정시간</label>
+          <label for="eduHours" style="margin-top:0;" title="비번날 교육 등 '교육'으로 표시한 날에 기본으로 인정할 근무시간. 날짜별로 따로 고칠 수 있습니다. 근무날에 추가로 받은 교육은 그 시간만큼 더해집니다">교육 기본 인정시간</label>
           <input type="number" id="eduHours" value="8" min="0" max="24" step="0.5">
         </div>
       </div>
@@ -5025,7 +5025,7 @@ function svRenderEdu(){
     const detail = s.keys.length
       ? `교육 <b>${s.keys.length}일</b> · 인정 <b>${fmtHours(s.hours)}시간</b>
          <br>${s.items.map(i => `${i.d}일 ${i.base} ${fmtHours(i.hours)}h${i.onWork ? '<span style="color:var(--slate);">(추가)</span>' : ''}`).join(' · ')}
-         ${s.workDays ? `<br><span style="font-size:13px; color:var(--slate);">근무일에 받은 교육 ${s.workDays}일은 그날 근무에 더해서 인정해요.</span>` : ''}`
+         ${s.workDays ? `<br><span style="font-size:13px; color:var(--slate);">근무날에 추가로 받은 교육은 그 시간만큼 더해집니다. (${s.workDays}일)</span>` : ''}`
       : '아직 고른 날이 없어요.';
     more = `<div class="sv-label">교육 인정시간</div>
       <div class="sv-chips">${SV_EDU_PRESETS.map(v => `<button type="button" class="sv-chip ${+sv.eduBrush === v ? 'sel' : ''}" data-act="ebrush" data-v="${v}">${v}시간</button>`).join('')}</div>
@@ -5035,7 +5035,7 @@ function svRenderEdu(){
       <div class="sv-callout" style="margin-top:14px;" aria-live="polite">${detail}</div>`;
   }
   return svQ(`${pm}월에 교육을 받았나요?`,
-      '비번·휴무날 받은 교육은 <b>그날 근무</b>로, 근무일에 더 받은 교육은 <b>그날 추가 인정시간</b>으로 넣어요. 시간을 고른 뒤 날짜를 누르세요.')
+      '비번·휴무날 받은 교육은 <b>그날 근무</b>로 인정합니다. <b>근무날에 추가로 받은 교육은 그 시간만큼 더해집니다.</b> 시간을 고른 뒤 날짜를 누르세요.')
     + `<div class="sv-opts" style="margin-bottom:18px;">
         ${svOpt('edu', 'no', '안 받았어요', '', sv.edu === 'no')}
         ${svOpt('edu', 'yes', '받았어요', '달력에서 날짜를 골라요', sv.edu === 'yes')}
