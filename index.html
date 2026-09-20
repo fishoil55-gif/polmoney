@@ -5023,7 +5023,7 @@ function svRenderEdu(){
     });
     const s = svEduSummary();
     const detail = s.keys.length
-      ? `교육 <b>${s.keys.length}일</b> · 인정 <b>${fmtHours(s.hours)}시간</b>
+      ? `교육 인정 <b>${fmtHours(s.hours)}시간</b>${s.offDays ? ` <span style="color:var(--slate);">· 비번·휴무날 교육 ${s.offDays}일</span>` : ''}
          <br>${s.items.map(i => `${i.d}일 ${i.base} ${fmtHours(i.hours)}h${i.onWork ? '<span style="color:var(--slate);">(추가)</span>' : ''}`).join(' · ')}
          ${s.workDays ? `<br><span style="font-size:13px; color:var(--slate);">근무날에 추가로 받은 교육은 그 시간만큼 더해집니다. (${s.workDays}일)</span>` : ''}`
       : '아직 고른 날이 없어요.';
@@ -5246,7 +5246,7 @@ function svRenderConfirm(){
   const bank = sv.bank ? `적립 ${fmtHours(+sv.otSave || 0)}시간` : '사용 안 함';
   const es = svEduSummary();
   const eduTxt = sv.edu === 'yes' && es.keys.length
-    ? `${es.keys.length}일 · ${fmtHours(es.hours)}시간 <span style="color:var(--slate);font-weight:500;">(${es.items.map(i => i.d).join('·')}일)</span>`
+    ? `인정 ${fmtHours(es.hours)}시간 <span style="color:var(--slate);font-weight:500;">(${es.items.map(i => i.d).join('·')}일)</span>`
     : '없음';
   const ls = svLeaveSummary();
   const leaveTxt = sv.leave === 'yes' && ls.keys.length
