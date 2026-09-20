@@ -884,6 +884,8 @@
   .duty-일근{background:#d9f2e5;color:#04613a;}
   .duty-연가{background:#05b169;color:#ffffff;}
   .duty-저축연가{background:#0a6b74;color:#ffffff;}
+  .duty-휴일주간{background:#ffe0e3;color:#8c1420;}
+  .duty-교육{background:#fff0cc;color:#7a4b00;}
   .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
   .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
   .duty-당직자원{background:#ffd0e6;color:#8c1450;}
@@ -1082,6 +1084,8 @@
   .pattern-chip-row .duty-일근{background:#d9f2e5;color:#04613a;}
   .pattern-chip-row .duty-연가{background:#05b169;color:#ffffff;}
   .pattern-chip-row .duty-저축연가{background:#0a6b74;color:#ffffff;}
+  .pattern-chip-row .duty-휴일주간{background:#ffe0e3;color:#8c1420;}
+  .pattern-chip-row .duty-교육{background:#fff0cc;color:#7a4b00;}
   .pattern-chip-row .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
   .pattern-chip-row .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
   .pattern-chip-row .duty-당직자원{background:#ffd0e6;color:#8c1450;}
@@ -1402,6 +1406,8 @@
   .duty-picker .duty-일근{background:#d9f2e5;color:#04613a;}
   .duty-picker .duty-연가{background:#05b169;color:#ffffff;}
   .duty-picker .duty-저축연가{background:#0a6b74;color:#ffffff;}
+  .duty-picker .duty-휴일주간{background:#ffe0e3;color:#8c1420;}
+  .duty-picker .duty-교육{background:#fff0cc;color:#7a4b00;}
   .duty-picker .duty-주간자원{background:#ded8ff;color:#3a2a9c;}
   .duty-picker .duty-야간자원{background:#2f2a63;color:#ffffff;border-color:#2f2a63;}
   .duty-picker .duty-당직자원{background:#ffd0e6;color:#8c1450;}
@@ -2093,6 +2099,12 @@
 
       <label>교대 근무시간</label>
       <div class="shift-settings" id="shiftSettings"></div>
+      <div class="field-row" style="margin-top:10px;">
+        <div>
+          <label for="eduHours" style="margin-top:0;" title="비번날 교육 등 '교육'으로 표시한 날에 기본으로 인정할 근무시간. 날짜별로 따로 고칠 수 있습니다">교육 기본 인정시간</label>
+          <input type="number" id="eduHours" value="8" min="0" max="24" step="0.5">
+        </div>
+      </div>
 
       <div class="hint">부서 실제 시각을 넣으세요. 종료가 시작보다 이르면 <b>익일</b>입니다. 휴게 1시간은 기본으로 빠집니다.
       각 줄 오른쪽 요약 = <b>근무시간 · 야간수당 시간 · 휴일수당 대상(○/✕)</b>.</div>
@@ -2265,9 +2277,10 @@
       </div>
       <div class="allowance-card">
         <div class="title">대우공무원수당</div>
-        <div class="desc" title="월봉급액의 4.1%">봉급 4.1%</div>
+        <div class="desc" title="봉급 4.1%로 자동 계산합니다. 명세서 금액이 다르면 직접 넣으세요">봉급 4.1% · 직접 입력 가능</div>
         <div class="row2">
           <label class="mini-check"><input type="checkbox" id="daewoo"> 대상자</label>
+          <input type="number" id="daewooAmt" value="0" min="0" step="1000" title="비워두면 봉급의 4.1%로 계산합니다"><span class="unit">원</span>
         </div>
       </div>
       <div class="allowance-card">
@@ -2313,7 +2326,9 @@
     <div class="note">
       정근수당·정근수당가산금 지급률은 근속연수에 따라 다르니 소속 기관에서 확인해 입력하세요.<br>
       성과상여금·연가보상비는 개인 편차가 커서 넣지 않았습니다. 명세서의 <b>소급</b> 항목은 <b>소급분</b> 칸에 합계를 넣으세요.<br>
-      <b>육아휴직 중</b>을 체크하면 기본급과 봉급 연동 수당(정근수당·대우공무원수당·관리업무수당·명절휴가비)이 자동으로 빠집니다.
+      <b>육아휴직 중</b>을 체크하면 기본급과 봉급 연동 수당(정근수당·대우공무원수당·관리업무수당·명절휴가비)이 자동으로 빠집니다.<br>
+      <b>대우공무원수당</b>은 봉급의 4.1%로 계산하며, 금액을 직접 넣으면 그 값을 씁니다.
+      성과급적 연봉제 적용 여부, 상위직급 월봉급액 초과 시 상한·차액 지급 등 세부 계산은 「공무원보수규정」 및 관련 조견에 따라 달라질 수 있습니다.
     </div>
   </div>
 
@@ -2503,6 +2518,14 @@
       <button type="button" id="otPlus" aria-label="0.5시간 늘리기">+</button>
     </div>
     <div class="ot-presets" id="sheetOtPresets"><div class="ot-presets-inner" id="otPresets"></div></div>
+
+    <div class="sheet-label" id="sheetEduLabel">교육 인정시간</div>
+    <div class="ot-stepper" id="sheetEduStepper">
+      <button type="button" id="eduMinus" aria-label="0.5시간 줄이기">−</button>
+      <div class="ot-val"><span id="eduVal">0</span><span class="unit">시간</span></div>
+      <button type="button" id="eduPlus" aria-label="0.5시간 늘리기">+</button>
+    </div>
+    <div class="ot-presets" id="sheetEduPresets"><div class="ot-presets-inner" id="eduPresets"></div></div>
 
     <div class="sheet-label" id="sheetBankLabel">초과저축 사용</div>
     <div class="ot-stepper" id="sheetBankStepper">
@@ -2811,8 +2834,10 @@ const DUTY_TYPES = [
   {name:'일근',     abbr:'일',   shift:'reg'},
   {name:'연가',     abbr:'연',   shift:null},
   {name:'저축연가', abbr:'저',   shift:null},
-  {name:'주간자원', abbr:'주자', shift:'day'},
-  {name:'야간자원', abbr:'야자', shift:'night'},
+  {name:'휴일주간', abbr:'휴주', shift:'holiday'},
+  {name:'교육',     abbr:'교',   shift:null},     // 인정시간을 날짜마다 직접 넣는다
+  {name:'주간자원', abbr:'주자', shift:'volDay'},
+  {name:'야간자원', abbr:'야자', shift:'volNight'},
   {name:'당직자원', abbr:'당자', shift:'duty'},
   {name:'심야자원', abbr:'심자', shift:'late'},
   {name:'오후자원', abbr:'오자', shift:'evening'},   // 오후 교대처럼 휴일근무수당 대상 아님
@@ -2829,8 +2854,20 @@ const calendarState = {}; // 'YYYY-MM-DD' -> duty
 const overtimeState = {}; // 'YYYY-MM-DD' -> 그날의 연장근무 시간(0~8)
 const bankUseState = {};  // 'YYYY-MM-DD' -> 그날 사용한 초과저축 시간
 const otSaveState = {};   // 'YYYY-MM'    -> 그 달 초과근무 중 저축(적립)한 시간
+const eduHoursState = {}; // 'YYYY-MM-DD' -> 그날 교육으로 인정한 시간 (없으면 기본 인정시간)
 const holidayOverrideState = {}; // 'YYYY-MM-DD' -> true (설날·추석 등 직접 지정한 공휴일)
 const OT_MAX = 8;
+const EDU_MAX = 24;
+// 교육으로 표시한 날 인정할 시간 — 날짜별 값이 없으면 기본 인정시간을 쓴다
+function eduDefaultHours(){
+  const el = document.getElementById('eduHours');
+  const v = el ? +el.value : 8;
+  return Math.max(0, Math.min(EDU_MAX, isFinite(v) ? v : 8));
+}
+function eduHoursFor(key){
+  const v = eduHoursState[key];
+  return (v === undefined) ? eduDefaultHours() : Math.max(0, Math.min(EDU_MAX, +v || 0));
+}
 let calYear, calMonth; // calMonth: 0-based
 
 // ---- 공휴일 (연도별 계산, 대체공휴일 포함) ----
@@ -2954,6 +2991,10 @@ const SHIFT_DEFS = [
   {key:'late',    label:'심야', duty:'심야', start:'22:00', end:'09:00'},
   {key:'duty',    label:'당직', duty:'당직', start:'09:00', end:'09:00'},
   {key:'reg',     label:'일근', duty:'일근', start:'09:00', end:'18:00'},
+  // 휴일 주간근무와 자원근무는 평소 교대와 시각이 달라 따로 설정한다
+  {key:'holiday', label:'휴일 주간', duty:'휴일주간', start:'09:00', end:'18:00'},
+  {key:'volDay',  label:'주간 자원', duty:'주간자원', start:'09:00', end:'18:00'},
+  {key:'volNight',label:'야간 자원', duty:'야간자원', start:'18:00', end:'09:00'},
 ];
 const SHIFT_BY_KEY = Object.fromEntries(SHIFT_DEFS.map(d=>[d.key, d]));
 const BREAK_HOURS = 1;
@@ -3072,6 +3113,7 @@ function earnsHolidayPay(duty, isHoliday, shifts){
 const DOW_NAMES = ['일','월','화','수','목','금','토'];
 const OT_PRESETS = [0, 0.5, 1, 2, 3, 4, 6, 8];   // 0.5시간 단위
 const BANK_PRESETS = [0, 0.5, 1, 2, 4, 8];   // 초과저축 사용 시간 빠른 선택 (0.5시간 단위)
+const EDU_PRESETS = [2, 4, 6, 8];            // 교육 인정시간 빠른 선택
 const BANK_USE_MAX = 24;
 let sheetKey = null;
 let sheetMode = 'day';   // 'day' = 캘린더 날짜, 'pattern' = 반복 순서 단계
@@ -3081,7 +3123,7 @@ let patternIdx = -1;
 function setSheetMode(mode){
   sheetMode = mode;
   const isDay = (mode === 'day');
-  ['sheetHolidayRow','sheetOtLabel','sheetOtStepper','sheetOtPresets',
+  ['sheetHolidayRow','sheetOtLabel','sheetOtStepper','sheetOtPresets','sheetEduLabel','sheetEduStepper','sheetEduPresets',
    'sheetBankLabel','sheetBankStepper','sheetBankPresets','sheetClear'].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.style.display = isDay ? '' : 'none';
@@ -3176,6 +3218,23 @@ function renderDaySheet(){
     btn.addEventListener('click', ()=>{ setSheetOt(+btn.dataset.ot); });
   });
 
+  // 교육 인정시간은 '교육'으로 표시한 날에만 묻는다
+  const isEdu = duty === '교육';
+  ['sheetEduLabel','sheetEduStepper','sheetEduPresets'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = isEdu ? '' : 'none';
+  });
+  if(isEdu){
+    const eduCur = eduHoursFor(sheetKey);
+    document.getElementById('eduVal').textContent = fmtHours(eduCur);
+    document.getElementById('eduPresets').innerHTML = EDU_PRESETS.map(v=>
+      `<button type="button" class="${v === eduCur ? 'sel' : ''}" data-edu="${v}">${fmtHours(v)}h</button>`
+    ).join('');
+    document.querySelectorAll('#eduPresets button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{ setSheetEdu(+btn.dataset.edu); });
+    });
+  }
+
   const bankUse = Math.max(0, +(bankUseState[sheetKey] || 0));
   document.getElementById('bankVal').textContent = fmtHours(bankUse);
   document.getElementById('bankPresets').innerHTML = BANK_PRESETS.map(v=>
@@ -3193,6 +3252,11 @@ function setSheetOt(v){
   applySheetChange();
 }
 
+function setSheetEdu(v){
+  if(!sheetKey) return;
+  eduHoursState[sheetKey] = Math.max(0, Math.min(EDU_MAX, Math.round(v * 2) / 2));
+  applySheetChange();
+}
 function setSheetBank(v){
   if(!sheetKey) return;
   const next = Math.max(0, Math.min(BANK_USE_MAX, Math.round(v * 2) / 2));
@@ -3233,8 +3297,8 @@ function getMonthlyOvertime(year, month){
   const round1 = v => Math.round(v * 10) / 10;
   const daysInMonth = new Date(year, month+1, 0).getDate();
 
-  let shiftHours = 0, extraHours = 0, leaveHours = 0, bankUseHours = 0;
-  let workDays = 0, leaveCount = 0, savedLeaveDays = 0;
+  let shiftHours = 0, extraHours = 0, leaveHours = 0, bankUseHours = 0, eduHours = 0;
+  let workDays = 0, leaveCount = 0, savedLeaveDays = 0, eduDays = 0;
 
   for(let d = 1; d <= daysInMonth; d++){
     const key = dateKey(year, month, d);
@@ -3246,13 +3310,14 @@ function getMonthlyOvertime(year, month){
     // 야간수당은 주간·야간 어느 날에 쓰든 줄이지 않는다 — 야간근무일에 쓰는 편이 유리하다.
     const bankUse = Math.max(0, +(bankUseState[key] || 0));
     if(k){ shiftHours += Math.max(0, shifts[k].duration - bankUse); workDays++; }
+    else if(duty === '교육'){ eduHours += eduHoursFor(key); eduDays++; workDays++; }
     else if(duty === '연가'){ leaveHours += LEAVE_CREDIT_HOURS; leaveCount++; }
     else if(duty === '저축연가'){ leaveHours += LEAVE_CREDIT_HOURS; savedLeaveDays++; }
     extraHours += overtimeState[key] || 0;
     bankUseHours += bankUse;
   }
 
-  const worked = shiftHours + extraHours + leaveHours + bankUseHours;
+  const worked = shiftHours + extraHours + leaveHours + bankUseHours + eduHours;
   const legal = getLegalHours();
   const rawTotal = round1(Math.max(0, worked - legal));
   const cap = getOtCap();
@@ -3262,7 +3327,8 @@ function getMonthlyOvertime(year, month){
   const appliedSave = round1(Math.min(savedOt, total));
   const payable = round1(Math.max(0, total - appliedSave));
   return {
-    workDays, leaveCount, savedLeaveDays,
+    workDays, leaveCount, savedLeaveDays, eduDays,
+    eduHours: round1(eduHours),
     shiftHours: round1(shiftHours),
     extraHours: round1(extraHours),
     leaveHours: round1(leaveHours),
@@ -3286,6 +3352,7 @@ function renderOtBreakdown(info){
     if(info.savedLeaveDays) names.push(`저축연가 ${info.savedLeaveDays}일`);
     bits.push(`${names.join(' · ')} (${fmtHours(info.leaveHours)}h 인정)`);
   }
+  if(info.eduDays) bits.push(`교육 ${info.eduDays}일 (${fmtHours(info.eduHours)}h 인정)`);
   if(info.bankUseHours) bits.push(`초과저축 사용 ${fmtHours(info.bankUseHours)}h (인정)`);
   if(info.extraHours) bits.push(`추가연장 ${fmtHours(info.extraHours)}h`);
 
@@ -3479,6 +3546,9 @@ function getCounts(year, month){
     if(k){
       workHours += shifts[k].duration;
       nightPayHours += shifts[k].nightPayHours;
+      workDays++;
+    } else if(duty === '교육'){
+      workHours += eduHoursFor(key);   // 교육은 인정시간만 근무로 본다
       workDays++;
     }
     if(earnsHolidayPay(duty, isHoliday, shifts)) holidayWork++;
@@ -3805,7 +3875,9 @@ function calc(arg){
   const jgRate = +$v('jgRate') || 0;
   const jgPay = jgAllowOn ? base * (jgRate/100) : 0;
   const jgBonus = +$v('jgBonus') || 0;
-  const daewooPay = $c('daewoo') ? base * 0.041 : 0;
+  // 명세서 금액을 넣으면 그 값을, 비워두면 봉급의 4.1%를 쓴다
+  const daewooAmt = +$v('daewooAmt') || 0;
+  const daewooPay = $c('daewoo') ? (daewooAmt > 0 ? daewooAmt : base * 0.041) : 0;
   const remotePay = $c('remoteAllow') ? (+$v('remoteAmt') || 0) : 0;
   const proxyPay = $c('proxyAllow') ? 200000 : 0;
   const mgmtPay = $c('mgmtAllow') ? base * 0.09 : 0;
@@ -3979,7 +4051,7 @@ function calc(arg){
     '가족수당': '대상 가족 없음',
     '정근수당': `봉급 ${won(base)}원 × ${jgRate}% (근무연수 기준)`,
     '정근수당가산금': `근무 ${getYears()}년 기준 월 정액`,
-    '대우공무원수당': `봉급 ${won(base)}원 × 4.1%`,
+    '대우공무원수당': daewooAmt > 0 ? '직접 입력한 명세서 금액' : `봉급 ${won(base)}원 × 4.1%`,
     '특수지근무수당': '입력한 금액',
     '업무대행수당': '월 20만원 정액',
     '관리업무수당': `봉급 ${won(base)}원 × 9%`,
@@ -4121,7 +4193,7 @@ const SAVED_FIELDS = [
   'prorate','paidDays','baseIncome','payBase','healthWaive','incomeTaxManual',
   'jgAllow','jgRate','jgBonus','daewoo','remoteAllow','remoteAmt',
   'proxyAllow','mgmtAllow','mealAllow','mealAmt','gradeAllow','holidayBonus',
-  'dispatchAllow','policeMutualAid','otherDeduct','parentalLeave','parentalMonth','parentalDays','retroPay',
+  'dispatchAllow','policeMutualAid','otherDeduct','parentalLeave','parentalMonth','parentalDays','retroPay','daewooAmt','eduHours',
   'patternStart','patternMonths',
 ];
 let storageAvailable = false;
@@ -4159,6 +4231,7 @@ function collectState(){
     overtime: overtimeState,
     bankUse: bankUseState,
     otSave: otSaveState,
+    edu: eduHoursState,
     holidays: holidayOverrideState,
   };
 }
@@ -4205,10 +4278,12 @@ function applyState(data){
     Object.keys(overtimeState).forEach(k=>delete overtimeState[k]);
     Object.keys(bankUseState).forEach(k=>delete bankUseState[k]);
     Object.keys(otSaveState).forEach(k=>delete otSaveState[k]);
+    Object.keys(eduHoursState).forEach(k=>delete eduHoursState[k]);
     Object.keys(holidayOverrideState).forEach(k=>delete holidayOverrideState[k]);
     rankTouched = !!data.rankTouched;
     if(data.bankUse) Object.assign(bankUseState, data.bankUse);
     if(data.otSave) Object.assign(otSaveState, data.otSave);
+    if(data.edu) Object.assign(eduHoursState, data.edu);
     if(data.overtime) Object.assign(overtimeState, data.overtime);
     if(data.holidays) Object.assign(holidayOverrideState, data.holidays);
     if(data.calendar){
@@ -4280,7 +4355,7 @@ function init(){
    'baseIncome','payBase','healthWaive','incomeTaxManual',
    'jgAllow','jgRate','jgBonus','daewoo','remoteAllow','remoteAmt',
    'proxyAllow','mgmtAllow','mealAllow','mealAmt','gradeAllow','holidayBonus',
-   'dispatchAllow','policeMutualAid','otherDeduct',
+   'dispatchAllow','policeMutualAid','otherDeduct','daewooAmt',
    'parentalLeave','parentalMonth','parentalDays','retroPay'].forEach(el=>{
     const node = typeof el === 'string' ? document.getElementById(el) : el;
     node.addEventListener('input', calc);
@@ -4338,6 +4413,17 @@ function init(){
   otSaveEl.addEventListener('input', otSaveHandler);
   otSaveEl.addEventListener('change', otSaveHandler);
 
+  const eduHoursEl = document.getElementById('eduHours');
+  const eduDefaultHandler = ()=>{ updateCalendarSummary(); calc(); };
+  eduHoursEl.addEventListener('input', eduDefaultHandler);
+  eduHoursEl.addEventListener('change', eduDefaultHandler);
+  document.getElementById('eduMinus').addEventListener('click', ()=>{
+    setSheetEdu(eduHoursFor(sheetKey) - 0.5);
+  });
+  document.getElementById('eduPlus').addEventListener('click', ()=>{
+    setSheetEdu(eduHoursFor(sheetKey) + 0.5);
+  });
+
   document.getElementById('bankMinus').addEventListener('click', ()=>{
     setSheetBank((+(bankUseState[sheetKey] || 0)) - 0.5);
   });
@@ -4379,6 +4465,7 @@ function init(){
     delete calendarState[sheetKey];
     delete overtimeState[sheetKey];
     delete bankUseState[sheetKey];
+    delete eduHoursState[sheetKey];
     delete holidayOverrideState[sheetKey];
     applySheetChange();
   });
@@ -4492,10 +4579,12 @@ const svVolLabel = t => (t === '주간자원' && sv && svPattern().includes('일
 function svVolTypes(){
   // 일근 자원은 주간 자원과 같다 (09~18시) — 일근이 든 패턴이면 주간 자원을 보여준다
   const shifts = new Set(svPattern().map(d => DUTY_SHIFT[d]).filter(Boolean).map(s => s === 'reg' ? 'day' : s));
-  const inPattern = SV_VOL_TYPES.filter(t => shifts.has(DUTY_SHIFT[t]));
+  const inPattern = SV_VOL_TYPES.filter(t => shifts.has(SV_VOL_BASE[t]));
   return inPattern.length ? inPattern : ['주간자원','야간자원'];
 }
 const SV_LEAVE_TYPES = ['연가','저축연가'];
+// 자원근무를 물어볼지 정할 때 쓰는 '평소 교대' 대응 (자원근무는 시각을 따로 설정한다)
+const SV_VOL_BASE = {주간자원:'day', 야간자원:'night', 당직자원:'duty', 심야자원:'late', 오후자원:'evening'};
 
 // 수당 체크리스트 — 처음엔 모두 체크 안 된 상태, 다음부터는 저장된 값대로. 체크한 항목만 추가 입력칸이 열린다
 const SV_ALLOW = [
@@ -4859,9 +4948,8 @@ function svShiftSummary(key){
   const s = getShift(key);
   return `${fmtHours(s.duration)}시간 근무 · 야간수당 ${fmtHours(s.nightPayHours)}시간 · 휴일수당 ${s.holidayEligible ? '대상' : '대상 아님'}`;
 }
-function svRenderShifts(){
-  const keys = svShiftKeys();
-  const rows = keys.map(k=>{
+function svShiftRow(k){
+  {
     const def = SHIFT_BY_KEY[k];
     const st = document.getElementById(`sh_${k}_start`).value;
     const en = document.getElementById(`sh_${k}_end`).value;
@@ -4875,7 +4963,10 @@ function svRenderShifts(){
       </div>
       <label class="sv-inline"><input type="checkbox" data-sh="sh_${k}_break" ${brk ? 'checked' : ''}> 휴게 1시간 빼기</label>
     </div>`;
-  }).join('');
+  }
+}
+function svRenderShifts(){
+  const rows = svShiftKeys().map(svShiftRow).join('');
   return svQ('근무 시간이 맞나요?',
       '근무지마다 교대 시각이 달라요. 이 시간으로 <b>야간·초과·휴일수당</b>을 계산하니, 다르면 고쳐 주세요.')
     + rows
@@ -4973,7 +5064,8 @@ function svRenderVolunteer(){
     const s = svVolSummary();
     more = `<div class="sv-label">어떤 자원근무인가요?</div>
       <div class="sv-chips">${types.map(t => `<button type="button" class="sv-chip ${sv.volBrush === t ? 'sel' : ''}" data-act="brush" data-v="${t}">${svVolLabel(t)}</button>`).join('')}</div>
-      <p class="sv-sub" style="font-size:13px; margin:-4px 0 14px;">${svVolLabel(sv.volBrush)}: ${svShiftSummary(DUTY_SHIFT[sv.volBrush])} <span style="color:var(--slate-dim);">(근무 시각은 급여 입력의 '교대 근무시간'을 따라요)</span></p>
+      <p class="sv-sub" style="font-size:13px; margin:-4px 0 8px;">자원근무는 평소 교대와 시각이 다를 수 있어요. 다르면 여기서 고치세요.</p>
+      ${svShiftRow(DUTY_SHIFT[sv.volBrush])}
       <div class="sv-label">자원근무한 날을 눌러 주세요 <span style="font-weight:500;">· 다시 누르면 취소</span></div>
       ${cal}
       <div class="sv-callout" style="margin-top:14px;" aria-live="polite">${s.keys.length
