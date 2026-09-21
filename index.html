@@ -2073,6 +2073,7 @@
         · 대상 판정은 아래 <b>교대 시각</b> 기준입니다. <b>9~18시를 통째로 근무</b>해야 하며(09:30 출근·17:00 퇴근 등은 제외), 자정을 넘기는 교대도 제외됩니다. 06:00~18:00처럼 더 길게 근무하면 대상입니다.<br>
         · <b>오후 근무</b>는 9~18시와 일부 겹치더라도 휴일근무수당을 지급하지 않습니다.<br>
         · <b>육아시간</b>을 쓴 날은 9~18시를 다 채우지 못하므로 휴일근무수당에서 빠집니다. 근무시간은 유급이라 그대로 인정됩니다.<br>
+        · 휴일근무수당 대상이던 날에 육아시간을 <b>2시간 이상</b> 쓰면, 휴일근무수당 대신 <b>그날 근무시간만큼 시간외근무로 인정</b>합니다(주간 8시간 기준 +8시간).<br>
         · 연가는 급여 공제가 없고, 비번·휴무는 근무가 아니므로 제외됩니다.<br>
         · <b>설날·추석</b>은 음력이라 <span id="lunarYearRange">일부 연도</span>만 연휴·대체공휴일까지 자동 표시됩니다. 그 밖의 해는 날짜를 눌러 <b>'이 날을 공휴일로'</b>를 켜주세요.
       </div></details>
@@ -2870,6 +2871,8 @@ const OT_MAX = 8;
 const EDU_MAX = 24;
 const CARE_DEFAULT = 2;   // 육아시간은 보통 하루 2시간
 const CARE_MAX = 8;
+// 육아시간을 이만큼 쓰면 휴일근무수당을 못 받는 대신, 그날 근무를 시간외근무로 인정한다
+const CARE_OT_MIN = 2;
 // 교육으로 표시한 날 인정할 시간 — 날짜별 값이 없으면 기본 인정시간을 쓴다
 function eduDefaultHours(){
   const el = document.getElementById('eduHours');
@@ -3338,8 +3341,8 @@ function getMonthlyOvertime(year, month){
   const round1 = v => Math.round(v * 10) / 10;
   const daysInMonth = new Date(year, month+1, 0).getDate();
 
-  let shiftHours = 0, extraHours = 0, leaveHours = 0, bankUseHours = 0, eduHours = 0;
-  let workDays = 0, leaveCount = 0, savedLeaveDays = 0, eduDays = 0;
+  let shiftHours = 0, extraHours = 0, leaveHours = 0, bankUseHours = 0, eduHours = 0, careOtHours = 0;
+  let workDays = 0, leaveCount = 0, savedLeaveDays = 0, eduDays = 0, careOtDays = 0;
 
   for(let d = 1; d <= daysInMonth; d++){
     const key = dateKey(year, month, d);
@@ -3354,11 +3357,17 @@ function getMonthlyOvertime(year, month){
     else if(duty === '교육'){ eduHours += eduHoursFor(key); eduDays++; workDays++; }
     else if(duty === '연가'){ leaveHours += LEAVE_CREDIT_HOURS; leaveCount++; }
     else if(duty === '저축연가'){ leaveHours += LEAVE_CREDIT_HOURS; savedLeaveDays++; }
+    // 휴일 주간근무에 육아시간 2시간 이상을 쓰면 휴일근무수당을 못 받는다(9~18시를 다 채우지 못함).
+    // 그 대신 그날 근무는 시간외근무로 인정한다 — 휴일근무수당 대상이던 근무시간만큼 더한다.
+    if(k && isHol && shifts[k].holidayEligible && (+careState[key] || 0) >= CARE_OT_MIN){
+      careOtHours += shifts[k].duration;
+      careOtDays++;
+    }
     extraHours += overtimeState[key] || 0;
     bankUseHours += bankUse;
   }
 
-  const worked = shiftHours + extraHours + leaveHours + bankUseHours + eduHours;
+  const worked = shiftHours + extraHours + leaveHours + bankUseHours + eduHours + careOtHours;
   const legal = getLegalHours();
   const rawTotal = round1(Math.max(0, worked - legal));
   const cap = getOtCap();
@@ -3368,8 +3377,9 @@ function getMonthlyOvertime(year, month){
   const appliedSave = round1(Math.min(savedOt, total));
   const payable = round1(Math.max(0, total - appliedSave));
   return {
-    workDays, leaveCount, savedLeaveDays, eduDays,
+    workDays, leaveCount, savedLeaveDays, eduDays, careOtDays,
     eduHours: round1(eduHours),
+    careOtHours: round1(careOtHours),
     shiftHours: round1(shiftHours),
     extraHours: round1(extraHours),
     leaveHours: round1(leaveHours),
@@ -3394,6 +3404,7 @@ function renderOtBreakdown(info){
     bits.push(`${names.join(' · ')} (${fmtHours(info.leaveHours)}h 인정)`);
   }
   if(info.eduDays) bits.push(`교육 ${info.eduDays}일 (${fmtHours(info.eduHours)}h 인정)`);
+  if(info.careOtDays) bits.push(`육아시간 쓴 휴일근무 ${info.careOtDays}일 (${fmtHours(info.careOtHours)}h 시간외 인정)`);
   if(info.bankUseHours) bits.push(`초과저축 사용 ${fmtHours(info.bankUseHours)}h (인정)`);
   if(info.extraHours) bits.push(`추가연장 ${fmtHours(info.extraHours)}h`);
 
