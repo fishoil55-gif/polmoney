@@ -2833,6 +2833,8 @@ function getOtNightHolidayRate(rankName){
 }
 
 // ---- 근무 캘린더 ----
+// 자원근무 — 마이너스달에도 부족시간에 묻히지 않고 전부 시간외로 인정한다
+const VOL_DUTIES = new Set(['주간자원','야간자원','당직자원','심야자원','오후자원']);
 const DUTY_TYPES = [
   {name:'주간',     abbr:'주',   shift:'day'},
   {name:'야간',     abbr:'야',   shift:'night'},
@@ -3341,7 +3343,7 @@ function getMonthlyOvertime(year, month){
   const round1 = v => Math.round(v * 10) / 10;
   const daysInMonth = new Date(year, month+1, 0).getDate();
 
-  let shiftHours = 0, extraHours = 0, leaveHours = 0, bankUseHours = 0, eduHours = 0, careOtHours = 0;
+  let shiftHours = 0, extraHours = 0, leaveHours = 0, bankUseHours = 0, eduHours = 0, careOtHours = 0, volHours = 0;
   let workDays = 0, leaveCount = 0, savedLeaveDays = 0, eduDays = 0, careOtDays = 0;
 
   for(let d = 1; d <= daysInMonth; d++){
@@ -3353,7 +3355,11 @@ function getMonthlyOvertime(year, month){
     // 교대 시간에서 빼고 같은 만큼 인정해 인정시간은 그대로 둔다 (근무를 다 한 것처럼 더 얹지 않는다).
     // 야간수당은 주간·야간 어느 날에 쓰든 줄이지 않는다 — 야간근무일에 쓰는 편이 유리하다.
     const bankUse = Math.max(0, +(bankUseState[key] || 0));
-    if(k){ shiftHours += Math.max(0, shifts[k].duration - bankUse); workDays++; }
+    if(k){
+      const dayHours = Math.max(0, shifts[k].duration - bankUse);
+      shiftHours += dayHours; workDays++;
+      if(VOL_DUTIES.has(duty)) volHours += dayHours;   // 자원근무는 따로 모아 마이너스 보전·초과를 가른다
+    }
     else if(duty === '교육'){ eduHours += eduHoursFor(key); eduDays++; workDays++; }
     else if(duty === '연가'){ leaveHours += LEAVE_CREDIT_HOURS; leaveCount++; }
     else if(duty === '저축연가'){ leaveHours += LEAVE_CREDIT_HOURS; savedLeaveDays++; }
@@ -3369,7 +3375,14 @@ function getMonthlyOvertime(year, month){
 
   const worked = shiftHours + extraHours + leaveHours + bankUseHours + eduHours + careOtHours;
   const legal = getLegalHours();
-  const rawTotal = round1(Math.max(0, worked - legal));
+  // 마이너스달 자원근무 보전: 자원근무를 뺀 근무가 법정시간에 못 미치면(마이너스),
+  // 자원근무가 부족분을 먼저 보전(recovered)하고 남는 만큼은 초과(extraVol)로 보되,
+  // 둘 다 시간외로 인정한다 — 자원근무시간 전체가 시간외. 정상달은 전과 같다 (worked − legal).
+  const baseWorked = worked - volHours;
+  const deficit = Math.max(0, legal - baseWorked);
+  const recovered = Math.min(deficit, volHours);
+  const extraVol = Math.max(volHours - deficit, 0);
+  const rawTotal = round1(Math.max(0, baseWorked - legal) + recovered + extraVol);
   const cap = getOtCap();
   const total = round1((cap > 0) ? Math.min(rawTotal, cap) : rawTotal);
   // 초과저축으로 적립한 시간은 수당 대신 연가로 받으므로 지급 대상에서 뺀다
@@ -3380,6 +3393,7 @@ function getMonthlyOvertime(year, month){
     workDays, leaveCount, savedLeaveDays, eduDays, careOtDays,
     eduHours: round1(eduHours),
     careOtHours: round1(careOtHours),
+    volHours: round1(volHours), deficit: round1(deficit), recovered: round1(recovered), extraVol: round1(extraVol),
     shiftHours: round1(shiftHours),
     extraHours: round1(extraHours),
     leaveHours: round1(leaveHours),
@@ -3409,8 +3423,12 @@ function renderOtBreakdown(info){
   if(info.extraHours) bits.push(`추가연장 ${fmtHours(info.extraHours)}h`);
 
   const line1 = bits.length ? bits.join(' · ') : `<span class="off">근무 기록 없음</span>`;
-  const line2 = `실근무 <b>${fmtHours(info.worked)}h</b> − 법정 <b>${fmtHours(info.legal)}h</b> = 초과 `
-    + (info.rawTotal > 0 ? `<b>${fmtHours(info.rawTotal)}h</b>` : `<span class="off">0h</span>`);
+  // 마이너스달에 자원근무가 있으면 보전 과정을 그대로 보여준다
+  const line2 = (info.deficit > 0 && info.volHours > 0)
+    ? `자원근무 제외 <b>${fmtHours(info.worked - info.volHours)}h</b> − 법정 <b>${fmtHours(info.legal)}h</b> = 마이너스 <b>${fmtHours(info.deficit)}h</b><br>`
+      + `자원근무 <b>${fmtHours(info.volHours)}h</b> → 부족분 보전 ${fmtHours(info.recovered)}h + 초과 ${fmtHours(info.extraVol)}h = 초과 <b>${fmtHours(info.rawTotal)}h</b>`
+    : `실근무 <b>${fmtHours(info.worked)}h</b> − 법정 <b>${fmtHours(info.legal)}h</b> = 초과 `
+      + (info.rawTotal > 0 ? `<b>${fmtHours(info.rawTotal)}h</b>` : `<span class="off">0h</span>`);
   let line3;
   if(info.capped){
     line3 = `<span class="off">→ 월 상한 ${fmtHours(info.cap)}h 적용, </span><b>${fmtHours(info.total)}h</b> 반영`;
