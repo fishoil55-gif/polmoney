@@ -4671,6 +4671,8 @@ const SV_ALLOW = [
   {id:'retro',    label:'소급분',          desc:'명세서의 소급 항목 합계',
    inputs:[{field:'retroPay', unit:'원', step:1000, ph:'금액'}]},
   {id:'special',  label:'경찰특수업무수당', field:'special'},
+  {id:'dispatch', label:'출동업무수당',      desc:'지구대·순찰대 등 출동 부서',
+   inputs:[{field:'dispatchAllow', unit:'원', step:1000, ph:'금액'}]},
   {id:'prorate',  label:'일할계산',        desc:'임용·복직 등으로 한 달을 다 근무하지 않음', field:'prorate',
    inputs:[{field:'paidDays', unit:'일 근무', step:1, max:31, ph:'지급일수'}]},
   {id:'jg',       label:'정근수당',        desc:'1월·7월 지급', field:'jgAllow'},
@@ -5719,6 +5721,7 @@ function svApply(){
     });
   });
   if(!sv.allow.retro) svSetField('retroPay', 0);
+  if(!sv.allow.dispatch) svSetField('dispatchAllow', 0);
 
   // 9) 급여월로 이동해 다시 계산
   calYear = sv.payYear; calMonth = sv.payMonth;
